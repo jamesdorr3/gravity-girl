@@ -1,0 +1,111 @@
+const stand = 'stand';
+const jump = 'jump';
+const trip = 'trip';
+
+export default [
+  {
+    state: stand,
+    index: 0,
+    column: 0,
+    row: 0,
+    description: 'standing',
+  },
+  {
+    state: stand,
+    index: 1,
+    column: 1,
+    row: 0,
+    description: 'standing shrug',
+  },
+  {
+    state: stand,
+    index: 2,
+    column: 2,
+    row: 0,
+    description: 'standing (copy)',
+  },
+  {
+    state: stand,
+    index: 3,
+    column: 3,
+    row: 0,
+    description: 'small duck',
+  },
+  {
+    state: stand,
+    index: 4,
+    column: 4,
+    row: 0,
+    description: 'small duck, hands a little wide',
+  },
+  {
+    state: stand,
+    index: 5,
+    column: 5,
+    row: 0,
+    description: 'small duck, hands a little wide',
+  },
+  {
+    state: jump,
+    index: 0,
+    column: 0,
+    row: 1,
+    description: 'start jump',
+  },
+  {
+    state: jump,
+    index: 1,
+    column: 1,
+    row: 1,
+    description: 'end jump',
+  },
+  {
+    state: jump,
+    index: 2,
+    column: 2,
+    row: 1,
+    description: 'narrow stance, sideways',
+  },
+  {
+    state: jump,
+    index: 3,
+    column: 3,
+    row: 1,
+    description: 'start jump',
+  },
+  {
+    state: jump,
+    index: 4,
+    column: 4,
+    row: 1,
+    description: 'end jump',
+  },
+  {
+    state: jump,
+    index: 0,
+    column: 5,
+    row: 1,
+    description: 'narrow stance, sideways',
+  },
+  {
+    state: trip,
+    index: 0,
+    column: 0,
+    row: 4,
+    description: 'starting to trip, kneel',
+  },
+  {
+    state: trip,
+    index: 1,
+    column: 1,
+    row: 4,
+    description: 'mid-trip',
+  },
+  {
+    state: trip,
+    index: 2,
+    column: 2,
+    row: 4,
+    description: 'prostrate',
+  },
+]

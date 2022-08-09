@@ -1,0 +1,15 @@
+.canvas-container {
+  background: red;
+  padding-top: calc( 9 / 16 * 100% );
+  position: relative;
+  width: 100%;
+}
+
+canvas {
+  background: pink;
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
