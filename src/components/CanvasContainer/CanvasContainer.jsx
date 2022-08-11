@@ -2,30 +2,40 @@ import React, { useEffect, useRef, useState } from "react";
 import Button from "../../classes/Button";
 import Game from "../../classes/Game";
 import "./CanvasContainer.css";
-import * as constants from "../../constants/numbers";
+import * as numbers from "../../constants/numbers";
+import * as utils from "../../utils";
 
 const CanvasContainer = () => {
   const [game, setGame] = useState(null);
   const canvas = useRef(null);
 
   useEffect(() => {
-    setGame(new Game(canvas.current));
+    const game = new Game(canvas.current);
+    setGame(game);
     // options, x, y, text, background = 'lightblue', color = 'black', fontSize = 50, padding = 20
-    Button.create({ east: 1600 }, 0, 0, 'STOP');
+    Button.create({ east: 1600 }, 0, 0, 'STOP', game.stop);
     return game?.delete;
   }, []);
 
-  const handleClick = (e) => {
-    const { x, y, height, width } = canvas.current.getBoundingClientRect();
-    const mouseX = (e.clientX - x) * (constants.canvasWidth / width);
-    const mouseY = (e.clientY - y) * (constants.canvasHeight / height);
-    game.handleClick(mouseX, mouseY);
+  const handleHover = (e) => {
+    const { mouseX, mouseY } = utils.getMouseCoordsInCanvas(e, canvas);
+    Button.handleHover(mouseX, mouseY);
+  }
+
+  const handleClick = () => {
+    Button.handleClick();
   };
+
+  const handleMouseUp = (e) => {
+    
+  }
 
   return (
     <div className="canvas-container">
       <canvas
         onClick={handleClick}
+        onMouseMove={handleHover}
+        onMouseUp={handleMouseUp}
         ref={canvas}
       />
     </div>
