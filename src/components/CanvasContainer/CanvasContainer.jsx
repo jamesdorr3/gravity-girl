@@ -2,8 +2,9 @@ import React, { useEffect, useRef, useState } from 'react';
 import Button from '../../classes/Button';
 import Game from '../../classes/Game';
 import Platform from '../../classes/Platform';
-import * as gameUtils from '../../utils/gameUtils';
 import * as devUtils from '../../utils/devUtils';
+import * as gameUtils from '../../utils/gameUtils';
+import * as numbers from '../../constants/numbers';
 import './CanvasContainer.css';
 
 const CanvasContainer = () => {
@@ -15,7 +16,7 @@ const CanvasContainer = () => {
     setGame(game);
     // options, x, y, text, background = 'lightblue', color = 'black', fontSize = 50, padding = 20
     Button.create({ east: 1600 }, 0, 0, 'STOP', game.stop);
-    Platform.create({}, 300, 50, 500, 700);
+    Platform.create({ centerX: numbers.canvasWidth / 2 }, 300, 50, 500, 700);
     return game?.delete;
   }, []);
 
@@ -24,8 +25,9 @@ const CanvasContainer = () => {
     Button.handleHover(mouseX, mouseY);
   };
 
-  const handleClick = () => {
-    Button.handleClick();
+  const handleClick = (e) => {
+    const { mouseX, mouseY } = gameUtils.getMouseCoordsInCanvas(e, canvas);
+    Button.handleClick(mouseX, mouseY);
   };
 
   const handleMouseUp = (e) => {};

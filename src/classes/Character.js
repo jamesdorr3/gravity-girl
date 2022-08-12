@@ -6,6 +6,7 @@ import * as numbers from '../constants/numbers';
 import * as gameUtils from '../utils/gameUtils';
 
 class Character extends Noun {
+
   constructor(options, width, height, x, y, game) {
     super(options, width, height, x, y);
 
@@ -93,20 +94,6 @@ class Character extends Noun {
           actionX();
           this.speedX = 0;
         }
-        // console.log({
-        //   platform: {
-        //     north: platform.north(),
-        //     east: platform.east(),
-        //     south: platform.south(),
-        //     west: platform.west(),
-        //   },
-        //   character: {
-        //     north: this.north(),
-        //     east: this.east(),
-        //     south: this.south(),
-        //     west: this.west(),
-        //   },
-        // });
       }
     });
   };
@@ -118,22 +105,20 @@ class Character extends Noun {
         this.isJumping = new Date();
       }
       if (this.isJumping) {
-        // if (this.speedY === 0) {
-        //   this.speedY = -0.7;
-        // }
-        if (new Date() - this.isJumping < numbers.second / 3) {
+        if (new Date() - this.isJumping < numbers.jumpTime) {
           this.speedY = -numbers.jumpSpeed;
-        } else {
-          console.log('stop');
-          this.isJumping = false;
-        }
+        } else { this.isJumping = false; }
       }
     } else if (this.isJumping) {
       this.isJumping = false;
-      // this.speedY = 0;
     }
-    let newSpeedY =
-      this.speedY + numbers.gravityAcceleration * this.game.frameLength(); // TODO: this is per frame, not per secon
+    let newSpeedY;
+    if (Math.abs(this.speedY) < numbers.gravitySlowLimit) {
+      newSpeedY = this.speedY + numbers.gravitySlowAcceleration * this.game.frameLength();
+    } else {
+      newSpeedY = this.speedY + numbers.gravityAcceleration * this.game.frameLength();
+    }
+
     if (newSpeedY >= numbers.gravityTerminalVelocity)
       newSpeedY = numbers.gravityTerminalVelocity;
 

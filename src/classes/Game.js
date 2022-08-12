@@ -1,5 +1,6 @@
 import Button from './Button';
 import Character from './Character';
+import homeMenu from '../levels/0-home';
 import Platform from './Platform';
 import * as numbers from '../constants/numbers';
 import _ from 'lodash';
@@ -24,7 +25,9 @@ class Game {
 
     this.lastRender = new Date();
 
-    this.interval = setInterval(this.loadingInterval, 10);
+    this.interval = setInterval(
+      () => homeMenu.intervalAction(this),
+      homeMenu.frameLengthMenu);
   }
 
   delete = () => delete this;
@@ -40,8 +43,8 @@ class Game {
     if (this.character.sprite) {
       this.stop();
       this.interval = setInterval(
-        this.playInterval,
-        numbers.frameLength
+        () => homeMenu.intervalAction(this.context),
+        homeMenu.frameLength,
       );
     }
   };
@@ -51,7 +54,6 @@ class Game {
     Platform.update(this.context);
     Button.update(this.context);
     this.character.update(this.context);
-    // console.log(new Date() - this.lastRender)
     this.lastRender = new Date();
   };
 

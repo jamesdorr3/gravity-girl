@@ -1,19 +1,20 @@
 import Button from '../classes/Button';
 import Level from '../classes/Level';
-import Platform from '../classes/Platform';
+import level1 from './1';
 import * as numbers from '../constants/numbers';
 
 export default new Level({
-  platforms: [
-    Platform.create(
+  buttons: [
+    Button.create(
       {
         centerX: numbers.canvasWidth / 2,
+        centerY: numbers.canvasHeight / 2,
       },
-      300,
-      50,
-      null,
-      700,
-    )
+      0,
+      0,
+      'Start Game',
+      () => console.log('here!')
+    ),
   ],
-  frameLength: numbers.frameLength,
+  frameLength: numbers.frameLengthMenu,
 });

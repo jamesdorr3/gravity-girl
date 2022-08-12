@@ -1,9 +1,17 @@
 class Noun {
-  constructor({ east, south }, width, height, x, y) {
+  constructor({ centerX, centerY, east, south }, width, height, x, y) {
     this.height = height;
     this.width = width;
-    this.x = east ? east - width : x;
-    this.y = south ? south - height : y;
+    if (centerX) {
+      this.x = centerX - width / 2;
+    } else {
+      this.x = east ? east - width : x;
+    }
+    if (centerY) {
+      this.y = centerY - height / 2;
+    } else {
+      this.y = south ? south - height : y;
+    }
   }
 
   north = (y) => {
