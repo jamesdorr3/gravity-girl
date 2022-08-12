@@ -5,10 +5,9 @@ import * as numbers from '../constants/numbers';
 import _ from 'lodash';
 
 class Game {
-
   constructor(canvas) {
-    canvas.width = numbers.canvas.width;
-    canvas.height = numbers.canvas.height;
+    canvas.width = numbers.canvasWidth;
+    canvas.height = numbers.canvasHeight;
 
     this.context = canvas.getContext('2d');
     this.context.textAlign = 'center';
@@ -16,8 +15,8 @@ class Game {
 
     this.character = new Character(
       { south: 0 },
-      numbers.character.width,
-      numbers.character.height,
+      numbers.characterWidth,
+      numbers.characterHeight,
       0,
       0,
       this
@@ -30,20 +29,25 @@ class Game {
 
   delete = () => delete this;
 
+  frameLength = () => (new Date() - this.lastRender) / numbers.second * numbers.gameSpeed;
+
   loadingInterval = () => {
     this.context.fillText(
       'Loading',
-      numbers.canvas.width / 2,
-      numbers.canvas.height / 2
+      numbers.canvasWidth / 2,
+      numbers.canvasHeight / 2
     );
     if (this.character.sprite) {
       this.stop();
-      this.interval = setInterval(this.playInterval, numbers.refreshLength);
+      this.interval = setInterval(
+        this.playInterval,
+        numbers.frameLength
+      );
     }
   };
 
   playInterval = () => {
-    this.context.clearRect(0, 0, numbers.canvas.width, numbers.canvas.height);
+    this.context.clearRect(0, 0, numbers.canvasWidth, numbers.canvasHeight);
     Platform.update(this.context);
     Button.update(this.context);
     this.character.update(this.context);
@@ -54,7 +58,6 @@ class Game {
   stop = () => {
     clearInterval(this.interval);
   };
-
 }
 
 export default Game;

@@ -37,7 +37,7 @@ class Button extends Noun{
 
   static handleHover = (x, y) => {
     Button.all.forEach((button) => {
-      const hasPoint = button.hasPoint(x, y);
+      const hasPoint = button.isCollision(new Noun({}, 1, 1, x, y));
       if (button.state !== states.hovered && hasPoint) {
         button.state = states.hovered;
       }
@@ -51,7 +51,7 @@ class Button extends Noun{
     const button = Button.all.find(({state}) => state === states.hovered);
     if (button) {
       button.state = states.clicked;
-      setTimeout(button.action, numbers.refreshLength * 2);
+      setTimeout(button.action, numbers.frameLength * 2);
     }
   }
 

@@ -2,7 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import Button from '../../classes/Button';
 import Game from '../../classes/Game';
 import Platform from '../../classes/Platform';
-import * as utils from '../../utils';
+import * as gameUtils from '../../utils/gameUtils';
+import * as devUtils from '../../utils/devUtils';
 import './CanvasContainer.css';
 
 const CanvasContainer = () => {
@@ -19,7 +20,7 @@ const CanvasContainer = () => {
   }, []);
 
   const handleHover = (e) => {
-    const { mouseX, mouseY } = utils.getMouseCoordsInCanvas(e, canvas);
+    const { mouseX, mouseY } = gameUtils.getMouseCoordsInCanvas(e, canvas);
     Button.handleHover(mouseX, mouseY);
   };
 

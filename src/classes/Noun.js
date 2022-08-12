@@ -26,11 +26,11 @@ class Noun {
     return this.x
   }
 
-  hasPoint = (x, y) => (
-    this.north() < y &&
-    this.east() > x &&
-    this.south() > y &&
-    this.west() < x
+  isCollision = (that) => (
+    this.north() < that.south() &&
+    this.east() > that.west() &&
+    this.south() > that.north() &&
+    this.west() < that.east()
   )
   
 }
