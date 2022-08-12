@@ -1,10 +1,9 @@
 import Button from '../classes/Button';
 import Level from '../classes/Level';
 import level1 from './1';
-import loadingScreen from './loading';
 import * as numbers from '../constants/numbers';
 
-const homeMenu = (game) =>
+const loadingScreen = (game) =>
   new Level({
     buttons: [
       new Button(
@@ -14,19 +13,12 @@ const homeMenu = (game) =>
         },
         0,
         0,
-        'Start Game',
-        () => {
-          if (game.character.sprite) {
-            game.changeLevels(level1);
-          } else {
-            game.changeLevels(loadingScreen)
-          }
-        },
-      ),
+        'Loading...',
+        () => {},
+      )
     ],
     frameLength: numbers.frameLengthMenu,
     game,
-    hasCharacter: false,
   });
 
-export default homeMenu;
+export default loadingScreen;

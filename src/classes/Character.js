@@ -62,8 +62,8 @@ class Character extends Noun {
       this.y = 0;
       this.speedY = 0;
     }
-    Platform.all.forEach((platform) => {
-      if (platform.isCollision(this)) {
+    this.game.level.platforms.forEach((platform) => {
+      if (platform.collidesWith(this)) {
         const isMovingEast = this.speedX === Math.abs(this.speedX);
         const isMovingSouth = this.speedY === Math.abs(this.speedY);
         let mostX, mostY, actionX, actionY;

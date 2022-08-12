@@ -14,20 +14,18 @@ const CanvasContainer = () => {
   useEffect(() => {
     const game = new Game(canvas.current);
     setGame(game);
-    // options, x, y, text, background = 'lightblue', color = 'black', fontSize = 50, padding = 20
-    Button.create({ east: 1600 }, 0, 0, 'STOP', game.stop);
-    Platform.create({ centerX: numbers.canvasWidth / 2 }, 300, 50, 500, 700);
+    // options, x, y, text, background = 'lightblue', color = 'black', fontSize = 50, padding = 20 // TODO
     return game?.delete;
   }, []);
 
   const handleHover = (e) => {
     const { mouseX, mouseY } = gameUtils.getMouseCoordsInCanvas(e, canvas);
-    Button.handleHover(mouseX, mouseY);
+    game?.handleHover(mouseX, mouseY);
   };
 
   const handleClick = (e) => {
     const { mouseX, mouseY } = gameUtils.getMouseCoordsInCanvas(e, canvas);
-    Button.handleClick(mouseX, mouseY);
+    game?.handleClick(mouseX, mouseY);
   };
 
   const handleMouseUp = (e) => {};

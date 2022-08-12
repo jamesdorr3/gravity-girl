@@ -2,8 +2,11 @@ import Button from './Button';
 import Character from './Character';
 import homeMenu from '../levels/0-home';
 import Platform from './Platform';
+import * as enums from '../constants/enums';
 import * as numbers from '../constants/numbers';
 import _ from 'lodash';
+import Noun from './Noun';
+import Mouse from './Mouse';
 
 class Game {
   constructor(canvas) {
@@ -15,7 +18,7 @@ class Game {
     this.context.font = '30px Arial';
 
     this.character = new Character(
-      { south: 0 },
+      { south: numbers.canvasHeight },
       numbers.characterWidth,
       numbers.characterHeight,
       0,
@@ -24,37 +27,45 @@ class Game {
     );
 
     this.lastRender = new Date();
+    this.level = null;
+    this.interval = null;
 
-    this.interval = setInterval(
-      () => homeMenu.intervalAction(this),
-      homeMenu.frameLengthMenu);
+    this.changeLevels(homeMenu);
   }
+
+  changeLevels = (level) => {
+    clearInterval(this.interval);
+    this.level = level(this);
+    this.interval = setInterval(() => {
+      this.level.intervalAction();
+      this.lastRender = new Date();
+    }, this.level.frameLength);
+  };
 
   delete = () => delete this;
 
-  frameLength = () => (new Date() - this.lastRender) / numbers.second * numbers.gameSpeed;
+  frameLength = () =>
+    ((new Date() - this.lastRender) / numbers.second) * numbers.gameSpeed;
 
-  loadingInterval = () => {
-    this.context.fillText(
-      'Loading',
-      numbers.canvasWidth / 2,
-      numbers.canvasHeight / 2
+  handleClick = (x, y) => {
+    const button = this.level.buttons.find((button) =>
+      button.collidesWith(new Mouse(x, y))
     );
-    if (this.character.sprite) {
-      this.stop();
-      this.interval = setInterval(
-        () => homeMenu.intervalAction(this.context),
-        homeMenu.frameLength,
-      );
+    if (button) {
+      button.state = enums.buttonStates.clicked;
+      button.action();
     }
   };
 
-  playInterval = () => {
-    this.context.clearRect(0, 0, numbers.canvasWidth, numbers.canvasHeight);
-    Platform.update(this.context);
-    Button.update(this.context);
-    this.character.update(this.context);
-    this.lastRender = new Date();
+  handleHover = (x, y) => {
+    const button = this.level.buttons.find((button) => {
+      const hasCollision = button.collidesWith(new Mouse(x, y));
+      if (!hasCollision && button.state === enums.buttonStates.hovered) {
+        button.state = enums.buttonStates.default;
+      }
+      return hasCollision;
+    });
+    if (button) button.state = enums.buttonStates.hovered;
   };
 
   stop = () => {

@@ -34,7 +34,7 @@ class Noun {
     return this.x
   }
 
-  isCollision = (that) => (
+  collidesWith = (that) => (
     this.north() < that.south() &&
     this.east() > that.west() &&
     this.south() > that.north() &&
