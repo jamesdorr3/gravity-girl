@@ -1,28 +1,30 @@
+export const second = 1000;
+
 export const canvas = {
   height: 900,
   width: 1600,
 }
 
-const characterScale = 10;
+const characterScale = 5;
 export const character = {
   height: 21 * characterScale,
   width: 15 * characterScale,
 }
 
-export const fps = 60;
+export const fps = 30;
 
 export const gravity = {
-  accelleration: 0.1,
+  acceleration: 0.05,
   max: 1,
 }
 
-export const refreshLength = 1000 / fps;
+export const refreshLength = second / fps;
 
 export const run = {
-  accelleration: 0.1,
+  acceleration: 1,
+  stopFriction: 1,
   max: .75,
 }
-export const runAccelleration = 0.1
 
 export const sprite = {
   initialX: 17,

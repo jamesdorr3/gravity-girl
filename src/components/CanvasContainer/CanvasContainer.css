@@ -1,12 +1,13 @@
 .canvas-container {
-  background: red;
-  padding-top: calc( 9 / 16 * 100% );
+  /* background: red; */
+  padding-top: calc(9 / 16 * 100%);
   position: relative;
   width: 100%;
 }
 
 canvas {
-  background: pink;
+  background: repeating-conic-gradient(#808080 0% 25%, transparent 0% 50%) 
+  50% / calc(100% / 16) calc(100% / 9);
   height: 100%;
   left: 0;
   position: absolute;

@@ -1,7 +1,8 @@
-import * as keys from "../constants/keys";
-import * as numbers from "../constants/numbers";
-import * as utils from "../utils";
-import Noun from "./Noun";
+import Noun from './Noun';
+import Platform from './Platform';
+import * as keys from '../constants/keys';
+import * as numbers from '../constants/numbers';
+import * as utils from '../utils';
 
 class Character extends Noun {
   constructor(options, width, height, x, y, game) {
@@ -14,12 +15,12 @@ class Character extends Noun {
     this.scaleDirectionX = 1;
     this.sprite = null;
     const playerImage = new Image();
-    playerImage.src = "/player.png";
+    playerImage.src = '/player.png';
     playerImage.onload = () => {
       this.sprite = playerImage;
     };
-    window.addEventListener("keydown", this.handleKeyDown);
-    window.addEventListener("keyup", this.handleKeyUp);
+    window.addEventListener('keydown', this.handleKeyDown);
+    window.addEventListener('keyup', this.handleKeyUp);
   }
 
   handleKeyDown = (e) => {
@@ -51,13 +52,60 @@ class Character extends Noun {
       this.y = 0;
       this.speedY = 0;
     }
+    Platform.all.forEach((platform) => {
+      const isCollision =
+        platform.hasPoint(this.west(), this.north()) ||
+        platform.hasPoint(this.east(), this.north()) ||
+        platform.hasPoint(this.east(), this.south()) ||
+        platform.hasPoint(this.west(), this.south());
+      if (isCollision) {
+        const isMovingEast = this.speedX === Math.abs(this.speedX);
+        const isMovingSouth = this.speedY === Math.abs(this.speedY);
+        let mostX, mostY, actionX, actionY;
+        if (isMovingEast) {
+          mostX = this.east() - platform.west();
+          actionX = () => this.east(platform.west());
+        } else {
+          mostX = this.west() - platform.east();
+          actionX = () => this.west(platform.east());
+        }
+        if (isMovingSouth) {
+          mostY = this.south() - platform.north();
+          actionY = () => this.south(platform.north());
+        } else {
+          mostY = this.north() - platform.south();
+          actionY = () => this.north(platform.south());
+        }
+        if (Math.abs(mostX) > Math.abs(mostY)) {
+          actionY();
+          this.speedY = 0;
+        } else {
+          actionX();
+          this.speedX = 0;
+        }
+        // console.log({
+        //   platform: {
+        //     north: platform.north(),
+        //     east: platform.east(),
+        //     south: platform.south(),
+        //     west: platform.west(),
+        //   },
+        //   character: {
+        //     north: this.north(),
+        //     east: this.east(),
+        //     south: this.south(),
+        //     west: this.west(),
+        //   },
+        // });
+      }
+    });
   };
 
   checkYMovement = () => {
     if (this.keysDown.includes(keys.up) || this.keysDown.includes(keys.w)) {
       this.speedY = -1;
     }
-    let newSpeedY = this.speedY + numbers.gravity.accelleration;
+    let newSpeedY = this.speedY + numbers.gravity.acceleration;
     if (newSpeedY >= numbers.gravity.max) newSpeedY = numbers.gravity.max;
 
     const dist = utils.distance(
@@ -70,20 +118,23 @@ class Character extends Noun {
   };
 
   checkXMovement = () => {
-    const length = new Date() - this.game.lastRender;
+    const length = (new Date() - this.game.lastRender) / numbers.second;
+    const direction = this.speedX === Math.abs(this.speedX) ? 1 : -1;
     const startingSpeed = this.speedX;
     if (this.keysDown.includes(keys.left) || this.keysDown.includes(keys.a)) {
       this.scaleDirectionX = -1;
-      this.speedX -= numbers.run.accelleration / length;
-    } else if ( // TODO: this prevents both left and right from being clicked at same time
+      this.speedX -= numbers.run.acceleration * length;
+    } else if (
+      // TODO: this prevents both left and right from being clicked at same time
       this.keysDown.includes(keys.right) ||
       this.keysDown.includes(keys.d)
     ) {
       this.scaleDirectionX = 1;
-      this.speedX += numbers.run.accelleration / length;
-    } else { // TODO: change with the one above
-      this.speedX = this.speedX / 1.1 / length; // this is determined by frames and not time
-      if (this.speedX < 0.1) this.speedX = 0;
+      this.speedX += numbers.run.acceleration * length;
+    } else {
+      // TODO: change with the one above
+      this.speedX = this.speedX - numbers.run.stopFriction * length * direction;
+      if (Math.abs(this.speedX) < 0.1) this.speedX = 0;
     }
     if (this.speedX >= numbers.run.max) {
       this.speedX = numbers.run.max;
@@ -103,18 +154,19 @@ class Character extends Noun {
     this.checkXMovement();
     this.checkYMovement();
     this.checkCollisions();
-    context.fillRect(
-      this.x,
-      this.y,
-      this.width,
-      this.height,
-    );
+    // console.log({ south: this.south(), north: this.north() })
     this.draw(context);
   };
 
   draw = (context) => {
     context.save();
     context.scale(this.scaleDirectionX, 1);
+    // context.fillRect(
+    //   this.x * this.scaleDirectionX,
+    //   this.y,
+    //   this.width * this.scaleDirectionX,
+    //   this.height
+    // );
     context.drawImage(
       this.sprite,
       numbers.sprite.initialX + numbers.sprite.offset * 0,
@@ -124,10 +176,10 @@ class Character extends Noun {
       this.x * this.scaleDirectionX,
       this.y,
       this.width * this.scaleDirectionX,
-      this.height,
+      this.height
     );
     context.restore();
-  }
+  };
 }
 
 export default Character;

@@ -27,10 +27,10 @@ class Noun {
   }
 
   hasPoint = (x, y) => (
-    this.north() <= y &&
-    this.east() >= x &&
-    this.south() >= y &&
-    this.west() <= x
+    this.north() < y &&
+    this.east() > x &&
+    this.south() > y &&
+    this.west() < x
   )
   
 }
