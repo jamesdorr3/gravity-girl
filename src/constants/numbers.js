@@ -1,4 +1,5 @@
 // independent variables
+export const buttonPadding = 20;
 export const canvasHeight = 900;
 export const canvasWidth = 1600;
 export const characterScale = 3;
@@ -26,6 +27,7 @@ export const gravitySlowAcceleration = gravityAcceleration / 3;
 export const gravitySlowLimit = gravitySlowAcceleration / 4;
 export const gravityTerminalVelocity = gravityAcceleration / 3;
 export const jumpTime = second / 3;
+export const readyScreenTime = second * 3;
 export const runAcceleration = characterWidth / 8 / pixelsPerMeter;
 export const runStopFriction = runAcceleration * 4;
 export const runTerminalVelocity = runAcceleration / 3;

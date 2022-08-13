@@ -1,7 +1,7 @@
 export const buttonStates = {
-  default: 15,
+  default: 20,
   hovered: 10,
-  clicked: 5,
+  clicked: 0,
 };
 
 export const gravityDirections = {

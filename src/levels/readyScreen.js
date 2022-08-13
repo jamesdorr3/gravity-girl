@@ -1,16 +1,15 @@
-import Button from '../classes/Button';
+import Text from '../classes/Text';
 import Level from '../classes/Level';
-import level1 from './1';
 import * as numbers from '../constants/numbers';
 
-export default (game) =>
+const readyScreen = (game) =>
   new Level({
     buttons: [
-      new Button(
+      new Text(
         {
           centerX: numbers.canvasWidth / 2,
           centerY: numbers.canvasHeight / 2,
-          text: 'Ready?',
+          text: `Level ${Level.count / 2}`,
         },
       )
     ],
@@ -18,3 +17,5 @@ export default (game) =>
     game,
     hasCharacter: false
   });
+
+export default readyScreen;

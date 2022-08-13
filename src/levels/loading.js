@@ -2,7 +2,7 @@ import Button from '../classes/Button';
 import Level from '../classes/Level';
 import * as numbers from '../constants/numbers';
 
-export default (game) =>
+const loadingScreen = (game) =>
   new Level({
     buttons: [
       new Button(
@@ -16,3 +16,5 @@ export default (game) =>
     frameLength: numbers.frameLengthMenu,
     game,
   });
+
+export default loadingScreen;

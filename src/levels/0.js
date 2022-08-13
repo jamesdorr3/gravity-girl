@@ -4,7 +4,7 @@ import level1 from './1';
 import loadingScreen from './loading';
 import * as numbers from '../constants/numbers';
 
-export default (game) =>
+const mainMenu = (game) =>
   new Level({
     buttons: [
       new Button({
@@ -24,3 +24,5 @@ export default (game) =>
     game,
     hasCharacter: false,
   });
+
+export default mainMenu;

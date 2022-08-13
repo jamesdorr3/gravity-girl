@@ -30,7 +30,10 @@ class Game {
   changeLevels = (level) => {
     clearInterval(this.interval);
     this.level = level(this);
-    this.interval = setInterval(readyScreen(this).intervalAction, numbers.second / 10);
+    this.interval = setInterval(
+      readyScreen(this).intervalAction,
+      numbers.second / 10
+    );
     setTimeout(() => {
       clearInterval(this.interval);
       this.interval = this.createInterval();
@@ -38,14 +41,11 @@ class Game {
         this.level.characterStartX,
         this.level.characterStartY
       );
-    }, numbers.second * 5);
+    }, numbers.readyScreenTime);
   };
 
   createInterval = () =>
-    setInterval(() => {
-      this.level.intervalAction();
-      this.lastRender = new Date();
-    }, this.level.frameLength);
+    setInterval(this.level.intervalAction, this.level.frameLength);
 
   delete = () => delete this;
 

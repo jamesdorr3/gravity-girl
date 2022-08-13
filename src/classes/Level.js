@@ -1,6 +1,9 @@
 import * as numbers from '../constants/numbers';
 
 class Level {
+
+  static count = 0;
+
   constructor({
     buttons = [],
     characterStartX = 0,
@@ -19,6 +22,8 @@ class Level {
     this.game = game;
     this.hasCharacter = hasCharacter;
     this.platforms = platforms;
+
+    Level.count += 1;
   }
 
   intervalAction = () => {
@@ -30,6 +35,7 @@ class Level {
     if (this.hasCharacter) {
       this.game.character.update(this.game.context)
     }
+    this.game.lastRender = new Date();
   }
 
 }

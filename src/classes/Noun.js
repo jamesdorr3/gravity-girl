@@ -6,11 +6,11 @@ class Noun {
     centerX,
     centerY,
     east,
-    height,
+    height = 0,
     north,
     south,
     west,
-    width,
+    width = 0,
     x,
     y,
   }) {

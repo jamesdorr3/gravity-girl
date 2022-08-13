@@ -5,10 +5,10 @@ import Platform from '../classes/Platform';
 import level2 from './2';
 import * as numbers from '../constants/numbers';
 
-export default (game) =>
+const level1 = (game) =>
   new Level({
     buttons: [
-      new Button({ action: game.stop, east: 0, north: 1, text: 'STOP' }),
+      new Button({ action: game.stop, east: 0, north: 0, text: 'STOP' }),
     ],
     doors: [
       new Door({
@@ -28,3 +28,5 @@ export default (game) =>
     frameLength: numbers.frameLength,
     game,
   });
+
+export default level1;
