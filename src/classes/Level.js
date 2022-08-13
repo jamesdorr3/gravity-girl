@@ -1,8 +1,4 @@
-import Button from './Button';
-import Character from './Character';
-import Platform from './Platform';
 import * as numbers from '../constants/numbers';
-import _ from 'lodash';
 
 class Level {
   constructor({
@@ -28,7 +24,6 @@ class Level {
   intervalAction = () => {
     this.game.context.clearRect(0, 0, numbers.canvasWidth, numbers.canvasHeight);
 
-    
     this.doors.forEach((door) => door.update(this.game.context));
     this.platforms.forEach((platform) => platform.update(this.game.context));
     this.buttons.forEach((button) => button.update(this.game.context));

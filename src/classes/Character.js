@@ -1,9 +1,7 @@
 import Noun from './Noun';
-import Platform from './Platform';
 import * as enums from '../constants/enums';
-import * as keys from '../constants/keys';
-import * as numbers from '../constants/numbers';
 import * as gameUtils from '../utils/gameUtils';
+import * as numbers from '../constants/numbers';
 
 class Character extends Noun {
 

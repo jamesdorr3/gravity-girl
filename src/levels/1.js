@@ -2,8 +2,8 @@ import Button from '../classes/Button';
 import Door from '../classes/Door';
 import Level from '../classes/Level';
 import Platform from '../classes/Platform';
-import * as numbers from '../constants/numbers';
 import level2 from './2';
+import * as numbers from '../constants/numbers';
 
 export default (game) =>
   new Level({

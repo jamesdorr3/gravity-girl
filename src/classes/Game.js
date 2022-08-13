@@ -1,12 +1,9 @@
-import Button from './Button';
 import Character from './Character';
-import Platform from './Platform';
+import devLevel from '../levels/0'; // change number for start level
+import readyScreen from '../levels/readyScreen';
 import * as enums from '../constants/enums';
-import * as numbers from '../constants/numbers';
-import _ from 'lodash';
-import Noun from './Noun';
 import * as gameUtils from '../utils/gameUtils';
-import devLevel from '../levels/t'; // change number for start level
+import * as numbers from '../constants/numbers';
 
 class Game {
   constructor(canvas) {
@@ -17,32 +14,38 @@ class Game {
     this.context.textAlign = 'center';
     this.context.font = '30px Arial';
 
-    this.character = new Character(
-      {
-        game: this,
-        east: 0,
-        height: numbers.characterHeight,
-        south: 0,
-        width: numbers.characterWidth,
-      },
-    );
+    this.character = new Character({
+      game: this,
+      east: 0,
+      height: numbers.characterHeight,
+      south: 0,
+      width: numbers.characterWidth,
+    });
 
     this.lastRender = new Date();
-    this.level = null;
-    this.interval = null;
-
-    this.changeLevels(devLevel); // start at level
+    this.level = devLevel(this); //            DEV LEVEL
+    this.interval = this.createInterval();
   }
 
   changeLevels = (level) => {
     clearInterval(this.interval);
     this.level = level(this);
-    this.interval = setInterval(() => {
+    this.interval = setInterval(readyScreen(this).intervalAction, numbers.second / 10);
+    setTimeout(() => {
+      clearInterval(this.interval);
+      this.interval = this.createInterval();
+      this.character.reset(
+        this.level.characterStartX,
+        this.level.characterStartY
+      );
+    }, numbers.second * 5);
+  };
+
+  createInterval = () =>
+    setInterval(() => {
       this.level.intervalAction();
       this.lastRender = new Date();
     }, this.level.frameLength);
-    this.character.reset(this.level.characterStartX, this.level.characterStartY);
-  };
 
   delete = () => delete this;
 
@@ -51,7 +54,7 @@ class Game {
 
   handleClick = (x, y) => {
     const button = this.level.buttons.find((button) =>
-      button.collidesWith(gameUtils.mouse({x, y}))
+      button.collidesWith(gameUtils.mouse({ x, y }))
     );
     if (button) {
       button.state = enums.buttonStates.clicked;

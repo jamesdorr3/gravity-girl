@@ -2,6 +2,7 @@ import Button from '../classes/Button';
 import Door from '../classes/Door';
 import Level from '../classes/Level';
 import Platform from '../classes/Platform';
+import level5 from './5';
 import * as numbers from '../constants/numbers';
 
 export default (game) =>
@@ -11,7 +12,7 @@ export default (game) =>
     ],
     doors: [
       new Door({
-        action: () => console.log('LEVEL 4'),
+        action: () => game.changeLevels(level5),
         east: 0,
         north: 100,
       }),

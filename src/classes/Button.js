@@ -1,6 +1,5 @@
 import Noun from './Noun';
 import * as enums from "../constants/enums";
-import * as numbers from '../constants/numbers';
 
 export default class Button extends Noun {
   constructor(info) {
