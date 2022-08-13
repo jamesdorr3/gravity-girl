@@ -1,17 +1,16 @@
 import Noun from './Noun';
 import * as enums from "../constants/enums";
 import * as numbers from '../constants/numbers';
-import Mouse from './Mouse';
 
 export default class Button extends Noun {
-  constructor(options, x, y, text, action) {
-    const width = text.length * 20 + 20 * 2;
+  constructor(info) {
+    const width = info.text.length * 20 + 20 * 2;
     const height = 30 * 1.5 + 20 * 2;
-    super(options, width, height, x, y);
+    super({ ...info, height, width });
 
-    this.action = action;
+    this.action = info.action || (() => {});
     this.state = enums.buttonStates.default;
-    this.text = text;
+    this.text = info.text;
   }
 
   update = (context) => {

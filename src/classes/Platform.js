@@ -1,8 +1,8 @@
 import Noun from './Noun';
 
 class Platform extends Noun {
-  constructor(...args) {
-    super(...args);
+  constructor(info) {
+    super(info);
   }
 
   update = (context) => {

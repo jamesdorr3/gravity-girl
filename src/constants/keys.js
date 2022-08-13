@@ -4,6 +4,7 @@ export const down = 'ArrowDown';
 export const left = 'ArrowLeft';
 export const right = 'ArrowRight';
 export const s = 'KeyS';
+export const shift = 'ShiftRight';
 export const space = 'Space';
 export const up = 'ArrowUp';
 export const w = 'KeyW';

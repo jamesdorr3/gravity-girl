@@ -30,8 +30,8 @@ const runBackwardsDistance = gameUtils.distance(
 );
 
 
-console.log({
-  // frictionStopDistance,
-  // jumpHeight: jumpDistance + jumpFloatDistance,
-  // runBackwardsDistance
-})
+// console.log({
+//   frictionStopDistance,
+//   jumpHeight: jumpDistance + jumpFloatDistance,
+//   runBackwardsDistance
+// })

@@ -1,12 +1,12 @@
 import Button from './Button';
 import Character from './Character';
-import homeMenu from '../levels/0-home';
 import Platform from './Platform';
 import * as enums from '../constants/enums';
 import * as numbers from '../constants/numbers';
 import _ from 'lodash';
 import Noun from './Noun';
-import Mouse from './Mouse';
+import * as gameUtils from '../utils/gameUtils';
+import devLevel from '../levels/t'; // change number for start level
 
 class Game {
   constructor(canvas) {
@@ -18,19 +18,20 @@ class Game {
     this.context.font = '30px Arial';
 
     this.character = new Character(
-      { south: numbers.canvasHeight },
-      numbers.characterWidth,
-      numbers.characterHeight,
-      0,
-      0,
-      this
+      {
+        game: this,
+        east: 0,
+        height: numbers.characterHeight,
+        south: 0,
+        width: numbers.characterWidth,
+      },
     );
 
     this.lastRender = new Date();
     this.level = null;
     this.interval = null;
 
-    this.changeLevels(homeMenu);
+    this.changeLevels(devLevel); // start at level
   }
 
   changeLevels = (level) => {
@@ -40,6 +41,7 @@ class Game {
       this.level.intervalAction();
       this.lastRender = new Date();
     }, this.level.frameLength);
+    this.character.reset(this.level.characterStartX, this.level.characterStartY);
   };
 
   delete = () => delete this;
@@ -49,7 +51,7 @@ class Game {
 
   handleClick = (x, y) => {
     const button = this.level.buttons.find((button) =>
-      button.collidesWith(new Mouse(x, y))
+      button.collidesWith(gameUtils.mouse({x, y}))
     );
     if (button) {
       button.state = enums.buttonStates.clicked;
@@ -59,7 +61,7 @@ class Game {
 
   handleHover = (x, y) => {
     const button = this.level.buttons.find((button) => {
-      const hasCollision = button.collidesWith(new Mouse(x, y));
+      const hasCollision = button.collidesWith(gameUtils.mouse({ x, y }));
       if (!hasCollision && button.state === enums.buttonStates.hovered) {
         button.state = enums.buttonStates.default;
       }

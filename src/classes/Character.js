@@ -7,10 +7,11 @@ import * as gameUtils from '../utils/gameUtils';
 
 class Character extends Noun {
 
-  constructor(options, width, height, x, y, game) {
-    super(options, width, height, x, y);
+  constructor(info) {
+    super(info);
 
-    this.game = game;
+    this.color = 'red';
+    this.game = info.game;
     this.gravityDirection = enums.gravityDirections.south;
     this.isGrounded = false;
     this.isJumping = false;
@@ -96,10 +97,13 @@ class Character extends Noun {
         }
       }
     });
+    this.game.level.doors.forEach((door) => {
+      if (door.collidesWith(this)) door.action();
+    })
   };
 
   checkYMovement = () => {
-    if (this.keysDown.includes(keys.up) || this.keysDown.includes(keys.w)) {
+    if (gameUtils.keyNorth(this.keysDown, this.gravityDirection)) {
       if (this.isGrounded) {
         this.isGrounded = false;
         this.isJumping = new Date();
@@ -113,9 +117,11 @@ class Character extends Noun {
       this.isJumping = false;
     }
     let newSpeedY;
-    if (Math.abs(this.speedY) < numbers.gravitySlowLimit) {
+    if (-Math.abs(this.speedY) > -numbers.gravitySlowLimit) {
+      this.color = 'lime'
       newSpeedY = this.speedY + numbers.gravitySlowAcceleration * this.game.frameLength();
     } else {
+      this.color = 'red'
       newSpeedY = this.speedY + numbers.gravityAcceleration * this.game.frameLength();
     }
 
@@ -153,7 +159,7 @@ class Character extends Noun {
     const direction = this.speedX === Math.abs(this.speedX) ? 1 : -1;
     if (!keyWest && !keyEast) {
       this.speedX = this.speedX - numbers.runStopFriction * length * direction;
-      if (Math.abs(this.speedX) < 0.1) this.speedX = 0;
+      if (Math.abs(this.speedX) < 0.2) this.speedX = 0;
     }
     if (this.speedX >= numbers.runTerminalVelocity) {
       this.speedX = numbers.runTerminalVelocity;
@@ -169,6 +175,13 @@ class Character extends Noun {
     this.x += dist;
   };
 
+  reset = (x = 0, y = numbers.canvasHeight - numbers.characterHeight) => {
+    this.speedX = 0;
+    this.speedY = 0;
+    this.x = x;
+    this.y = y;
+  }
+
   update = (context) => {
     this.checkXMovement();
     this.checkYMovement();
@@ -179,7 +192,7 @@ class Character extends Noun {
   draw = (context) => {
     context.save();
     context.scale(this.scaleDirectionX, 1);
-    context.fillStyle = this.isGrounded ? 'lime' : 'red';
+    context.fillStyle = this.color; //this.speedY === numbers.gravityTerminalVelocity ? 'green' : 'red';
     context.fillRect(
       this.x * this.scaleDirectionX,
       this.y,

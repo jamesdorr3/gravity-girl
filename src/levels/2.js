@@ -3,7 +3,7 @@ import Door from '../classes/Door';
 import Level from '../classes/Level';
 import Platform from '../classes/Platform';
 import * as numbers from '../constants/numbers';
-import level2 from './2';
+import level3 from './3';
 
 export default (game) =>
   new Level({
@@ -12,17 +12,35 @@ export default (game) =>
     ],
     doors: [
       new Door({
-        action: () => game.changeLevels(level2),
+        action: () => game.changeLevels(level3),
         east: 0,
-        south: 0,
+        south: 200,
       }),
     ],
     platforms: [
-      new Platform({
-        centerX: numbers.canvasWidth / 2,
+      new Platform({ // lower left
         height: 50,
         north: 700,
+        west: 1,
         width: 300,
+      }),
+      new Platform({ // high middle
+        height: 50,
+        south: 350,
+        west: 600,
+        width: 300,
+      }),
+      new Platform({ // door
+        height: 150,
+        north: 550,
+        east: 100,
+        width: 50,
+      }),
+      new Platform({ // door
+        height: 50,
+        south: 150,
+        east: 0,
+        width: 150,
       }),
     ],
     frameLength: numbers.frameLength,

@@ -7,22 +7,18 @@ import * as numbers from '../constants/numbers';
 const homeMenu = (game) =>
   new Level({
     buttons: [
-      new Button(
-        {
-          centerX: numbers.canvasWidth / 2,
-          centerY: numbers.canvasHeight / 2,
-        },
-        0,
-        0,
-        'Start Game',
-        () => {
+      new Button({
+        centerX: numbers.canvasWidth / 2,
+        centerY: numbers.canvasHeight / 2,
+        action: () => {
           if (game.character.sprite) {
             game.changeLevels(level1);
           } else {
-            game.changeLevels(loadingScreen)
+            game.changeLevels(loadingScreen);
           }
         },
-      ),
+        text: 'Start Game',
+      }),
     ],
     frameLength: numbers.frameLengthMenu,
     game,

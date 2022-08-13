@@ -10,11 +10,8 @@ const loadingScreen = (game) =>
         {
           centerX: numbers.canvasWidth / 2,
           centerY: numbers.canvasHeight / 2,
+          text: 'Loading...',
         },
-        0,
-        0,
-        'Loading...',
-        () => {},
       )
     ],
     frameLength: numbers.frameLengthMenu,
