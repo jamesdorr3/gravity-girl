@@ -1,9 +1,9 @@
-import Noun from './Noun';
+import Element from './Element';
 import * as enums from '../constants/enums';
 import * as gameUtils from '../utils/gameUtils';
 import * as numbers from '../constants/numbers';
 
-class Character extends Noun {
+class Character extends Element {
 
   constructor(info) {
     super(info);
@@ -29,6 +29,32 @@ class Character extends Noun {
     window.addEventListener('keyup', this.handleKeyUp);
   }
 
+  draw = (context) => {
+    context.save();
+    context.scale(this.scaleDirectionX, 1);
+    context.fillStyle = this.color; //this.speedY === numbers.gravityTerminalVelocity ? 'green' : 'red';
+    context.fillRect(
+      this.x * this.scaleDirectionX,
+      this.y,
+      this.width * this.scaleDirectionX,
+      this.height
+    );
+    if (this.sprite) {
+      context.drawImage(
+        this.sprite,
+        numbers.spriteInitialX + numbers.spriteOffset * 0,
+        numbers.spriteInitialY + numbers.spriteOffset * 0,
+        numbers.spriteWidth,
+        numbers.spriteHeight,
+        this.x * this.scaleDirectionX,
+        this.y,
+        this.width * this.scaleDirectionX,
+        this.height
+      );
+    }
+    context.restore();
+  };
+
   handleKeyDown = (e) => {
     if (!this.keysDown.includes(e.code)) {
       this.keysDown.push(e.code);
@@ -42,6 +68,12 @@ class Character extends Noun {
   };
 
   checkCollisions = () => {
+    this.game.level.elements.forEach((element) => {
+      if (element.collidesWith(this)) element.action(this);
+    })
+  }
+
+  checkWallCollisions = () => {
     if (this.south() > numbers.canvasHeight) {
       this.south(numbers.canvasHeight);
       this.speedY = 0;
@@ -60,81 +92,9 @@ class Character extends Noun {
     if (this.y < 0) {
       this.y = 0;
       this.speedY = 0;
-    }
-    this.game.level.platforms.forEach((platform) => {
-      if (platform.collidesWith(this)) {
-        const isMovingEast = this.speedX === Math.abs(this.speedX);
-        const isMovingSouth = this.speedY === Math.abs(this.speedY);
-        let mostX, mostY, actionX, actionY;
-        if (isMovingEast) {
-          mostX = this.east() - platform.west();
-          actionX = () => this.east(platform.west());
-        } else {
-          mostX = this.west() - platform.east();
-          actionX = () => this.west(platform.east());
-        }
-        if (isMovingSouth) {
-          mostY = this.south() - platform.north();
-          actionY = () => {
-            this.south(platform.north());
-            this.isGrounded = true;
-          };
-        } else {
-          mostY = this.north() - platform.south();
-          actionY = () => {
-            this.north(platform.south());
-            this.isJumping = false;
-          };
-        }
-        if (Math.abs(mostX) > Math.abs(mostY)) {
-          actionY();
-          this.speedY = 0;
-        } else {
-          actionX();
-          this.speedX = 0;
-        }
+      if (this.gravityDirection === enums.gravityDirections.north) {
+        this.isGrounded = true;
       }
-    });
-    this.game.level.doors.forEach((door) => {
-      if (door.collidesWith(this)) door.action();
-    })
-  };
-
-  checkYMovement = () => {
-    if (gameUtils.keyNorth(this.keysDown, this.gravityDirection)) {
-      if (this.isGrounded) {
-        this.isGrounded = false;
-        this.isJumping = new Date();
-      }
-      if (this.isJumping) {
-        if (new Date() - this.isJumping < numbers.jumpTime) {
-          this.speedY = -numbers.jumpSpeed;
-        } else { this.isJumping = false; }
-      }
-    } else if (this.isJumping) {
-      this.isJumping = false;
-    }
-    let newSpeedY;
-    if (-Math.abs(this.speedY) > -numbers.gravitySlowLimit) {
-      this.color = 'lime'
-      newSpeedY = this.speedY + numbers.gravitySlowAcceleration * this.game.frameLength();
-    } else {
-      this.color = 'red'
-      newSpeedY = this.speedY + numbers.gravityAcceleration * this.game.frameLength();
-    }
-
-    if (newSpeedY >= numbers.gravityTerminalVelocity)
-      newSpeedY = numbers.gravityTerminalVelocity;
-
-    const dist = gameUtils.distance(
-      this.speedY,
-      newSpeedY,
-      (new Date() - this.game.lastRender) * numbers.gameSpeed
-    );
-    this.y += dist;
-    this.speedY = newSpeedY;
-    if (newSpeedY > 0) {
-      this.isGrounded = false;
     }
   };
 
@@ -173,6 +133,44 @@ class Character extends Noun {
     this.x += dist;
   };
 
+  checkYMovement = () => {
+    if (gameUtils.keyJump(this.keysDown, this.gravityDirection)) {
+      if (this.isGrounded) {
+        this.isGrounded = false;
+        this.isJumping = new Date();
+      }
+      if (this.isJumping) {
+        if (new Date() - this.isJumping < numbers.jumpTime) {
+          this.speedY = -numbers.jumpSpeed * this.sign();
+        } else { this.isJumping = false; }
+      }
+    } else if (this.isJumping) {
+      this.isJumping = false;
+    }
+    let newSpeedY;
+    if (-Math.abs(this.speedY) > -numbers.gravitySlowLimit) {
+      this.color = 'lime'
+      newSpeedY = this.speedY + numbers.gravitySlowAcceleration * this.game.frameLength() * this.sign();
+    } else {
+      this.color = 'red'
+      newSpeedY = this.speedY + numbers.gravityAcceleration * this.game.frameLength() * this.sign();
+    }
+
+    if (newSpeedY >= numbers.gravityTerminalVelocity)
+      newSpeedY = numbers.gravityTerminalVelocity * this.sign();
+
+    const dist = gameUtils.distance(
+      this.speedY,
+      newSpeedY,
+      (new Date() - this.game.lastRender) * numbers.gameSpeed
+    );
+    this.y += dist;
+    this.speedY = newSpeedY;
+    if (newSpeedY > 0) {
+      this.isGrounded = false;
+    }
+  };
+
   reset = (x = 0, y = numbers.canvasHeight - numbers.characterHeight) => {
     this.speedX = 0;
     this.speedY = 0;
@@ -180,35 +178,19 @@ class Character extends Noun {
     this.y = y;
   }
 
+  sign = () => {
+    switch(this.gravityDirection){
+      case(enums.gravityDirections.north): return -1;
+      case(enums.gravityDirections.south): return 1;
+    }
+  }
+
   update = (context) => {
     this.checkXMovement();
     this.checkYMovement();
     this.checkCollisions();
+    this.checkWallCollisions();
     this.draw(context);
-  };
-
-  draw = (context) => {
-    context.save();
-    context.scale(this.scaleDirectionX, 1);
-    context.fillStyle = this.color; //this.speedY === numbers.gravityTerminalVelocity ? 'green' : 'red';
-    context.fillRect(
-      this.x * this.scaleDirectionX,
-      this.y,
-      this.width * this.scaleDirectionX,
-      this.height
-    );
-    context.drawImage(
-      this.sprite,
-      numbers.spriteInitialX + numbers.spriteOffset * 0,
-      numbers.spriteInitialY + numbers.spriteOffset * 0,
-      numbers.spriteWidth,
-      numbers.spriteHeight,
-      this.x * this.scaleDirectionX,
-      this.y,
-      this.width * this.scaleDirectionX,
-      this.height
-    );
-    context.restore();
   };
 }
 

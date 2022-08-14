@@ -1,4 +1,4 @@
-import Noun from '../classes/Noun';
+import Element from '../classes/Element';
 import * as enums from '../constants/enums';
 import * as keys from '../constants/keys';
 import * as numbers from '../constants/numbers';
@@ -38,7 +38,19 @@ export const keyWest = (keysDown, gravityDirection) =>
   keysDown.includes(keys.left) ||
   (gravityDirection === enums.gravityDirections.east && jumpKeysDown(keysDown));
 
-export const mouse = (e) => new Noun({ ...e, height: 1, width: 1 });
+export const keyJump = (keysDown, gravityDirection) => (
+  keyNorth(keysDown, gravityDirection) || keySouth(keysDown, gravityDirection)
+)
+
+export const mouse = (e) => new Element({ ...e, height: 1, width: 1 });
 
 export const firstNumber = (...args) =>
   args.find((arg) => typeof arg === 'number');
+
+export const gravitySign = (gravityDirection) =>
+  ({
+    [enums.gravityDirections.north]: -1,
+    [enums.gravityDirections.east]: 1,
+    [enums.gravityDirections.south]: 1,
+    [enums.gravityDirections.west]: -1,
+  }[gravityDirection]);

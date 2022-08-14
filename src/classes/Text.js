@@ -1,6 +1,6 @@
-import Noun from './Noun';
+import Element from './Element';
 
-export default class Text extends Noun {
+export default class Text extends Element {
   constructor(info) {
     super(info);
     this.text = info.text;

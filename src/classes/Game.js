@@ -1,5 +1,6 @@
 import Character from './Character';
-import devLevel from '../levels/0'; // change number for start level
+import devLevel from '../levels/t'; // change number for start level
+import loadingScreen from '../levels/loading';
 import readyScreen from '../levels/readyScreen';
 import * as enums from '../constants/enums';
 import * as gameUtils from '../utils/gameUtils';
@@ -16,7 +17,7 @@ class Game {
 
     this.character = new Character({
       game: this,
-      east: 0,
+      west: 0,
       height: numbers.characterHeight,
       south: 0,
       width: numbers.characterWidth,
@@ -44,8 +45,13 @@ class Game {
     }, numbers.readyScreenTime);
   };
 
-  createInterval = () =>
-    setInterval(this.level.intervalAction, this.level.frameLength);
+  createInterval = () => setInterval(() => {
+    if (this.character.sprite) {
+      this.level.intervalAction()
+    } else {
+      loadingScreen(this).intervalAction()
+    }
+  }, this.level.frameLength);
 
   delete = () => delete this;
 

@@ -10,14 +10,12 @@ const level4 = (game) =>
     buttons: [
       new Button({ action: game.stop, east: 0, north: 0, text: 'STOP' }),
     ],
-    doors: [
+    elements: [
       new Door({
         action: () => game.changeLevels(level5),
         east: 0,
         north: 100,
       }),
-    ],
-    platforms: [
       new Platform({ // top rightest;
         height: 50,
         north: 250,

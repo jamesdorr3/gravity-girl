@@ -9,14 +9,12 @@ const level5 = (game) =>
     buttons: [
       new Button({ action: game.stop, east: 0, north: 0, text: 'STOP' }),
     ],
-    doors: [
+    elements: [
       new Door({
         action: () => console.log('LEVEL 4'),
         east: 0,
         north: 100,
       }),
-    ],
-    platforms: [
       new Platform({ // top rightest;
         height: 50,
         north: 250,

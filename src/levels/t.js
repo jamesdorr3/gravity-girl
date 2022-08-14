@@ -10,14 +10,12 @@ const testingScreen = (game) =>
       new Button({ action: game.stop, east: 0, north: 0, text: 'STOP' }),
     ],
     characterStartY: 150,
-    doors: [
+    elements: [
       new Door({
         action: () => console.log('LEVEL 4'),
         west: 0,
         north: 0,
       }),
-    ],
-    platforms: [
       new Platform({ // bottom;
         height: 25,
         south: 75,

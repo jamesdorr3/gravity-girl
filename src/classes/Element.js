@@ -1,7 +1,7 @@
 import { canvasHeight, canvasWidth } from '../constants/numbers';
 import { firstNumber } from '../utils/gameUtils';
 
-class Noun {
+class Element {
   constructor({
     centerX,
     centerY,
@@ -55,4 +55,4 @@ class Noun {
     this.west() < that.east();
 }
 
-export default Noun;
+export default Element;

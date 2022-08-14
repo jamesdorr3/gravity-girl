@@ -1,7 +1,7 @@
-import Noun from './Noun';
+import Element from './Element';
 import * as numbers from '../constants/numbers';
 
-class Door extends Noun {
+class Door extends Element {
   constructor(options) {
     super({
       ...options,
