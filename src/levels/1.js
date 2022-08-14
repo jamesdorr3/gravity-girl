@@ -23,6 +23,21 @@ const level1 = (game) =>
         x: 800,
         south: 25,
       }),
+      new GravitySwitch({
+        gravityDirection: enums.gravityDirections.south,
+        x: 600,
+        north: 25,
+      }),
+      new GravitySwitch({
+        gravityDirection: enums.gravityDirections.east,
+        x: 25,
+        y: 400,
+      }),
+      new GravitySwitch({
+        gravityDirection: enums.gravityDirections.west,
+        east: 25,
+        y: 400,
+      }),
       new Platform({
         centerX: numbers.canvasWidth / 2 - 200,
         height: 50,

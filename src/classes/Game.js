@@ -1,5 +1,5 @@
 import Character from './Character';
-import devLevel from '../levels/t'; // change number for start level
+import devLevel from '../levels/1'; // change number for start level
 import loadingScreen from '../levels/loading';
 import readyScreen from '../levels/readyScreen';
 import * as enums from '../constants/enums';

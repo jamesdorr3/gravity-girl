@@ -181,7 +181,9 @@ class Character extends Element {
   sign = () => {
     switch(this.gravityDirection){
       case(enums.gravityDirections.north): return -1;
+      case(enums.gravityDirections.east): return 1;
       case(enums.gravityDirections.south): return 1;
+      case(enums.gravityDirections.west): return -1;
     }
   }
 
