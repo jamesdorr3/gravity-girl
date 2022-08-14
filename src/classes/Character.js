@@ -4,7 +4,6 @@ import * as gameUtils from '../utils/gameUtils';
 import * as numbers from '../constants/numbers';
 
 class Character extends Element {
-
   constructor(info) {
     super(info);
 
@@ -28,6 +27,11 @@ class Character extends Element {
     window.addEventListener('keydown', this.handleKeyDown);
     window.addEventListener('keyup', this.handleKeyUp);
   }
+
+  acc = (key) => (value) => {
+    if (value) this[key] = value;
+    return this[key];
+  };
 
   draw = (context) => {
     context.save();
@@ -70,29 +74,92 @@ class Character extends Element {
   checkCollisions = () => {
     this.game.level.elements.forEach((element) => {
       if (element.collidesWith(this)) element.action(this);
-    })
-  }
+    });
+  };
+
+  checkGravity = (position, speed) => {
+    const frameLength = this.game.frameLength();
+    const sign = this.sign();
+    let newSpeedY;
+    // more time at peak of jump
+    if (Math.abs(speed()) < numbers.gravitySlowLimit) {
+      this.color = 'lime';
+      newSpeedY =
+        speed() + numbers.gravitySlowAcceleration * frameLength * sign;
+    } else {
+      // normal gravity
+      this.color = 'red';
+      newSpeedY = speed() + numbers.gravityAcceleration * frameLength * sign;
+    }
+
+    if (Math.abs(newSpeedY) >= numbers.gravityTerminalVelocity) {
+      newSpeedY = numbers.gravityTerminalVelocity * sign;
+    }
+
+    const dist = gameUtils.distance(
+      speed(),
+      newSpeedY,
+      frameLength * numbers.second
+    );
+    position(position() + dist);
+    speed(newSpeedY);
+    if (Math.abs(newSpeedY) * sign < 0) {
+      this.isGrounded = false;
+    }
+    console.log({ speed: speed(), speedY: this.speedY });
+  };
+
+  checkJump = (speedKey, jumpKeyName) => {
+    const speed = this.acc(speedKey);
+    const isJumpPressed =
+      gameUtils[jumpKeyName](this.keysDown, this.gravityDirection) ||
+      gameUtils.jumpKeysDown(this.keysDown);
+    if (isJumpPressed) {
+      if (this.isGrounded) {
+        this.isGrounded = false;
+        this.isJumping = new Date();
+      }
+      if (this.isJumping) {
+        console.log('here');
+        if (new Date() - this.isJumping < numbers.jumpTime) {
+          speed(-numbers.jumpSpeed * this.sign());
+        } else {
+          this.isJumping = false;
+        }
+      }
+    } else if (this.isJumping) {
+      this.isJumping = false;
+    }
+    // console.log({ speed: speed(), speedY: this.speedY })
+  };
 
   checkWallCollisions = () => {
-    if (this.south() > numbers.canvasHeight) {
+    if (this.south() >= numbers.canvasHeight) {
       this.south(numbers.canvasHeight);
       this.speedY = 0;
       if (this.gravityDirection === enums.gravityDirections.south) {
         this.isGrounded = true;
       }
     }
-    if (this.east() > numbers.canvasWidth) {
+    if (this.east() >= numbers.canvasWidth) {
       this.east(numbers.canvasWidth);
       this.speedX = 0;
+      if (this.gravityDirection === enums.gravityDirections.east) {
+        this.isGrounded = true;
+      }
     }
-    if (this.x < 0) {
+    if (this.x <= 0) {
       this.west(0);
       this.speedX = 0;
+      if (this.gravityDirection === enums.gravityDirections.west) {
+        this.isGrounded = true;
+      }
     }
-    if (this.y < 0) {
+    if (this.y <= 0) {
       this.y = 0;
       this.speedY = 0;
       if (this.gravityDirection === enums.gravityDirections.north) {
+        // console.log('gravityNorth isGrounded')
         this.isGrounded = true;
       }
     }
@@ -106,12 +173,12 @@ class Character extends Element {
     if (keyWest) {
       this.scaleDirectionX = -1;
       this.speedX -= numbers.runAcceleration * length;
-      if (this.speedX > 0) this.speedX -= numbers.runStopFriction * length
+      if (this.speedX > 0) this.speedX -= numbers.runStopFriction * length;
     }
     if (keyEast) {
       this.scaleDirectionX = 1;
       this.speedX += numbers.runAcceleration * length;
-      if (this.speedX < 0) this.speedX += numbers.runStopFriction * length
+      if (this.speedX < 0) this.speedX += numbers.runStopFriction * length;
     }
 
     const direction = this.speedX === Math.abs(this.speedX) ? 1 : -1;
@@ -134,41 +201,31 @@ class Character extends Element {
   };
 
   checkYMovement = () => {
-    if (gameUtils.keyJump(this.keysDown, this.gravityDirection)) {
-      if (this.isGrounded) {
-        this.isGrounded = false;
-        this.isJumping = new Date();
-      }
-      if (this.isJumping) {
-        if (new Date() - this.isJumping < numbers.jumpTime) {
-          this.speedY = -numbers.jumpSpeed * this.sign();
-        } else { this.isJumping = false; }
-      }
-    } else if (this.isJumping) {
-      this.isJumping = false;
+    // if jumpKey
+    // jumpDirection, jumpSpeed
+    if (this.gravityDirection === enums.gravityDirections.north) {
+      this.checkJump('speedY', 'keySouth');
     }
-    let newSpeedY;
-    if (-Math.abs(this.speedY) > -numbers.gravitySlowLimit) {
-      this.color = 'lime'
-      newSpeedY = this.speedY + numbers.gravitySlowAcceleration * this.game.frameLength() * this.sign();
-    } else {
-      this.color = 'red'
-      newSpeedY = this.speedY + numbers.gravityAcceleration * this.game.frameLength() * this.sign();
+    if (this.gravityDirection === enums.gravityDirections.south) {
+      this.checkJump('speedY', 'keyNorth');
     }
+    // if (gameUtils.keyJump(this.keysDown, this.gravityDirection)) {
+    //   if (this.isGrounded) {
+    //     this.isGrounded = false;
+    //     this.isJumping = new Date();
+    //   }
+    //   if (this.isJumping) {
+    //     if (new Date() - this.isJumping < numbers.jumpTime) {
+    //       this.speedY = -numbers.jumpSpeed * this.sign();
+    //     } else {
+    //       this.isJumping = false;
+    //     }
+    //   }
+    // } else if (this.isJumping) {
+    //   this.isJumping = false;
+    // }
 
-    if (newSpeedY >= numbers.gravityTerminalVelocity)
-      newSpeedY = numbers.gravityTerminalVelocity * this.sign();
-
-    const dist = gameUtils.distance(
-      this.speedY,
-      newSpeedY,
-      (new Date() - this.game.lastRender) * numbers.gameSpeed
-    );
-    this.y += dist;
-    this.speedY = newSpeedY;
-    if (newSpeedY > 0) {
-      this.isGrounded = false;
-    }
+    this.checkGravity(this.north, this.acc('speedY'));
   };
 
   reset = (x = 0, y = numbers.canvasHeight - numbers.characterHeight) => {
@@ -176,16 +233,18 @@ class Character extends Element {
     this.speedY = 0;
     this.x = x;
     this.y = y;
-  }
+  };
 
-  sign = () => {
-    switch(this.gravityDirection){
-      case(enums.gravityDirections.north): return -1;
-      case(enums.gravityDirections.east): return 1;
-      case(enums.gravityDirections.south): return 1;
-      case(enums.gravityDirections.west): return -1;
+  sign = (direction = this.gravityDirection) => {
+    switch (direction) {
+      case enums.gravityDirections.north:
+        return -1;
+      case enums.gravityDirections.west:
+        return -1;
+      default: // east and south
+        return 1;
     }
-  }
+  };
 
   update = (context) => {
     this.checkXMovement();
@@ -197,3 +256,40 @@ class Character extends Element {
 }
 
 export default Character;
+
+/* 
+
+1--------------------------------------
+movementX
+  if gravity === east or west
+    jump(speedX, +-1)
+  else
+    run(speedX, +-1)
+
+movementY
+  if gravity === north or south
+    jump(speedY, +-1)
+  else
+    run(speedY, +-1)
+
+2--------------------------------------
+determine action for north
+  if gravity === south, jump
+  if gravity === east, run
+  if graivty === west, run
+
+if pressed North key
+  determine action for north
+
+3--------------------------------------
+{
+  // gravity
+  south: {
+    // key
+    north: {
+
+    }
+  }
+}
+
+*/

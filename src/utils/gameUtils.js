@@ -3,7 +3,7 @@ import * as enums from '../constants/enums';
 import * as keys from '../constants/keys';
 import * as numbers from '../constants/numbers';
 
-const jumpKeysDown = (keysDown) =>
+export const jumpKeysDown = (keysDown) =>
   keysDown.includes(keys.space) || keysDown.includes(keys.shift);
 
 export const distance = (velocityFinal, velocityInitial, time) =>
@@ -16,27 +16,29 @@ export const getMouseCoordsInCanvas = (e, canvas) => {
   return { mouseX, mouseY };
 };
 
-export const keyNorth = (keysDown, gravityDirection) =>
+export const keyNorth = (keysDown) =>
   keysDown.includes(keys.w) ||
-  keysDown.includes(keys.up) ||
-  (gravityDirection === enums.gravityDirections.south &&
-    jumpKeysDown(keysDown));
+  keysDown.includes(keys.up)
 
 export const keyEast = (keysDown, gravityDirection) =>
   keysDown.includes(keys.d) ||
-  keysDown.includes(keys.right) ||
-  (gravityDirection === enums.gravityDirections.west && jumpKeysDown(keysDown));
+  keysDown.includes(keys.right)
 
 export const keySouth = (keysDown, gravityDirection) =>
   keysDown.includes(keys.s) ||
-  keysDown.includes(keys.down) ||
-  (gravityDirection === enums.gravityDirections.north &&
-    jumpKeysDown(keysDown));
+  keysDown.includes(keys.down)
 
 export const keyWest = (keysDown, gravityDirection) =>
   keysDown.includes(keys.a) ||
-  keysDown.includes(keys.left) ||
-  (gravityDirection === enums.gravityDirections.east && jumpKeysDown(keysDown));
+  keysDown.includes(keys.left)
+
+export const keyX = (keysDown, gravityDirection) => (
+  keyEast(keysDown, gravityDirection) || keyWest(keysDown, gravityDirection)
+)
+
+export const keyY = (keysDown, gravityDirection) => (
+  keyNorth(keysDown, gravityDirection) || keySouth(keysDown, gravityDirection)
+)
 
 export const keyJump = (keysDown, gravityDirection) => (
   keyNorth(keysDown, gravityDirection) || keySouth(keysDown, gravityDirection)
