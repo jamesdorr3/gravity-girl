@@ -4,7 +4,7 @@ export const buttonStates = {
   clicked: 0,
 };
 
-export const gravityDirections = {
+export const cardinalDirections = {
   north: 'north',
   east: 'east',
   south: 'south',

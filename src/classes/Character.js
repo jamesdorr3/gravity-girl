@@ -9,7 +9,7 @@ class Character extends Element {
 
     this.color = 'red';
     this.game = info.game;
-    this.gravityDirection = enums.gravityDirections.south;
+    this.gravityDirection = enums.cardinalDirections.south;
     this.isGrounded = false;
     this.isJumping = false;
     this.keysDown = [];
@@ -106,7 +106,6 @@ class Character extends Element {
     if (Math.abs(newSpeedY) * sign < 0) {
       this.isGrounded = false;
     }
-    console.log({ speed: speed(), speedY: this.speedY });
   };
 
   checkJump = (speedKey, jumpKeyName) => {
@@ -120,7 +119,6 @@ class Character extends Element {
         this.isJumping = new Date();
       }
       if (this.isJumping) {
-        console.log('here');
         if (new Date() - this.isJumping < numbers.jumpTime) {
           speed(-numbers.jumpSpeed * this.sign());
         } else {
@@ -130,36 +128,34 @@ class Character extends Element {
     } else if (this.isJumping) {
       this.isJumping = false;
     }
-    // console.log({ speed: speed(), speedY: this.speedY })
   };
 
   checkWallCollisions = () => {
     if (this.south() >= numbers.canvasHeight) {
       this.south(numbers.canvasHeight);
       this.speedY = 0;
-      if (this.gravityDirection === enums.gravityDirections.south) {
+      if (this.gravityDirection === enums.cardinalDirections.south) {
         this.isGrounded = true;
       }
     }
     if (this.east() >= numbers.canvasWidth) {
       this.east(numbers.canvasWidth);
       this.speedX = 0;
-      if (this.gravityDirection === enums.gravityDirections.east) {
+      if (this.gravityDirection === enums.cardinalDirections.east) {
         this.isGrounded = true;
       }
     }
     if (this.x <= 0) {
       this.west(0);
       this.speedX = 0;
-      if (this.gravityDirection === enums.gravityDirections.west) {
+      if (this.gravityDirection === enums.cardinalDirections.west) {
         this.isGrounded = true;
       }
     }
     if (this.y <= 0) {
       this.y = 0;
       this.speedY = 0;
-      if (this.gravityDirection === enums.gravityDirections.north) {
-        // console.log('gravityNorth isGrounded')
+      if (this.gravityDirection === enums.cardinalDirections.north) {
         this.isGrounded = true;
       }
     }
@@ -203,10 +199,10 @@ class Character extends Element {
   checkYMovement = () => {
     // if jumpKey
     // jumpDirection, jumpSpeed
-    if (this.gravityDirection === enums.gravityDirections.north) {
+    if (this.gravityDirection === enums.cardinalDirections.north) {
       this.checkJump('speedY', 'keySouth');
     }
-    if (this.gravityDirection === enums.gravityDirections.south) {
+    if (this.gravityDirection === enums.cardinalDirections.south) {
       this.checkJump('speedY', 'keyNorth');
     }
     // if (gameUtils.keyJump(this.keysDown, this.gravityDirection)) {
@@ -229,6 +225,7 @@ class Character extends Element {
   };
 
   reset = (x = 0, y = numbers.canvasHeight - numbers.characterHeight) => {
+    this.gravityDirection = enums.cardinalDirections.south;
     this.speedX = 0;
     this.speedY = 0;
     this.x = x;
@@ -237,9 +234,9 @@ class Character extends Element {
 
   sign = (direction = this.gravityDirection) => {
     switch (direction) {
-      case enums.gravityDirections.north:
+      case enums.cardinalDirections.north:
         return -1;
-      case enums.gravityDirections.west:
+      case enums.cardinalDirections.west:
         return -1;
       default: // east and south
         return 1;

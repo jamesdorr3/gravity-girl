@@ -9,7 +9,7 @@ class Door extends Element {
       width: options.width || numbers.doorWidth,
     });
     
-    this.action = options.action;
+    this.action = options.action || (() => {});
     this.color = options.color || 'pink';
   }
 

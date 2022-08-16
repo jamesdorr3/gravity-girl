@@ -4,18 +4,18 @@ import * as numbers from '../constants/numbers';
 
 const readyScreen = (game) =>
   new Level({
-    buttons: [
+    frameLength: numbers.frameLengthMenu,
+    game,
+    hasCharacter: false,
+    texts: [
       new Text(
         {
           centerX: numbers.canvasWidth / 2,
           centerY: numbers.canvasHeight / 2,
-          text: `Level ${Level.count / 2}`,
+          text: game.level.name || `Level ${Level.count / 2}`,
         },
       )
-    ],
-    frameLength: numbers.frameLengthMenu,
-    game,
-    hasCharacter: false
+    ]
   });
 
 export default readyScreen;

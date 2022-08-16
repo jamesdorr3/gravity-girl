@@ -16,44 +16,27 @@ const level2 = (game) =>
       new Door({
         action: () => game.changeLevels(level3),
         east: 0,
-        south: 200,
-      }),
-      new GravitySwitch({
-        gravityDirection: enums.gravityDirections.north,
-        x: 800,
         south: 0,
       }),
+      new GravitySwitch({ // bottom right
+        gravityDirection: enums.cardinalDirections.north,
+        x: 1000,
+        south: 25,
+      }),
+      new GravitySwitch({ // top left
+        centerX: 100,
+        gravityDirection: enums.cardinalDirections.south,
+        north: 25,
+      }),
       new Platform({
-        // lower left
-        height: 50,
-        north: 700,
-        west: 1,
+        centerX: numbers.canvasWidth / 2,
+        height: numbers.platformBreadth,
+        south: numbers.hallHeightSmall,
         width: 300,
-      }),
-      new Platform({
-        // high middle
-        height: 50,
-        south: 350,
-        west: 600,
-        width: 300,
-      }),
-      new Platform({
-        // door
-        height: 150,
-        north: 550,
-        east: 100,
-        width: 50,
-      }),
-      new Platform({
-        // door
-        height: 50,
-        south: 150,
-        east: 0,
-        width: 150,
       }),
     ],
-    frameLength: numbers.frameLength,
     game,
+    name: 'What Happened?'
   });
 
 export default level2;

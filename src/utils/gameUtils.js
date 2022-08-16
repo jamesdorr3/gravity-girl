@@ -51,8 +51,8 @@ export const firstNumber = (...args) =>
 
 export const gravitySign = (gravityDirection) =>
   ({
-    [enums.gravityDirections.north]: -1,
-    [enums.gravityDirections.east]: 1,
-    [enums.gravityDirections.south]: 1,
-    [enums.gravityDirections.west]: -1,
+    [enums.cardinalDirections.north]: -1,
+    [enums.cardinalDirections.east]: 1,
+    [enums.cardinalDirections.south]: 1,
+    [enums.cardinalDirections.west]: -1,
   }[gravityDirection]);

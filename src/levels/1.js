@@ -10,43 +10,28 @@ import * as numbers from '../constants/numbers';
 const level1 = (game) =>
   new Level({
     buttons: [
-      new Button({ action: game.stop, east: 0, north: 0, text: 'STOP' }),
+      new Button({ action: game.stop, west: 0, north: 0, text: 'STOP' }), // DEV
     ],
     elements: [
       new Door({
         action: () => game.changeLevels(level2),
-        east: 0,
-        south: 0,
+        centerX: numbers.canvasWidth - 100,
+        north: 0,
       }),
       new GravitySwitch({
-        gravityDirection: enums.gravityDirections.north,
-        x: 800,
+        gravityDirection: enums.cardinalDirections.north,
+        centerX: numbers.canvasWidth - 100,
         south: 25,
       }),
-      new GravitySwitch({
-        gravityDirection: enums.gravityDirections.south,
-        x: 600,
-        north: 25,
-      }),
-      new GravitySwitch({
-        gravityDirection: enums.gravityDirections.east,
-        x: 25,
-        y: 400,
-      }),
-      new GravitySwitch({
-        gravityDirection: enums.gravityDirections.west,
-        east: 25,
-        y: 400,
-      }),
       new Platform({
-        centerX: numbers.canvasWidth / 2 - 200,
-        height: 50,
-        south: 100,
-        width: 300,
+        height: numbers.canvasHeight - numbers.hallHeightLarge,
+        width: numbers.canvasWidth - 200,
+        x: 0,
+        y: 0,
       }),
     ],
-    frameLength: numbers.frameLength,
     game,
+    name: 'Where Am I?',
   });
 
 export default level1;

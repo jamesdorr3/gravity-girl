@@ -1,11 +1,15 @@
 // independent variables
 export const buttonPadding = 20;
-export const canvasHeight = 900;
-export const canvasWidth = 1600;
+export const canvasHeight = 900; // 270 visually?
+export const canvasWidth = 1600; // 480 visually?
 export const characterScale = 3;
 export const gameSpeed = 1; // 1 is real time;
+export const hallHeightLarge = 250;
+export const hallHeightSmall = 100;
 export const jumpSpeed = 0.35;
+export const platformBreadth = 25;
 export const second = 1000;
+export const spikeWidth = 100;
 export const spriteInitialX = 17;
 export const spriteInitialY = 20;
 export const spriteHeight = 23;

@@ -12,7 +12,7 @@ const testingScreen = (game) =>
     characterStartY: 150,
     elements: [
       new Door({
-        action: () => console.log('LEVEL 4'),
+        // action: () => console.log('LEVEL 4'),
         west: 0,
         north: 0,
       }),
@@ -95,7 +95,7 @@ const testingScreen = (game) =>
         width: 200,
       }),
     ],
-    frameLength: numbers.frameLength,
+
     game,
   });
 

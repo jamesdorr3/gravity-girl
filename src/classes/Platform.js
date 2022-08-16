@@ -14,25 +14,29 @@ class Platform extends Element {
     const min = Math.min(north, east, south, west);
     if (min === north) {
       character.north(this.south());
-      character.speedY = 0;
+      if (character.speedY <= 0) character.speedY = 0;
+      if (character.gravityDirection === enums.cardinalDirections.north) {
+        character.isGrounded = true;
+        character.isJumping = false;
+      }
     } else if (min === east) {
       character.east(this.west());
-      character.speedX = 0;
+      if (character.speedX >= 0) character.speedX = 0;
     } else if (min === south) {
       character.south(this.north());
-      character.speedY = 0;
-      if (character.gravityDirection === enums.gravityDirections.south) {
+      if (character.speedY >= 0) character.speedY = 0;
+      if (character.gravityDirection === enums.cardinalDirections.south) {
         character.isGrounded = true;
         character.isJumping = false;
       }
     } else if (min === west) {
       character.west(this.east());
-      character.speedX = 0;
+      if (character.speedX <= 0) character.speedX = 0;
     }
   };
 
   update = (context) => {
-    context.fillStyle = 'purple';
+    context.fillStyle = 'lightblue'; //'#aebecb';
     context.fillRect(this.x, this.y, this.width, this.height);
   };
 }

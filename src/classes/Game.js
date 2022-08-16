@@ -1,5 +1,5 @@
 import Character from './Character';
-import devLevel from '../levels/1'; // change number for start level
+import devLevel from '../levels/4'; // change number for start level
 import loadingScreen from '../levels/loading';
 import readyScreen from '../levels/readyScreen';
 import * as enums from '../constants/enums';
@@ -45,13 +45,14 @@ class Game {
     }, numbers.readyScreenTime);
   };
 
-  createInterval = () => setInterval(() => {
-    if (this.character.sprite) {
-      this.level.intervalAction()
-    } else {
-      loadingScreen(this).intervalAction()
-    }
-  }, this.level.frameLength);
+  createInterval = () =>
+    setInterval(() => {
+      if (this.character.sprite) {
+        this.level.intervalAction();
+      } else {
+        loadingScreen(this).intervalAction();
+      }
+    }, this.level.frameLength);
 
   delete = () => delete this;
 

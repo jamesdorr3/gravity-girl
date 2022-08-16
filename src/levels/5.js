@@ -11,7 +11,7 @@ const level5 = (game) =>
     ],
     elements: [
       new Door({
-        action: () => console.log('LEVEL 4'),
+        // action: () => console.log('LEVEL 4'),
         east: 0,
         north: 100,
       }),
@@ -52,7 +52,7 @@ const level5 = (game) =>
         width: 200,
       }),
     ],
-    frameLength: numbers.frameLength,
+
     game,
   });
 
