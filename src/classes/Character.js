@@ -105,7 +105,7 @@ class Character extends Element {
     );
     position(position() + dist);
     speed(newSpeedY);
-    if (Math.abs(newSpeedY) * sign < 0) {
+    if (Math.abs(newSpeedY) > 0) {
       this.isGrounded = false;
     }
   };
