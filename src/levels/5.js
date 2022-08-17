@@ -1,8 +1,13 @@
 import Button from '../classes/Button';
 import Door from '../classes/Door';
+import GravitySwitch from '../classes/GravitySwitch';
 import Level from '../classes/Level';
 import Platform from '../classes/Platform';
+import Spikes from '../classes/Spikes';
+import { cardinalDirections } from '../constants/enums';
 import * as numbers from '../constants/numbers';
+
+const swPlatformSpikes = 164 + numbers.spikeHeight; // 164 is max jump? TODO: don't understand math
 
 const level5 = (game) =>
   new Level({
@@ -12,47 +17,95 @@ const level5 = (game) =>
     elements: [
       new Door({
         // action: () => console.log('LEVEL 4'),
-        east: 0,
-        north: 100,
+        centerX: 1500,
+        south: 0,
       }),
-      new Platform({ // top rightest;
-        height: 50,
-        north: 250,
-        west: 1200,
-        width: 100,
+      new GravitySwitch({ // nw
+        gravityDirection: cardinalDirections.south,
+        north: 25,
+        centerX: 50,
       }),
-      new Platform({ // top right;
-        height: 50,
-        north: 250,
-        west: 900,
-        width: 100,
+      new GravitySwitch({ // ne
+        gravityDirection: cardinalDirections.east,
+        centerX: 1100,
+        centerY: 300,
       }),
-      new Platform({ // top middle;
-        height: 50,
-        north: 300,
-        west: 600,
-        width: 100,
-      }),
-      // new Platform({ // top left;
-      //   height: 50,
-      //   north: 250,
-      //   west: 300,
-      //   width: 100,
-      // }),
-      new Platform({ // second from bottom;
-        height: 50,
-        north: 500,
+      new GravitySwitch({ // cw
+        gravityDirection: cardinalDirections.south,
+        centerY: 550,
         west: 200,
-        width: 150,
       }),
-      new Platform({ // bottom;
-        height: 50,
-        north: 700,
-        west: 500,
+      new GravitySwitch({ // sw
+        gravityDirection: cardinalDirections.north,
+        south: 25,
+        west: 200,
+      }),
+      new Platform({ // nw
+        height: 620,
+        north: 0,
+        west: 100,
+        width: numbers.platformBreadth,
+      }),
+      new Platform({ // door room
+        height: 200,
+        south: 0,
+        east: 200,
+        width: numbers.platformBreadth,
+      }),
+      new Platform({ // door roof
+        height: numbers.platformBreadth,
+        south: 200,
+        east: numbers.characterWidth,
+        width: 200 - numbers.characterWidth + numbers.platformBreadth,
+      }),
+      new Platform({ // door roof
+        height: 100,
+        south: 200,
+        east: numbers.characterWidth,
+        width: numbers.platformBreadth,
+      }),
+      new Platform({ // south pole
+        height: swPlatformSpikes + numbers.spikeHeight,
+        south: 0,
+        west: 900,
+        width: numbers.platformBreadth,
+      }),
+      new Platform({ // center nw
+        height: numbers.platformBreadth,
+        south: swPlatformSpikes + numbers.spikeHeight + numbers.hallHeightMedium,
+        west: 100,
+        width: 500,
+      }),
+      new Platform({ // center ne
+        height: numbers.platformBreadth,
+        south: swPlatformSpikes + numbers.spikeHeight + numbers.hallHeightLarge,
+        west: 900,
+        width: 400,
+      }),
+      new Platform({ // center se
+        height: numbers.platformBreadth,
+        south: swPlatformSpikes + numbers.spikeHeight,
+        west: 900,
         width: 200,
       }),
+      new Platform({ // south with spikes
+        height: numbers.platformBreadth,
+        south: swPlatformSpikes + numbers.spikeHeight,
+        west: 100,
+        width: 600,
+      }),
+      new Spikes({ // south on spikes
+        south: 0,
+        west: 300,
+        width: 400,
+      }),
+      new Spikes({ // south center
+        direction: cardinalDirections.south,
+        south: swPlatformSpikes,
+        west: 400,
+        width: 100,
+      }),
     ],
-
     game,
   });
 

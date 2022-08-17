@@ -7,6 +7,8 @@ import level3 from './3';
 import * as enums from '../constants/enums';
 import * as numbers from '../constants/numbers';
 
+const height = 175;
+
 const level2 = (game) =>
   new Level({
     buttons: [
@@ -24,7 +26,7 @@ const level2 = (game) =>
         south: 25,
       }),
       new GravitySwitch({ // top left
-        centerX: 100,
+        centerX: 150,
         gravityDirection: enums.cardinalDirections.south,
         north: 25,
       }),
@@ -33,6 +35,24 @@ const level2 = (game) =>
         height: numbers.platformBreadth,
         south: numbers.hallHeightSmall,
         width: 300,
+      }),
+      new Platform({ // widest block
+        east: 0,
+        height: height,
+        north: 0,
+        width: 1300,
+      }),
+      new Platform({ // 2nd widest block
+        east: 0,
+        height: height * 2,
+        north: 0,
+        width: 1100,
+      }),
+      new Platform({ // 3rd widest block
+        east: 0,
+        height: height * 3,
+        north: 0,
+        width: 900,
       }),
     ],
     game,

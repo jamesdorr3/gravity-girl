@@ -1,17 +1,22 @@
 import Element from './Element';
-import { spikeWidth } from '../constants/numbers';
+import Text from './Text';
+import randomComment from '../constants/deathComments';
+import { spikeHeight, spikeWidth } from '../constants/numbers';
 import { cardinalDirections } from '../constants/enums';
 
 class Spikes extends Element {
-
   static image = null;
   // static pattern = null;
 
   constructor(info) {
-    super({ ...info, height: 55, width: Math.floor(info.width / spikeWidth) * spikeWidth});
+    super({
+      ...info,
+      height: spikeHeight,
+      width: Math.floor(info.width / spikeWidth) * spikeWidth,
+    });
 
     this.direction = info.direction || cardinalDirections.north;
-    this.scaleX = 1
+    this.scaleX = 1;
     this.scaleY = this.direction === cardinalDirections.north ? 1 : -1;
     const spikesImage = new Image();
     spikesImage.src = '/spikes.png';
@@ -25,17 +30,41 @@ class Spikes extends Element {
   // visual height = 55 // 18
   // visual width = 100 // 33
 
-
   action = (character) => {
-    character.reset();
+    const text = randomComment();
+    character.deaths++;
+    // new Text({
+    //   centerX: 800,
+    //   centerY: 300,
+    //   color: '#fffe',
+    //   text: character.deaths,
+    // }).update(character.game.context);
+    new Text({
+      centerX: 800,
+      centerY: 450,
+      color: '#fffe',
+      text,
+    }).update(character.game.context);
+    character.game.stop();
+    setTimeout(() => {
+      character.game.lastRender = new Date();
+      character.game.interval = character.game.createInterval();
+      character.reset();
+    }, text.length * 100);
   };
 
   update = (context) => {
     if (Spikes.image) {
       context.save();
       context.scale(this.scaleX, this.scaleY);
-      for ( let x = this.x; x < this.x + this.width; x += spikeWidth ) {
-        context.drawImage(Spikes.image, x, this.y * this.scaleY, spikeWidth, this.height * this.scaleY);
+      for (let x = this.x; x < this.x + this.width; x += spikeWidth) {
+        context.drawImage(
+          Spikes.image,
+          x,
+          this.y * this.scaleY,
+          spikeWidth,
+          this.height * this.scaleY
+        );
       }
       context.restore();
     } else {

@@ -1,5 +1,5 @@
 import Element from './Element';
-import * as enums from '../constants/enums';
+import { cardinalDirections } from '../constants/enums';
 import * as gameUtils from '../utils/gameUtils';
 import * as numbers from '../constants/numbers';
 
@@ -8,13 +8,15 @@ class Character extends Element {
     super(info);
 
     this.color = 'red';
+    this.deaths = 0;
     this.game = info.game;
-    this.gravityDirection = enums.cardinalDirections.south;
+    this.gravityDirection = info.gravityDirection || cardinalDirections.south;
     this.isGrounded = false;
     this.isJumping = false;
     this.keysDown = [];
     this.lastLog = new Date();
     this.scaleDirectionX = 1;
+    this.scaleDirectionY = 1;
     this.speedX = 0;
     this.speedY = 0;
     this.sprite = null;
@@ -35,13 +37,13 @@ class Character extends Element {
 
   draw = (context) => {
     context.save();
-    context.scale(this.scaleDirectionX, 1);
+    context.scale(this.scaleDirectionX, this.scaleDirectionY);
     context.fillStyle = this.color; //this.speedY === numbers.gravityTerminalVelocity ? 'green' : 'red';
     context.fillRect(
       this.x * this.scaleDirectionX,
-      this.y,
+      this.y * this.scaleDirectionY,
       this.width * this.scaleDirectionX,
-      this.height
+      this.height * this.scaleDirectionY
     );
     if (this.sprite) {
       context.drawImage(
@@ -51,9 +53,9 @@ class Character extends Element {
         numbers.spriteWidth,
         numbers.spriteHeight,
         this.x * this.scaleDirectionX,
-        this.y,
+        this.y * this.scaleDirectionY,
         this.width * this.scaleDirectionX,
-        this.height
+        this.height * this.scaleDirectionY
       );
     }
     context.restore();
@@ -111,8 +113,8 @@ class Character extends Element {
   checkJump = (speedKey, jumpKeyName) => {
     const speed = this.acc(speedKey);
     const isJumpPressed =
-      gameUtils[jumpKeyName](this.keysDown, this.gravityDirection) ||
-      gameUtils.jumpKeysDown(this.keysDown);
+      gameUtils[jumpKeyName](this.keysDown) ||
+      gameUtils.isJumpKeyDown(this.keysDown);
     if (isJumpPressed) {
       if (this.isGrounded) {
         this.isGrounded = false;
@@ -134,28 +136,28 @@ class Character extends Element {
     if (this.south() >= numbers.canvasHeight) {
       this.south(numbers.canvasHeight);
       this.speedY = 0;
-      if (this.gravityDirection === enums.cardinalDirections.south) {
+      if (this.gravityDirection === cardinalDirections.south) {
         this.isGrounded = true;
       }
     }
     if (this.east() >= numbers.canvasWidth) {
       this.east(numbers.canvasWidth);
       this.speedX = 0;
-      if (this.gravityDirection === enums.cardinalDirections.east) {
+      if (this.gravityDirection === cardinalDirections.east) {
         this.isGrounded = true;
       }
     }
     if (this.x <= 0) {
       this.west(0);
       this.speedX = 0;
-      if (this.gravityDirection === enums.cardinalDirections.west) {
+      if (this.gravityDirection === cardinalDirections.west) {
         this.isGrounded = true;
       }
     }
     if (this.y <= 0) {
       this.y = 0;
       this.speedY = 0;
-      if (this.gravityDirection === enums.cardinalDirections.north) {
+      if (this.gravityDirection === cardinalDirections.north) {
         this.isGrounded = true;
       }
     }
@@ -164,21 +166,21 @@ class Character extends Element {
   checkXMovement = () => {
     const length = this.game.frameLength();
     const startingSpeed = this.speedX;
-    const keyWest = gameUtils.keyWest(this.keysDown, this.gravityDirection);
-    const keyEast = gameUtils.keyEast(this.keysDown, this.gravityDirection);
-    if (keyWest) {
+    const isWestKeyDown = gameUtils.isWestKeyDown(this.keysDown, this.gravityDirection);
+    const isEastKeyDown = gameUtils.isEastKeyDown(this.keysDown, this.gravityDirection);
+    if (isWestKeyDown) {
       this.scaleDirectionX = -1;
       this.speedX -= numbers.runAcceleration * length;
       if (this.speedX > 0) this.speedX -= numbers.runStopFriction * length;
     }
-    if (keyEast) {
+    if (isEastKeyDown) {
       this.scaleDirectionX = 1;
       this.speedX += numbers.runAcceleration * length;
       if (this.speedX < 0) this.speedX += numbers.runStopFriction * length;
     }
 
     const direction = this.speedX === Math.abs(this.speedX) ? 1 : -1;
-    if (!keyWest && !keyEast) {
+    if (!isWestKeyDown && !isEastKeyDown) {
       this.speedX = this.speedX - numbers.runStopFriction * length * direction;
       if (Math.abs(this.speedX) < 0.2) this.speedX = 0;
     }
@@ -199,11 +201,11 @@ class Character extends Element {
   checkYMovement = () => {
     // if jumpKey
     // jumpDirection, jumpSpeed
-    if (this.gravityDirection === enums.cardinalDirections.north) {
-      this.checkJump('speedY', 'keySouth');
+    if (this.gravityDirection === cardinalDirections.north) {
+      this.checkJump('speedY', 'isSouthKeyDown');
     }
-    if (this.gravityDirection === enums.cardinalDirections.south) {
-      this.checkJump('speedY', 'keyNorth');
+    if (this.gravityDirection === cardinalDirections.south) {
+      this.checkJump('speedY', 'isNorthKeyDown');
     }
     // if (gameUtils.keyJump(this.keysDown, this.gravityDirection)) {
     //   if (this.isGrounded) {
@@ -225,7 +227,9 @@ class Character extends Element {
   };
 
   reset = (x = 0, y = numbers.canvasHeight - numbers.characterHeight) => {
-    this.gravityDirection = enums.cardinalDirections.south;
+    this.gravityDirection = cardinalDirections.south;
+    this.scaleDirectionX = 1;
+    this.scaleDirectionY = 1;
     this.speedX = 0;
     this.speedY = 0;
     this.x = x;
@@ -234,9 +238,9 @@ class Character extends Element {
 
   sign = (direction = this.gravityDirection) => {
     switch (direction) {
-      case enums.cardinalDirections.north:
+      case cardinalDirections.north:
         return -1;
-      case enums.cardinalDirections.west:
+      case cardinalDirections.west:
         return -1;
       default: // east and south
         return 1;

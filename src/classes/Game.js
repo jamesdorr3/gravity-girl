@@ -1,5 +1,5 @@
 import Character from './Character';
-import devLevel from '../levels/4'; // change number for start level
+import devLevel from '../levels/5'; // change number for start level
 import loadingScreen from '../levels/loading';
 import readyScreen from '../levels/readyScreen';
 import * as enums from '../constants/enums';
@@ -17,9 +17,9 @@ class Game {
 
     this.character = new Character({
       game: this,
-      west: 0,
-      height: numbers.characterHeight,
       south: 0,
+      height: numbers.characterHeight,
+      west: 0,
       width: numbers.characterWidth,
     });
 

@@ -1,5 +1,5 @@
 import Element from './Element';
-import * as enums from '../constants/enums';
+import { cardinalDirections } from '../constants/enums';
 import * as numbers from '../constants/numbers';
 
 class GravitySwitch extends Element {
@@ -14,28 +14,40 @@ class GravitySwitch extends Element {
   }
 
   action = (character) => {
-    character.gravityDirection = this.gravityDirection
-  }
+    if (this.gravityDirection !== character.gravityDirection) {
+      if (this.gravityDirection === cardinalDirections.north) {
+        character.scaleDirectionY = -1;
+      }
+      if (this.gravityDirection === cardinalDirections.north) {
+        character.scaleDirectionX = 1;
+        character.rotate = 90;
+      }
+      if (this.gravityDirection === cardinalDirections.south) {
+        character.scaleDirectionY = 1;
+      }
+    }
+    character.gravityDirection = this.gravityDirection;
+  };
 
   update = (context) => {
     context.fillStyle = 'blue';
     context.beginPath();
-    if (this.gravityDirection === enums.cardinalDirections.north) {
+    if (this.gravityDirection === cardinalDirections.north) {
       context.moveTo(this.west(), this.south());
       context.lineTo(this.east(), this.south());
       context.lineTo(this.west() + this.width / 2, this.north());
     }
-    if (this.gravityDirection === enums.cardinalDirections.east) {
+    if (this.gravityDirection === cardinalDirections.east) {
       context.moveTo(this.west(), this.south());
       context.lineTo(this.west(), this.north());
       context.lineTo(this.east(), this.north() + this.width / 2);
     }
-    if (this.gravityDirection === enums.cardinalDirections.south) {
+    if (this.gravityDirection === cardinalDirections.south) {
       context.moveTo(this.east(), this.north());
       context.lineTo(this.west(), this.north());
       context.lineTo(this.west() + this.width / 2, this.south());
     }
-    if (this.gravityDirection === enums.cardinalDirections.west) {
+    if (this.gravityDirection === cardinalDirections.west) {
       context.moveTo(this.east(), this.south());
       context.lineTo(this.east(), this.north());
       context.lineTo(this.west(), this.north() + this.width / 2);
