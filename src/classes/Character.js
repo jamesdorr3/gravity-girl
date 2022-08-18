@@ -8,7 +8,7 @@ class Character extends Element {
     super(info);
 
     this.color = 'red';
-    this.deaths = 0;
+    this.deathCount = 0;
     this.game = info.game;
     this.gravityDirection = info.gravityDirection || cardinalDirections.south;
     this.isGrounded = false;
@@ -45,19 +45,19 @@ class Character extends Element {
       this.width * this.scaleDirectionX,
       this.height * this.scaleDirectionY
     );
-    if (this.sprite) {
-      context.drawImage(
-        this.sprite,
-        numbers.spriteInitialX + numbers.spriteOffset * 0,
-        numbers.spriteInitialY + numbers.spriteOffset * 0,
-        numbers.spriteWidth,
-        numbers.spriteHeight,
-        this.x * this.scaleDirectionX,
-        this.y * this.scaleDirectionY,
-        this.width * this.scaleDirectionX,
-        this.height * this.scaleDirectionY
-      );
-    }
+    // if (this.sprite) {
+    //   context.drawImage(
+    //     this.sprite,
+    //     numbers.spriteInitialX + numbers.spriteOffset * 0,
+    //     numbers.spriteInitialY + numbers.spriteOffset * 0,
+    //     numbers.spriteWidth,
+    //     numbers.spriteHeight,
+    //     this.x * this.scaleDirectionX,
+    //     this.y * this.scaleDirectionY,
+    //     this.width * this.scaleDirectionX,
+    //     this.height * this.scaleDirectionY
+    //   );
+    // }
     context.restore();
   };
 
@@ -117,10 +117,12 @@ class Character extends Element {
       gameUtils.isJumpKeyDown(this.keysDown);
     if (isJumpPressed) {
       if (this.isGrounded) {
+        console.log('grounded');
         this.isGrounded = false;
         this.isJumping = new Date();
       }
       if (this.isJumping) {
+        console.log('jumping');
         if (new Date() - this.isJumping < numbers.jumpTime) {
           speed(-numbers.jumpSpeed * this.sign());
         } else {
@@ -199,30 +201,12 @@ class Character extends Element {
   };
 
   checkYMovement = () => {
-    // if jumpKey
-    // jumpDirection, jumpSpeed
     if (this.gravityDirection === cardinalDirections.north) {
       this.checkJump('speedY', 'isSouthKeyDown');
     }
     if (this.gravityDirection === cardinalDirections.south) {
       this.checkJump('speedY', 'isNorthKeyDown');
     }
-    // if (gameUtils.keyJump(this.keysDown, this.gravityDirection)) {
-    //   if (this.isGrounded) {
-    //     this.isGrounded = false;
-    //     this.isJumping = new Date();
-    //   }
-    //   if (this.isJumping) {
-    //     if (new Date() - this.isJumping < numbers.jumpTime) {
-    //       this.speedY = -numbers.jumpSpeed * this.sign();
-    //     } else {
-    //       this.isJumping = false;
-    //     }
-    //   }
-    // } else if (this.isJumping) {
-    //   this.isJumping = false;
-    // }
-
     this.checkGravity(this.north, this.acc('speedY'));
   };
 

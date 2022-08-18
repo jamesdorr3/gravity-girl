@@ -26,14 +26,19 @@ const level5 = (game) =>
         centerX: 50,
       }),
       new GravitySwitch({ // ne
-        gravityDirection: cardinalDirections.east,
-        centerX: 1100,
-        centerY: 300,
+        gravityDirection: cardinalDirections.west,
+        east: 150,
+        north: 25,
       }),
       new GravitySwitch({ // cw
         gravityDirection: cardinalDirections.south,
         centerY: 550,
-        west: 200,
+        west: 250,
+      }),
+      new GravitySwitch({ // ce
+        gravityDirection: cardinalDirections.east,
+        centerX: 1100,
+        centerY: 250,
       }),
       new GravitySwitch({ // sw
         gravityDirection: cardinalDirections.north,
@@ -41,9 +46,9 @@ const level5 = (game) =>
         west: 200,
       }),
       new Platform({ // nw
-        height: 620,
-        north: 0,
-        west: 100,
+        height: 520 + numbers.characterWidth,
+        north: numbers.characterWidth,
+        west: 200,
         width: numbers.platformBreadth,
       }),
       new Platform({ // door room
@@ -73,12 +78,12 @@ const level5 = (game) =>
       new Platform({ // center nw
         height: numbers.platformBreadth,
         south: swPlatformSpikes + numbers.spikeHeight + numbers.hallHeightMedium,
-        west: 100,
-        width: 500,
+        west: 200,
+        width: 400,
       }),
       new Platform({ // center ne
         height: numbers.platformBreadth,
-        south: swPlatformSpikes + numbers.spikeHeight + numbers.hallHeightLarge,
+        south: swPlatformSpikes + numbers.spikeHeight + numbers.hallHeightLarge + numbers.platformBreadth,
         west: 900,
         width: 400,
       }),
@@ -91,8 +96,8 @@ const level5 = (game) =>
       new Platform({ // south with spikes
         height: numbers.platformBreadth,
         south: swPlatformSpikes + numbers.spikeHeight,
-        west: 100,
-        width: 600,
+        west: 200,
+        width: 500,
       }),
       new Spikes({ // south on spikes
         south: 0,

@@ -17,9 +17,9 @@ class Game {
 
     this.character = new Character({
       game: this,
-      south: 0,
+      north: 0,
       height: numbers.characterHeight,
-      west: 0,
+      west: 600,
       width: numbers.characterWidth,
     });
 

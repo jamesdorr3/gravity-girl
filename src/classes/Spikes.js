@@ -1,6 +1,6 @@
 import Element from './Element';
 import Text from './Text';
-import randomComment from '../constants/deathComments';
+import deathCommentary from '../constants/deathComments';
 import { spikeHeight, spikeWidth } from '../constants/numbers';
 import { cardinalDirections } from '../constants/enums';
 
@@ -31,8 +31,8 @@ class Spikes extends Element {
   // visual width = 100 // 33
 
   action = (character) => {
-    const text = randomComment();
-    character.deaths++;
+    const text = deathCommentary(character.deathCount);
+    character.deathCount++;
     // new Text({
     //   centerX: 800,
     //   centerY: 300,
