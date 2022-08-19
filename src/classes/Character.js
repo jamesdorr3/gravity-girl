@@ -31,7 +31,7 @@ class Character extends Element {
   }
 
   acc = (key) => (value) => {
-    if (value) this[key] = value;
+    if (typeof value === 'number') this[key] = value;
     return this[key];
   };
 
@@ -45,19 +45,19 @@ class Character extends Element {
       this.width * this.scaleDirectionX,
       this.height * this.scaleDirectionY
     );
-    // if (this.sprite) {
-    //   context.drawImage(
-    //     this.sprite,
-    //     numbers.spriteInitialX + numbers.spriteOffset * 0,
-    //     numbers.spriteInitialY + numbers.spriteOffset * 0,
-    //     numbers.spriteWidth,
-    //     numbers.spriteHeight,
-    //     this.x * this.scaleDirectionX,
-    //     this.y * this.scaleDirectionY,
-    //     this.width * this.scaleDirectionX,
-    //     this.height * this.scaleDirectionY
-    //   );
-    // }
+    if (this.sprite) {
+      context.drawImage(
+        this.sprite,
+        numbers.spriteInitialX + numbers.spriteOffset * 0,
+        numbers.spriteInitialY + numbers.spriteOffset * 0,
+        numbers.spriteWidth,
+        numbers.spriteHeight,
+        this.x * this.scaleDirectionX,
+        this.y * this.scaleDirectionY,
+        this.width * this.scaleDirectionX,
+        this.height * this.scaleDirectionY
+      );
+    }
     context.restore();
   };
 
@@ -79,7 +79,7 @@ class Character extends Element {
     });
   };
 
-  checkGravity = (position, speed) => {
+  doGravity = (position, speed) => {
     const frameLength = this.game.frameLength();
     const sign = this.sign();
     let newSpeedY;
@@ -107,6 +107,20 @@ class Character extends Element {
     speed(newSpeedY);
     if (Math.abs(newSpeedY) > 0) {
       this.isGrounded = false;
+    }
+  };
+
+  checkGravity = () => {
+    if (
+      this.gravityDirection === cardinalDirections.north ||
+      this.gravityDirection === cardinalDirections.south
+      ) {
+        this.doGravity(this.north, this.acc('speedY'))
+    } else if (
+      this.gravityDirection === cardinalDirections.east ||
+      this.gravityDirection === cardinalDirections.west
+      ) {
+        this.doGravity(this.west, this.acc('speedX'))
     }
   };
 
@@ -165,49 +179,74 @@ class Character extends Element {
     }
   };
 
-  checkXMovement = () => {
+  run = (scaleDirection, sign, speed, length) => {
+    this[scaleDirection] = sign;
+    speed(speed() + numbers.runAcceleration * length * sign);
+    // if speed() * sign < 0
+    if (speed() * sign < 0) speed(speed() - numbers.runStopFriction * length);
+  };
+
+  checkRun = (speed, runKeyPlus, runKeyMinus, scaleDirection, position) => {
     const length = this.game.frameLength();
-    const startingSpeed = this.speedX;
-    const isWestKeyDown = gameUtils.isWestKeyDown(this.keysDown, this.gravityDirection);
-    const isEastKeyDown = gameUtils.isEastKeyDown(this.keysDown, this.gravityDirection);
-    if (isWestKeyDown) {
-      this.scaleDirectionX = -1;
-      this.speedX -= numbers.runAcceleration * length;
-      if (this.speedX > 0) this.speedX -= numbers.runStopFriction * length;
-    }
-    if (isEastKeyDown) {
-      this.scaleDirectionX = 1;
-      this.speedX += numbers.runAcceleration * length;
-      if (this.speedX < 0) this.speedX += numbers.runStopFriction * length;
+    const startingSpeed = speed();
+    const isRunPlus = gameUtils[runKeyPlus](this.keysDown);
+    const isRunMinus = gameUtils[runKeyMinus](this.keysDown);
+    const isBothDown = isRunPlus && isRunMinus;
+    const isNeitherDown = !isRunPlus && !isRunMinus;
+    if (isNeitherDown || isBothDown) {
+      const direction = speed() === Math.abs(speed()) ? 1 : -1;
+      speed(speed() - numbers.runStopFriction * length * direction);
+      if (Math.abs(speed()) < 0.2) speed(0);
+    } else if (isRunPlus) {
+      this.run(scaleDirection, 1, speed, length);
+    } else if (isRunMinus) {
+      this.run(scaleDirection, -1, speed, length);
     }
 
-    const direction = this.speedX === Math.abs(this.speedX) ? 1 : -1;
-    if (!isWestKeyDown && !isEastKeyDown) {
-      this.speedX = this.speedX - numbers.runStopFriction * length * direction;
-      if (Math.abs(this.speedX) < 0.2) this.speedX = 0;
-    }
-    if (this.speedX >= numbers.runTerminalVelocity) {
-      this.speedX = numbers.runTerminalVelocity;
-    }
-    if (this.speedX <= -numbers.runTerminalVelocity) {
-      this.speedX = -numbers.runTerminalVelocity;
+    if (Math.abs(speed()) >= numbers.runTerminalVelocity) {
+      const direction = speed() === Math.abs(speed()) ? 1 : -1;
+      speed(numbers.runTerminalVelocity * direction);
     }
     const dist = gameUtils.distance(
-      this.speedX,
+      speed(),
       startingSpeed,
       new Date() - this.game.lastRender
     );
-    this.x += dist;
+    position(position() + dist);
+  };
+
+  checkXMovement = () => {
+    if (this.gravityDirection === cardinalDirections.east) {
+      this.checkJump('speedX', 'isWestKeyDown');
+    } else if (this.gravityDirection === cardinalDirections.west) {
+      this.checkJump('speedX', 'isEastKeyDown');
+    } else {
+      this.checkRun(
+        this.acc('speedX'),
+        'isEastKeyDown',
+        'isWestKeyDown',
+        'scaleDirectionX',
+        this.west
+      );
+    }
   };
 
   checkYMovement = () => {
     if (this.gravityDirection === cardinalDirections.north) {
       this.checkJump('speedY', 'isSouthKeyDown');
     }
-    if (this.gravityDirection === cardinalDirections.south) {
+    else if (this.gravityDirection === cardinalDirections.south) {
       this.checkJump('speedY', 'isNorthKeyDown');
     }
-    this.checkGravity(this.north, this.acc('speedY'));
+    else {
+      this.checkRun(
+        this.acc('speedY'),
+        'isSouthKeyDown',
+        'isNorthKeyDown',
+        'scaleDirectionY',
+        this.north
+      );
+    }
   };
 
   reset = (x = 0, y = numbers.canvasHeight - numbers.characterHeight) => {
@@ -234,6 +273,7 @@ class Character extends Element {
   update = (context) => {
     this.checkXMovement();
     this.checkYMovement();
+    this.checkGravity(this.north, this.acc('speedY'));
     this.checkCollisions();
     this.checkWallCollisions();
     this.draw(context);
