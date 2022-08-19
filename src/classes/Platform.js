@@ -19,9 +19,16 @@ class Platform extends Element {
         character.isGrounded = true;
         character.isJumping = false;
       }
+      if (character.gravityDirection === enums.cardinalDirections.south) {
+        character.isJumping = false;
+      }
     } else if (min === east) {
       character.east(this.west());
       if (character.speedX >= 0) character.speedX = 0;
+      if (character.gravityDirection === enums.cardinalDirections.east) {
+        character.isGrounded = true;
+        character.isJumping = false;
+      }
     } else if (min === south) {
       character.south(this.north());
       if (character.speedY >= 0) character.speedY = 0;
@@ -32,6 +39,10 @@ class Platform extends Element {
     } else if (min === west) {
       character.west(this.east());
       if (character.speedX <= 0) character.speedX = 0;
+      if (character.gravityDirection === enums.cardinalDirections.west) {
+        character.isGrounded = true;
+        character.isJumping = false;
+      }
     }
   };
 

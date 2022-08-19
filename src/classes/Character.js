@@ -131,12 +131,10 @@ class Character extends Element {
       gameUtils.isJumpKeyDown(this.keysDown);
     if (isJumpPressed) {
       if (this.isGrounded) {
-        console.log('grounded');
         this.isGrounded = false;
         this.isJumping = new Date();
       }
       if (this.isJumping) {
-        console.log('jumping');
         if (new Date() - this.isJumping < numbers.jumpTime) {
           speed(-numbers.jumpSpeed * this.sign());
         } else {
@@ -182,8 +180,7 @@ class Character extends Element {
   run = (scaleDirection, sign, speed, length) => {
     this[scaleDirection] = sign;
     speed(speed() + numbers.runAcceleration * length * sign);
-    // if speed() * sign < 0
-    if (speed() * sign < 0) speed(speed() - numbers.runStopFriction * length);
+    // if (speed() * sign < 0) speed(speed() - numbers.runStopFriction * length); // causing slippery bug?
   };
 
   checkRun = (speed, runKeyPlus, runKeyMinus, scaleDirection, position) => {
@@ -273,7 +270,7 @@ class Character extends Element {
   update = (context) => {
     this.checkXMovement();
     this.checkYMovement();
-    this.checkGravity(this.north, this.acc('speedY'));
+    this.checkGravity();
     this.checkCollisions();
     this.checkWallCollisions();
     this.draw(context);
@@ -281,40 +278,3 @@ class Character extends Element {
 }
 
 export default Character;
-
-/* 
-
-1--------------------------------------
-movementX
-  if gravity === east or west
-    jump(speedX, +-1)
-  else
-    run(speedX, +-1)
-
-movementY
-  if gravity === north or south
-    jump(speedY, +-1)
-  else
-    run(speedY, +-1)
-
-2--------------------------------------
-determine action for north
-  if gravity === south, jump
-  if gravity === east, run
-  if graivty === west, run
-
-if pressed North key
-  determine action for north
-
-3--------------------------------------
-{
-  // gravity
-  south: {
-    // key
-    north: {
-
-    }
-  }
-}
-
-*/

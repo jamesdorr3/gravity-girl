@@ -17,13 +17,23 @@ class GravitySwitch extends Element {
     if (this.gravityDirection !== character.gravityDirection) {
       if (this.gravityDirection === cardinalDirections.north) {
         character.scaleDirectionY = -1;
+        character.height = numbers.characterHeight;
+        character.width = numbers.characterWidth;
       }
-      if (this.gravityDirection === cardinalDirections.north) {
+      if (this.gravityDirection === cardinalDirections.east) {
         character.scaleDirectionX = 1;
-        character.rotate = 90;
+        character.height = numbers.characterWidth;
+        character.width = numbers.characterHeight;
       }
       if (this.gravityDirection === cardinalDirections.south) {
         character.scaleDirectionY = 1;
+        character.height = numbers.characterHeight;
+        character.width = numbers.characterWidth;
+      }
+      if (this.gravityDirection === cardinalDirections.west) {
+        character.scaleDirectionX = -1;
+        character.height = numbers.characterWidth;
+        character.width = numbers.characterHeight;
       }
     }
     character.gravityDirection = this.gravityDirection;

@@ -4,6 +4,7 @@ import GravitySwitch from '../classes/GravitySwitch';
 import Level from '../classes/Level';
 import Platform from '../classes/Platform';
 import Spikes from '../classes/Spikes';
+import level0 from './0';
 import { cardinalDirections } from '../constants/enums';
 import * as numbers from '../constants/numbers';
 
@@ -16,7 +17,7 @@ const level5 = (game) =>
     ],
     elements: [
       new Door({
-        // action: () => console.log('LEVEL 4'),
+        action: () => game.changeLevels(level0),
         centerX: 1500,
         south: 0,
       }),
@@ -52,28 +53,16 @@ const level5 = (game) =>
         width: numbers.platformBreadth,
       }),
       new Platform({ // door room
-        height: 200,
-        south: 0,
+        height: 300,
+        south: 250,
         east: 200,
         width: numbers.platformBreadth,
       }),
-      new Platform({ // door roof
-        height: numbers.platformBreadth,
-        south: 200,
-        east: numbers.characterWidth,
-        width: 200 - numbers.characterWidth + numbers.platformBreadth,
-      }),
-      new Platform({ // door roof
-        height: 100,
-        south: 200,
-        east: numbers.characterWidth,
-        width: numbers.platformBreadth,
-      }),
-      new Platform({ // south pole
-        height: swPlatformSpikes + numbers.spikeHeight,
+      new Platform({ // south block
+        height: swPlatformSpikes + numbers.spikeHeight + numbers.platformBreadth,
         south: 0,
         west: 900,
-        width: numbers.platformBreadth,
+        width: 500,
       }),
       new Platform({ // center nw
         height: numbers.platformBreadth,
@@ -85,13 +74,7 @@ const level5 = (game) =>
         height: numbers.platformBreadth,
         south: swPlatformSpikes + numbers.spikeHeight + numbers.hallHeightLarge + numbers.platformBreadth,
         west: 900,
-        width: 400,
-      }),
-      new Platform({ // center se
-        height: numbers.platformBreadth,
-        south: swPlatformSpikes + numbers.spikeHeight,
-        west: 900,
-        width: 200,
+        width: 700 - numbers.characterWidth,
       }),
       new Platform({ // south with spikes
         height: numbers.platformBreadth,
@@ -99,16 +82,16 @@ const level5 = (game) =>
         west: 200,
         width: 500,
       }),
-      new Spikes({ // south on spikes
-        south: 0,
-        west: 300,
-        width: 400,
-      }),
-      new Spikes({ // south center
+      new Spikes({ // on platform
         direction: cardinalDirections.south,
         south: swPlatformSpikes,
         west: 400,
         width: 100,
+      }),
+      new Spikes({ // south on ground
+        south: 0,
+        west: 300,
+        width: 600,
       }),
     ],
     game,
