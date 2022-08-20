@@ -1,10 +1,11 @@
-import Button from '../classes/Button';
 import Door from '../classes/Door';
 import GravitySwitch from '../classes/GravitySwitch';
 import Level from '../classes/Level';
 import Platform from '../classes/Platform';
 import Spikes from '../classes/Spikes';
+
 import level5 from './5';
+
 import * as enums from '../constants/enums';
 import * as numbers from '../constants/numbers';
 
@@ -12,9 +13,6 @@ const height = 14
 
 const level4 = (game) =>
   new Level({
-    buttons: [
-      new Button({ action: game.stop, east: 0, north: 0, text: 'STOP' }),
-    ],
     elements: [
       new Door({
         action: () => game.changeLevels(level5),

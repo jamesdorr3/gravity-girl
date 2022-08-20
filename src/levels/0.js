@@ -1,7 +1,9 @@
 import Button from '../classes/Button';
 import Level from '../classes/Level';
+
 import level1 from './1';
 import loadingScreen from './loading';
+
 import * as numbers from '../constants/numbers';
 
 const mainMenu = (game) =>

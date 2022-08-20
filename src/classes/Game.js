@@ -1,7 +1,10 @@
+import Button from './Button';
 import Character from './Character';
+
 import devLevel from '../levels/5'; // change number for start level
 import loadingScreen from '../levels/loading';
 import readyScreen from '../levels/readyScreen';
+
 import * as enums from '../constants/enums';
 import * as gameUtils from '../utils/gameUtils';
 import * as numbers from '../constants/numbers';
@@ -24,8 +27,13 @@ class Game {
     });
 
     this.lastRender = new Date();
-    this.level = devLevel(this); //            DEV LEVEL
+    this.level = devLevel(this); // DEV LEVEL
     this.interval = this.createInterval();
+
+    this.isEditMode = true;
+    this.editElements = [
+      new Button({ action: this.stop, east: 0, north: 0, text: 'STOP' }),
+    ];
   }
 
   changeLevels = (level) => {
@@ -49,6 +57,9 @@ class Game {
     setInterval(() => {
       if (this.character.sprite) {
         this.level.intervalAction();
+        if (this.isEditMode) {
+          this.editElements.forEach((it) => it.update(this.context));
+        }
       } else {
         loadingScreen(this).intervalAction();
       }
@@ -60,7 +71,9 @@ class Game {
     ((new Date() - this.lastRender) / numbers.second) * numbers.gameSpeed;
 
   handleClick = (x, y) => {
-    const button = this.level.buttons.find((button) =>
+    const buttons = [...this.level.buttons];
+    if (this.isEditMode) buttons.push(...this.editElements);
+    const button = buttons.find((button) =>
       button.collidesWith(gameUtils.mouse({ x, y }))
     );
     if (button) {
@@ -70,7 +83,9 @@ class Game {
   };
 
   handleHover = (x, y) => {
-    const button = this.level.buttons.find((button) => {
+    const buttons = [...this.level.buttons];
+    if (this.isEditMode) buttons.push(...this.editElements);
+    const button = buttons.find((button) => {
       const hasCollision = button.collidesWith(gameUtils.mouse({ x, y }));
       if (!hasCollision && button.state === enums.buttonStates.hovered) {
         button.state = enums.buttonStates.default;

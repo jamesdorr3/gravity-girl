@@ -4,6 +4,7 @@ export const canvasHeight = 900; // 270 visually?
 export const canvasWidth = 1600; // 480 visually?
 export const characterScale = 3;
 export const gameSpeed = 1; // 1 is real time;
+export const gravitySwitchPadding = 10;
 export const hallHeightLarge = 250;
 export const hallHeightMedium = 150;
 export const hallHeightSmall = 100;

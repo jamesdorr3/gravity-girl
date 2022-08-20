@@ -2,6 +2,8 @@ import Element from './Element';
 import { cardinalDirections } from '../constants/enums';
 import * as numbers from '../constants/numbers';
 
+const p = numbers.gravitySwitchPadding;
+
 class GravitySwitch extends Element {
   constructor(options) {
     super({
@@ -40,27 +42,32 @@ class GravitySwitch extends Element {
   };
 
   update = (context) => {
+    context.shadowColor = 'lightblue';
+    context.shadowBlur = 50;
+    context.fillStyle = 'lightblue';
+    context.fillRect(this.x, this.y, this.height, this.width);
+    context.shadowBlur = 0;
     context.fillStyle = 'blue';
     context.beginPath();
     if (this.gravityDirection === cardinalDirections.north) {
-      context.moveTo(this.west(), this.south());
-      context.lineTo(this.east(), this.south());
-      context.lineTo(this.west() + this.width / 2, this.north());
+      context.moveTo(this.west() + p, this.south() - p);
+      context.lineTo(this.east() - p, this.south() - p);
+      context.lineTo(this.west() + this.width / 2, this.north() + p);
     }
     if (this.gravityDirection === cardinalDirections.east) {
-      context.moveTo(this.west(), this.south());
-      context.lineTo(this.west(), this.north());
-      context.lineTo(this.east(), this.north() + this.width / 2);
+      context.moveTo(this.west() + p, this.south() - p);
+      context.lineTo(this.west() + p, this.north() + p);
+      context.lineTo(this.east() - p, this.north() + this.width / 2);
     }
     if (this.gravityDirection === cardinalDirections.south) {
-      context.moveTo(this.east(), this.north());
-      context.lineTo(this.west(), this.north());
-      context.lineTo(this.west() + this.width / 2, this.south());
+      context.moveTo(this.east() - p, this.north() + p);
+      context.lineTo(this.west() + p, this.north() + p);
+      context.lineTo(this.west() + this.width / 2, this.south() - p);
     }
     if (this.gravityDirection === cardinalDirections.west) {
-      context.moveTo(this.east(), this.south());
-      context.lineTo(this.east(), this.north());
-      context.lineTo(this.west(), this.north() + this.width / 2);
+      context.moveTo(this.east() - p, this.south() - p);
+      context.lineTo(this.east() - p, this.north() + p);
+      context.lineTo(this.west() + p, this.north() + this.width / 2);
     }
     context.fill();
   };

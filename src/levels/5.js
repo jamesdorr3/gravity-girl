@@ -1,20 +1,19 @@
-import Button from '../classes/Button';
 import Door from '../classes/Door';
 import GravitySwitch from '../classes/GravitySwitch';
 import Level from '../classes/Level';
 import Platform from '../classes/Platform';
 import Spikes from '../classes/Spikes';
+
 import level0 from './0';
+
 import { cardinalDirections } from '../constants/enums';
+
 import * as numbers from '../constants/numbers';
 
 const swPlatformSpikes = 164 + numbers.spikeHeight; // 164 is max jump? TODO: don't understand math
 
 const level5 = (game) =>
   new Level({
-    buttons: [
-      new Button({ action: game.stop, east: 0, north: 0, text: 'STOP' }),
-    ],
     elements: [
       new Door({
         action: () => game.changeLevels(level0),
@@ -95,6 +94,7 @@ const level5 = (game) =>
       }),
     ],
     game,
+    name: 'NEWS',
   });
 
 export default level5;

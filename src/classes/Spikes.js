@@ -57,6 +57,8 @@ class Spikes extends Element {
     if (Spikes.image) {
       context.save();
       context.scale(this.scaleX, this.scaleY);
+      context.fillStyle = 'red';
+      context.fillRect(this.x, this.y, this.width, this.height);
       for (let x = this.x; x < this.x + this.width; x += spikeWidth) {
         context.drawImage(
           Spikes.image,

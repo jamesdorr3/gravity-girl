@@ -8,6 +8,7 @@ const fewDeaths = [
   'You have 无穷 lives left',
   "You're supposed to stay alive",
   '🔪🔪🫖👜🫵',
+  '🎁🐷',
 ];
 
 const manyDeaths = [

@@ -1,11 +1,12 @@
-import Button from '../classes/Button';
 import Level from '../classes/Level';
+import Text from '../classes/Text';
+
 import * as numbers from '../constants/numbers';
 
 const loadingScreen = (game) =>
   new Level({
     buttons: [
-      new Button(
+      new Text(
         {
           centerX: numbers.canvasWidth / 2,
           centerY: numbers.canvasHeight / 2,

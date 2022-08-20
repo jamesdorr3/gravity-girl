@@ -1,4 +1,3 @@
-import Button from '../classes/Button';
 import Door from '../classes/Door';
 import Level from '../classes/Level';
 import Platform from '../classes/Platform';
@@ -6,9 +5,6 @@ import * as numbers from '../constants/numbers';
 
 const testingScreen = (game) =>
   new Level({
-    buttons: [
-      new Button({ action: game.stop, east: 0, north: 0, text: 'STOP' }),
-    ],
     characterStartY: 150,
     elements: [
       new Door({

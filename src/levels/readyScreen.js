@@ -1,5 +1,6 @@
 import Text from '../classes/Text';
 import Level from '../classes/Level';
+
 import * as numbers from '../constants/numbers';
 
 const readyScreen = (game) =>
