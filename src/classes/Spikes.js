@@ -1,19 +1,31 @@
 import Element from './Element';
 import Text from './Text';
 import deathCommentary from '../constants/deathComments';
-import { spikeHeight, spikeWidth } from '../constants/numbers';
 import { cardinalDirections } from '../constants/enums';
+import { isNum } from '../utils/gameUtils';
+import { spikeHeight, spikeWidth } from '../constants/numbers';
+
+const offset = 15;
+// friendly to players
 
 class Spikes extends Element {
   static image = null;
   // static pattern = null;
 
   constructor(info) {
-    super({
+    const superInfo = {
       ...info,
-      height: spikeHeight,
-      width: Math.floor(info.width / spikeWidth) * spikeWidth,
-    });
+      height: spikeHeight - offset * 2,
+      width: Math.floor(info.width / spikeWidth) * spikeWidth - offset * 2,
+    };
+    if (isNum(info.north)) superInfo.north = info.north + offset;
+    else if (isNum(info.south)) superInfo.south = info.south + offset;
+    else if (isNum(info.y)) superInfo.y = info.y + offset;
+    if (isNum(info.east)) superInfo.east = info.east + offset;
+    else if (isNum(info.west)) superInfo.west = info.west + offset;
+    else if (isNum(info.x)) superInfo.x = info.x + offset;
+    console.log({ superInfo });
+    super(superInfo);
 
     this.direction = info.direction || cardinalDirections.north;
     this.scaleX = 1;
@@ -57,15 +69,13 @@ class Spikes extends Element {
     if (Spikes.image) {
       context.save();
       context.scale(this.scaleX, this.scaleY);
-      context.fillStyle = 'red';
-      context.fillRect(this.x, this.y, this.width, this.height);
       for (let x = this.x; x < this.x + this.width; x += spikeWidth) {
         context.drawImage(
           Spikes.image,
-          x,
-          this.y * this.scaleY,
+          x - offset,
+          this.y * this.scaleY - offset * this.scaleY,
           spikeWidth,
-          this.height * this.scaleY
+          this.height * this.scaleY + offset * 2 * this.scaleY
         );
       }
       context.restore();

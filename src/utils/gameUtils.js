@@ -3,6 +3,8 @@ import * as enums from '../constants/enums';
 import * as keys from '../constants/keys';
 import * as numbers from '../constants/numbers';
 
+export const isNum = (it) => typeof(it) === 'number';
+
 export const isJumpKeyDown = (keysDown) =>
   keysDown.includes(keys.space) || keysDown.includes(keys.shift);
 
@@ -17,25 +19,20 @@ export const getMouseCoordsInCanvas = (e, canvas) => {
 };
 
 export const isNorthKeyDown = (keysDown) =>
-  keysDown.includes(keys.w) ||
-  keysDown.includes(keys.up)
+  keysDown.includes(keys.w) || keysDown.includes(keys.up);
 
 export const isEastKeyDown = (keysDown) =>
-  keysDown.includes(keys.d) ||
-  keysDown.includes(keys.right)
+  keysDown.includes(keys.d) || keysDown.includes(keys.right);
 
 export const isSouthKeyDown = (keysDown) =>
-  keysDown.includes(keys.s) ||
-  keysDown.includes(keys.down)
+  keysDown.includes(keys.s) || keysDown.includes(keys.down);
 
 export const isWestKeyDown = (keysDown) =>
-  keysDown.includes(keys.a) ||
-  keysDown.includes(keys.left)
+  keysDown.includes(keys.a) || keysDown.includes(keys.left);
 
 export const mouse = (e) => new Element({ ...e, height: 1, width: 1 });
 
-export const firstNumber = (...args) =>
-  args.find((arg) => typeof arg === 'number');
+export const firstNumber = (...args) => args.find((arg) => isNum(arg));
 
 export const gravitySign = (gravityDirection) =>
   ({

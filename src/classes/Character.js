@@ -31,7 +31,7 @@ class Character extends Element {
   }
 
   acc = (key) => (value) => {
-    if (typeof value === 'number') this[key] = value;
+    if (gameUtils.isNum(value)) this[key] = value;
     return this[key];
   };
 

@@ -1,5 +1,5 @@
 import { canvasHeight, canvasWidth } from '../constants/numbers';
-import { firstNumber } from '../utils/gameUtils';
+import { firstNumber, isNum } from '../utils/gameUtils';
 
 class Element {
   constructor({
@@ -29,22 +29,22 @@ class Element {
   }
 
   north = (y) => {
-    if (typeof y === 'number') this.y = y;
+    if (isNum(y)) this.y = y;
     return this.y;
   };
 
   east = (x) => {
-    if (typeof x === 'number') this.x = x - this.width;
+    if (isNum(x)) this.x = x - this.width;
     return this.x + this.width;
   };
 
   south = (y) => {
-    if (typeof y === 'number') this.y = y - this.height;
+    if (isNum(y)) this.y = y - this.height;
     return this.y + this.height;
   };
 
   west = (x) => {
-    if (typeof x === 'number') this.x = x;
+    if (isNum(x)) this.x = x;
     return this.x;
   };
 
