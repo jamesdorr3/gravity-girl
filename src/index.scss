@@ -1,5 +1,7 @@
-@import './styles/variables';
-
 body {
-  margin: $canvas-margin;
+  margin: 0;
+}
+
+.App {
+  min-height: 100vh;
 }

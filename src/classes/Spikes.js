@@ -3,14 +3,13 @@ import Text from './Text';
 import deathCommentary from '../constants/deathComments';
 import { cardinalDirections } from '../constants/enums';
 import { isNum } from '../utils/gameUtils';
-import { spikeHeight, spikeWidth } from '../constants/numbers';
+import { second, spikeHeight, spikeWidth } from '../constants/numbers';
 
 const offset = 15;
 // friendly to players
 
 class Spikes extends Element {
   static image = null;
-  // static pattern = null;
 
   constructor(info) {
     const superInfo = {
@@ -24,7 +23,6 @@ class Spikes extends Element {
     if (isNum(info.east)) superInfo.east = info.east + offset;
     else if (isNum(info.west)) superInfo.west = info.west + offset;
     else if (isNum(info.x)) superInfo.x = info.x + offset;
-    console.log({ superInfo });
     super(superInfo);
 
     this.direction = info.direction || cardinalDirections.north;
@@ -37,20 +35,9 @@ class Spikes extends Element {
     };
   }
 
-  // hit height = 40 // 13
-  // hit width =  70 // 23 (5 on each side)
-  // visual height = 55 // 18
-  // visual width = 100 // 33
-
   action = (character) => {
     const text = deathCommentary(character.deathCount);
     character.deathCount++;
-    // new Text({
-    //   centerX: 800,
-    //   centerY: 300,
-    //   color: '#fffe',
-    //   text: character.deaths,
-    // }).update(character.game.context);
     new Text({
       centerX: 800,
       centerY: 450,
@@ -62,7 +49,7 @@ class Spikes extends Element {
       character.game.lastRender = new Date();
       character.game.interval = character.game.createInterval();
       character.reset();
-    }, text.length * 100);
+    }, 2 * second);
   };
 
   update = (context) => {

@@ -1,6 +1,7 @@
 @import '../../styles/variables';
 
 .canvas-container {
+  padding: $canvas-margin;
   .canvas-container--width {
     margin: auto;
     max-width: calc((100vh - #{$canvas-margin * 2}) * 16 / 9);

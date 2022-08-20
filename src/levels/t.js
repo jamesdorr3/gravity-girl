@@ -8,7 +8,7 @@ const testingScreen = (game) =>
     characterStartY: 150,
     elements: [
       new Door({
-        // action: () => console.log('LEVEL 4'),
+        // action: () => {},
         west: 0,
         north: 0,
       }),

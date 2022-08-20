@@ -10,7 +10,7 @@ import { cardinalDirections } from '../constants/enums';
 
 import * as numbers from '../constants/numbers';
 
-const swPlatformSpikes = 164 + numbers.spikeHeight; // 164 is max jump? TODO: don't understand math
+const swPlatformSpikes = 157 + numbers.spikeHeight; // 158 is max jump? TODO: don't understand math
 
 const level5 = (game) =>
   new Level({
