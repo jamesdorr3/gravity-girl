@@ -50,24 +50,24 @@ class GravitySwitch extends Element {
     context.fillStyle = 'blue';
     context.beginPath();
     if (this.gravityDirection === cardinalDirections.north) {
-      context.moveTo(this.west() + p, this.south() - p);
-      context.lineTo(this.east() - p, this.south() - p);
-      context.lineTo(this.west() + this.width / 2, this.north() + p);
+      context.moveTo(this.west() + p, this.south() - p * 1.25);
+      context.lineTo(this.east() - p, this.south() - p * 1.25);
+      context.lineTo(this.west() + this.width / 2, this.north() + p * 1.25);
     }
     if (this.gravityDirection === cardinalDirections.east) {
-      context.moveTo(this.west() + p, this.south() - p);
-      context.lineTo(this.west() + p, this.north() + p);
-      context.lineTo(this.east() - p, this.north() + this.width / 2);
+      context.moveTo(this.west() + p * 1.25, this.south() - p);
+      context.lineTo(this.west() + p * 1.25, this.north() + p);
+      context.lineTo(this.east() - p * 1.25, this.north() + this.width / 2);
     }
     if (this.gravityDirection === cardinalDirections.south) {
-      context.moveTo(this.east() - p, this.north() + p);
-      context.lineTo(this.west() + p, this.north() + p);
-      context.lineTo(this.west() + this.width / 2, this.south() - p);
+      context.moveTo(this.east() - p, this.north() + p * 1.25);
+      context.lineTo(this.west() + p, this.north() + p * 1.25);
+      context.lineTo(this.west() + this.width / 2, this.south() - p * 1.25);
     }
     if (this.gravityDirection === cardinalDirections.west) {
-      context.moveTo(this.east() - p, this.south() - p);
-      context.lineTo(this.east() - p, this.north() + p);
-      context.lineTo(this.west() + p, this.north() + this.width / 2);
+      context.moveTo(this.east() - p * 1.25, this.south() - p);
+      context.lineTo(this.east() - p * 1.25, this.north() + p);
+      context.lineTo(this.west() + p * 1.25, this.north() + this.width / 2);
     }
     context.fill();
   };
