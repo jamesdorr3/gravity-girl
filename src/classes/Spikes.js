@@ -1,9 +1,7 @@
 import Element from './Element';
-import Text from './Text';
-import deathCommentary from '../constants/deathComments';
 import { cardinalDirections } from '../constants/enums';
 import { isNum } from '../utils/gameUtils';
-import { second, spikeHeight, spikeWidth } from '../constants/numbers';
+import { spikeHeight, spikeWidth } from '../constants/numbers';
 
 const offset = 15;
 // friendly to players
@@ -36,20 +34,7 @@ class Spikes extends Element {
   }
 
   action = (character) => {
-    const text = deathCommentary(character.deathCount);
-    character.deathCount++;
-    new Text({
-      centerX: 800,
-      centerY: 450,
-      color: '#fffe',
-      text,
-    }).update(character.game.context);
-    character.game.stop();
-    setTimeout(() => {
-      character.game.lastRender = new Date();
-      character.game.interval = character.game.createInterval();
-      character.reset();
-    }, 2 * second);
+    character.game.death();
   };
 
   update = (context) => {

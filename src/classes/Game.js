@@ -1,6 +1,9 @@
+import Blackout from './Blackout';
 import Button from './Button';
 import Character from './Character';
+import Text from './Text';
 
+import deathCommentary from '../constants/deathComments';
 import devLevel from '../levels/5'; // change number for start level
 import loadingScreen from '../levels/loading';
 import readyScreen from '../levels/readyScreen';
@@ -30,10 +33,10 @@ class Game {
     this.level = devLevel(this); // DEV LEVEL
     this.interval = this.createInterval();
 
-    this.isEditMode = true;
-    this.editElements = [
+    this.overlaidButtons = [
       new Button({ action: this.stop, east: 0, north: 0, text: 'STOP' }),
     ];
+    this.overlaidElements = [];
   }
 
   changeLevels = (level) => {
@@ -57,13 +60,28 @@ class Game {
     setInterval(() => {
       if (this.character.sprite) {
         this.level.intervalAction();
-        if (this.isEditMode) {
-          this.editElements.forEach((it) => it.update(this.context));
-        }
+        const overlays = [...this.overlaidElements, ...this.overlaidButtons];
+        overlays.forEach((it) => it.update(this.context));
       } else {
         loadingScreen(this).intervalAction();
       }
     }, this.level.frameLength);
+
+  death = () => {
+    this.character.isPaused = true;
+    this.character.deathCount++;
+    const text = new Text({
+      centerX: 800,
+      centerY: 450,
+      color: '#fffe',
+      text: deathCommentary(this.character.deathCount),
+    });
+    this.overlaidElements.push(text);
+    setTimeout(() => {
+      this.overlaidElements.pop();
+      this.overlaidElements.push(new Blackout(this))
+    }, 2 * numbers.second);
+  };
 
   delete = () => delete this;
 
@@ -72,7 +90,6 @@ class Game {
 
   handleClick = (x, y) => {
     const buttons = [...this.level.buttons];
-    if (this.isEditMode) buttons.push(...this.editElements);
     const button = buttons.find((button) =>
       button.collidesWith(gameUtils.mouse({ x, y }))
     );
@@ -83,8 +100,7 @@ class Game {
   };
 
   handleHover = (x, y) => {
-    const buttons = [...this.level.buttons];
-    if (this.isEditMode) buttons.push(...this.editElements);
+    const buttons = [...this.level.buttons, ...this.overlaidButtons];
     const button = buttons.find((button) => {
       const hasCollision = button.collidesWith(gameUtils.mouse({ x, y }));
       if (!hasCollision && button.state === enums.buttonStates.hovered) {

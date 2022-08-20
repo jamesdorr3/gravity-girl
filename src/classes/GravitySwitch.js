@@ -11,32 +11,31 @@ class GravitySwitch extends Element {
       height: numbers.characterHeight,
       width: numbers.characterHeight,
     });
-    
+
     this.gravityDirection = options.gravityDirection;
   }
 
   action = (character) => {
-    if (this.gravityDirection !== character.gravityDirection) {
-      if (this.gravityDirection === cardinalDirections.north) {
-        character.scaleDirectionY = -1;
-        character.height = numbers.characterHeight;
-        character.width = numbers.characterWidth;
-      }
-      if (this.gravityDirection === cardinalDirections.east) {
-        character.scaleDirectionX = 1;
-        character.height = numbers.characterWidth;
-        character.width = numbers.characterHeight;
-      }
-      if (this.gravityDirection === cardinalDirections.south) {
-        character.scaleDirectionY = 1;
-        character.height = numbers.characterHeight;
-        character.width = numbers.characterWidth;
-      }
-      if (this.gravityDirection === cardinalDirections.west) {
-        character.scaleDirectionX = -1;
-        character.height = numbers.characterWidth;
-        character.width = numbers.characterHeight;
-      }
+    if (this.gravityDirection === cardinalDirections.north) {
+      character.scaleDirectionY = -1;
+      character.scaleDirectionX *= -1;
+      character.height = numbers.characterHeight;
+      character.width = numbers.characterWidth;
+    } else if (this.gravityDirection === cardinalDirections.east) {
+      character.scaleDirectionX = 1;
+      character.scaleDirectionY *= -1;
+      character.height = numbers.characterWidth;
+      character.width = numbers.characterHeight;
+    } else if (this.gravityDirection === cardinalDirections.south) {
+      character.scaleDirectionY = 1;
+      character.scaleDirectionX *= -1;
+      character.height = numbers.characterHeight;
+      character.width = numbers.characterWidth;
+    } else if (this.gravityDirection === cardinalDirections.west) {
+      character.scaleDirectionX = -1;
+      character.scaleDirectionY *= -1;
+      character.height = numbers.characterWidth;
+      character.width = numbers.characterHeight;
     }
     character.gravityDirection = this.gravityDirection;
   };

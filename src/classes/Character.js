@@ -13,6 +13,7 @@ class Character extends Element {
     this.gravityDirection = info.gravityDirection || cardinalDirections.south;
     this.isGrounded = false;
     this.isJumping = false;
+    this.isPaused = false;
     this.keysDown = [];
     this.lastLog = new Date();
     this.scaleDirectionX = 1;
@@ -269,11 +270,13 @@ class Character extends Element {
   };
 
   update = (context) => {
-    this.checkXMovement();
-    this.checkYMovement();
-    this.checkGravity();
-    this.checkCollisions();
-    this.checkWallCollisions();
+    if (!this.isPaused) {
+      this.checkXMovement();
+      this.checkYMovement();
+      this.checkGravity();
+      this.checkCollisions();
+      this.checkWallCollisions();
+    }
     this.draw(context);
   };
 }
