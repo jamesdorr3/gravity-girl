@@ -36,6 +36,6 @@ export const gravityTerminalVelocity = gravityAcceleration / 3;
 export const jumpTime = second / 3;
 export const readyScreenTime = second * 3;
 export const runAcceleration = characterWidth / 8 / pixelsPerMeter;
-export const runStopFriction = runAcceleration * 2 / 3;
+export const runStopFriction = runAcceleration * 3 / 4;
 export const runTerminalVelocity = runAcceleration / 3;
 

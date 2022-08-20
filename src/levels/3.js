@@ -9,80 +9,88 @@ import level4 from './4';
 import * as enums from '../constants/enums';
 import * as numbers from '../constants/numbers';
 
+const height = 14
+
 const level3 = (game) =>
   new Level({
     elements: [
       new Door({
         action: () => game.changeLevels(level4),
-        north: 300,
+        north: 0,
         east: 0,
       }),
-      new GravitySwitch({ // bottom center
+      new GravitySwitch({
+        centerX: 50,
         gravityDirection: enums.cardinalDirections.north,
-        south: 100,
-        west: 900,
-      }),
-      new GravitySwitch({ // top left
-        gravityDirection: enums.cardinalDirections.south,
-        north: 25,
-        west: 25,
-      }),
-      new Platform({ // door cover left
         north: 300,
-        east: numbers.doorWidth,
-        height: numbers.doorHeight,
-        width: numbers.platformBreadth,
       }),
-      new Platform({ // door cover bottom
-        north: 300 + numbers.doorHeight,
-        east: 0,
+      new GravitySwitch({
+        centerX: 50,
+        gravityDirection: enums.cardinalDirections.south,
+        north: 500,
+      }),
+      new Platform({ // top right
         height: numbers.platformBreadth,
-        width: numbers.doorWidth + numbers.platformBreadth,
+        south: numbers.hallHeightSmall * 5 + height * 4,
+        west: 1400,
+        width: 100,
       }),
-      new Platform({ // low
+      new Platform({ // top 2, right 2
+        height: numbers.platformBreadth,
+        south: numbers.hallHeightSmall * 4 + height * 3,
+        west: 1100,
+        width: 100,
+      }),
+      new Platform({ // middle
+        height: numbers.platformBreadth,
+        south: numbers.hallHeightSmall * 3 + height * 2,
+        west: 800,
+        width: 100,
+      }),
+      new Platform({ // bottom 2, left 2
+        height: numbers.platformBreadth,
+        south: numbers.hallHeightSmall * 2 + height,
+        west: 500,
+        width: 100,
+      }),
+      new Platform({ // bottom left
         height: numbers.platformBreadth,
         south: numbers.hallHeightSmall,
         west: 200,
-        width: 200,
+        width: 100,
       }),
-      new Platform({ // medium
+      new Platform({ // top left
         height: numbers.platformBreadth,
-        south: 225,
+        south: numbers.hallHeightSmall * 6 + height * 5,
         west: 0,
-        width: 200,
-      }),
-      new Platform({ // high left
-        height: numbers.platformBreadth,
-        south: 350,
-        west: 200,
-        width: 200,
-      }),
-      new Platform({ // high middle
-        height: numbers.platformBreadth,
-        south: 475,
-        west: 600,
         width: 100,
       }),
-      new Platform({ // high right
+      new Platform({ // top 2, left 2
         height: numbers.platformBreadth,
-        south: 600,
-        west: 900,
+        south: numbers.hallHeightSmall * 5 + height * 4,
+        west: 250,
         width: 100,
       }),
-      new Platform({ // top right-most
+      new Platform({ // top 3, left 3
         height: numbers.platformBreadth,
-        north: numbers.hallHeightSmall,
-        east: 100,
-        width: 200,
-      }),
-      new Spikes({
-        width: 1100,
-        south: 0,
+        south: numbers.hallHeightSmall * 4 + height * 3,
         west: 500,
+        width: 100,
+      }),
+      new Spikes({ // bottom
+        width: 1400,
+        south: 0,
+        west: 200,
+      }),
+      new Spikes({ // top
+        direction: enums.cardinalDirections.south,
+        north: 0,
+        west: 0,
+        width: 1400,
       }),
     ],
     game,
-    name: 'Death Becomes Her',
+    name: 'The Y',
   });
 
 export default level3;

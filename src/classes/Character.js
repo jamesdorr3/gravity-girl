@@ -40,12 +40,12 @@ class Character extends Element {
     context.save();
     context.scale(this.scaleDirectionX, this.scaleDirectionY);
     context.fillStyle = this.color; //this.speedY === numbers.gravityTerminalVelocity ? 'green' : 'red';
-    context.fillRect(
-      this.x * this.scaleDirectionX,
-      this.y * this.scaleDirectionY,
-      this.width * this.scaleDirectionX,
-      this.height * this.scaleDirectionY
-    );
+    // context.fillRect(
+    //   this.x * this.scaleDirectionX,
+    //   this.y * this.scaleDirectionY,
+    //   this.width * this.scaleDirectionX,
+    //   this.height * this.scaleDirectionY
+    // );
     if (this.sprite) {
       context.drawImage(
         this.sprite,

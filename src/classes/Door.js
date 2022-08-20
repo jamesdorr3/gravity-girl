@@ -10,10 +10,12 @@ class Door extends Element {
     });
     
     this.action = options.action || (() => {});
-    this.color = options.color || 'pink';
+    this.color = options.color || 'lime';
   }
 
   update = (context) => {
+    context.shadowColor = 'lime';
+    context.shadowBlur = 20;
     context.fillStyle = this.color;
     context.fillRect(this.x, this.y, this.width, this.height);
   };

@@ -2,59 +2,87 @@ import Door from '../classes/Door';
 import GravitySwitch from '../classes/GravitySwitch';
 import Level from '../classes/Level';
 import Platform from '../classes/Platform';
+import Spikes from '../classes/Spikes';
 
 import level3 from './3';
 
 import * as enums from '../constants/enums';
 import * as numbers from '../constants/numbers';
 
-const height = 175;
-
 const level2 = (game) =>
   new Level({
     elements: [
       new Door({
         action: () => game.changeLevels(level3),
+        north: 300,
         east: 0,
-        south: 0,
       }),
-      new GravitySwitch({ // bottom right
+      new GravitySwitch({ // bottom center
         gravityDirection: enums.cardinalDirections.north,
-        x: 1000,
-        south: 25,
+        south: 100,
+        west: 900,
       }),
       new GravitySwitch({ // top left
-        centerX: 150,
         gravityDirection: enums.cardinalDirections.south,
         north: 25,
+        west: 25,
       }),
-      new Platform({
-        centerX: numbers.canvasWidth / 2,
+      new Platform({ // door cover left
+        north: 300,
+        east: numbers.doorWidth,
+        height: numbers.doorHeight,
+        width: numbers.platformBreadth,
+      }),
+      new Platform({ // door cover bottom
+        north: 300 + numbers.doorHeight,
+        east: 0,
+        height: numbers.platformBreadth,
+        width: numbers.doorWidth + numbers.platformBreadth,
+      }),
+      new Platform({ // low
         height: numbers.platformBreadth,
         south: numbers.hallHeightSmall,
-        width: 300,
+        west: 200,
+        width: 200,
       }),
-      new Platform({ // widest block
-        east: 0,
-        height: height,
-        north: 0,
-        width: 1300,
+      new Platform({ // medium
+        height: numbers.platformBreadth,
+        south: 225,
+        west: 0,
+        width: 200,
       }),
-      new Platform({ // 2nd widest block
-        east: 0,
-        height: height * 2,
-        north: 0,
+      new Platform({ // high left
+        height: numbers.platformBreadth,
+        south: 350,
+        west: 200,
+        width: 200,
+      }),
+      new Platform({ // high middle
+        height: numbers.platformBreadth,
+        south: 475,
+        west: 600,
+        width: 100,
+      }),
+      new Platform({ // high right
+        height: numbers.platformBreadth,
+        south: 600,
+        west: 900,
+        width: 100,
+      }),
+      new Platform({ // top right-most
+        height: numbers.platformBreadth,
+        north: numbers.hallHeightSmall,
+        east: 100,
+        width: 200,
+      }),
+      new Spikes({
         width: 1100,
-      }),
-      new Platform({ // 3rd widest block
-        east: 0,
-        height: height * 3,
-        north: 0,
-        width: 900,
+        south: 0,
+        west: 500,
       }),
     ],
     game,
-    name: 'What Happened?'
+    name: 'What Just Happened?',
   });
 
 export default level2;

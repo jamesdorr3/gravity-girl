@@ -13,19 +13,41 @@ const level1 = (game) =>
     elements: [
       new Door({
         action: () => game.changeLevels(level2),
-        centerX: numbers.canvasWidth - 100,
-        north: 0,
+        south: 500,
+        centerX: 1550
       }),
-      new GravitySwitch({
+      new GravitySwitch({ // n
+        gravityDirection: enums.cardinalDirections.south,
+        centerX: 850,
+        north: 25,
+      }),
+      new GravitySwitch({ // ne
         gravityDirection: enums.cardinalDirections.north,
-        centerX: numbers.canvasWidth - 100,
+        centerX: 1300,
+        south: 525,
+      }),
+      new GravitySwitch({ // s
+        gravityDirection: enums.cardinalDirections.north,
+        centerX: 600,
         south: 25,
       }),
-      new Platform({
+      new Platform({ // nw
         height: numbers.canvasHeight - numbers.hallHeightLarge,
-        width: numbers.canvasWidth - 200,
-        x: 0,
-        y: 0,
+        north: 0,
+        west: 0,
+        width: 500,
+      }),
+      new Platform({ // ne
+        height: numbers.platformBreadth,
+        south: 500 + numbers.hallHeightSmall,
+        west: 1000,
+        width: 200,
+      }),
+      new Platform({ // se
+        east: 0,
+        height: 500,
+        south: 0,
+        width: 900,
       }),
     ],
     game,

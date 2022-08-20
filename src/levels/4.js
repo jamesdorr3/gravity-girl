@@ -4,93 +4,97 @@ import Level from '../classes/Level';
 import Platform from '../classes/Platform';
 import Spikes from '../classes/Spikes';
 
-import level5 from './5';
+import level0 from './0';
 
-import * as enums from '../constants/enums';
+import { cardinalDirections } from '../constants/enums';
+
 import * as numbers from '../constants/numbers';
 
-const height = 14
+const swPlatformSpikes = 157 + numbers.spikeHeight; // 158 is max jump? TODO: don't understand math
 
 const level4 = (game) =>
   new Level({
     elements: [
       new Door({
-        action: () => game.changeLevels(level5),
-        north: 0,
-        east: 0,
-      }),
-      new GravitySwitch({
-        centerX: 50,
-        gravityDirection: enums.cardinalDirections.north,
-        north: 300,
-      }),
-      new GravitySwitch({
-        centerX: 50,
-        gravityDirection: enums.cardinalDirections.south,
-        north: 500,
-      }),
-      new Platform({ // top right
-        height: numbers.platformBreadth,
-        south: numbers.hallHeightSmall * 5 + height * 4,
-        west: 1400,
-        width: 100,
-      }),
-      new Platform({ // top 2, right 2
-        height: numbers.platformBreadth,
-        south: numbers.hallHeightSmall * 4 + height * 3,
-        west: 1100,
-        width: 100,
-      }),
-      new Platform({ // middle
-        height: numbers.platformBreadth,
-        south: numbers.hallHeightSmall * 3 + height * 2,
-        west: 800,
-        width: 100,
-      }),
-      new Platform({ // bottom 2, left 2
-        height: numbers.platformBreadth,
-        south: numbers.hallHeightSmall * 2 + height,
-        west: 500,
-        width: 100,
-      }),
-      new Platform({ // bottom left
-        height: numbers.platformBreadth,
-        south: numbers.hallHeightSmall,
-        west: 200,
-        width: 100,
-      }),
-      new Platform({ // top left
-        height: numbers.platformBreadth,
-        south: numbers.hallHeightSmall * 6 + height * 5,
-        west: 0,
-        width: 100,
-      }),
-      new Platform({ // top 2, left 2
-        height: numbers.platformBreadth,
-        south: numbers.hallHeightSmall * 5 + height * 4,
-        west: 250,
-        width: 100,
-      }),
-      new Platform({ // top 3, left 3
-        height: numbers.platformBreadth,
-        south: numbers.hallHeightSmall * 4 + height * 3,
-        west: 500,
-        width: 100,
-      }),
-      new Spikes({ // bottom
-        width: 1400,
+        action: () => game.changeLevels(level0),
+        centerX: 1500,
         south: 0,
+      }),
+      new GravitySwitch({ // nw
+        gravityDirection: cardinalDirections.south,
+        north: 25,
+        centerX: 50,
+      }),
+      new GravitySwitch({ // ne
+        gravityDirection: cardinalDirections.west,
+        east: 150,
+        north: 25,
+      }),
+      new GravitySwitch({ // cw
+        gravityDirection: cardinalDirections.south,
+        centerY: 550,
+        west: 250,
+      }),
+      new GravitySwitch({ // ce
+        gravityDirection: cardinalDirections.east,
+        centerX: 1100,
+        centerY: 250,
+      }),
+      new GravitySwitch({ // sw
+        gravityDirection: cardinalDirections.north,
+        south: 25,
         west: 200,
       }),
-      new Spikes({ // top
-        direction: enums.cardinalDirections.south,
-        north: 0,
-        west: 0,
-        width: 1400,
+      new Platform({ // nw
+        height: 520 + numbers.characterWidth,
+        north: numbers.characterWidth,
+        west: 200,
+        width: numbers.platformBreadth,
+      }),
+      new Platform({ // door room
+        height: 300,
+        south: 250,
+        east: 200,
+        width: numbers.platformBreadth,
+      }),
+      new Platform({ // south block
+        height: swPlatformSpikes + numbers.spikeHeight + numbers.platformBreadth,
+        south: 0,
+        west: 900,
+        width: 500,
+      }),
+      new Platform({ // center nw
+        height: numbers.platformBreadth,
+        south: swPlatformSpikes + numbers.spikeHeight + numbers.hallHeightMedium,
+        west: 200,
+        width: 400,
+      }),
+      new Platform({ // center ne
+        height: numbers.platformBreadth,
+        south: swPlatformSpikes + numbers.spikeHeight + numbers.hallHeightLarge + numbers.platformBreadth,
+        west: 900,
+        width: 700 - numbers.characterWidth,
+      }),
+      new Platform({ // south with spikes
+        height: numbers.platformBreadth,
+        south: swPlatformSpikes + numbers.spikeHeight,
+        west: 200,
+        width: 500,
+      }),
+      new Spikes({ // on platform
+        direction: cardinalDirections.south,
+        south: swPlatformSpikes,
+        west: 400,
+        width: 100,
+      }),
+      new Spikes({ // south on ground
+        south: 0,
+        west: 300,
+        width: 600,
       }),
     ],
     game,
-    name: 'The Y',
+    name: 'NEWS',
   });
 
 export default level4;
