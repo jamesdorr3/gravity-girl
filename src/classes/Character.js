@@ -179,7 +179,10 @@ class Character extends Element {
 
   run = (scaleDirection, sign, speed, length) => {
     this[scaleDirection] = sign;
-    speed(speed() + numbers.runAcceleration * length * sign);
+    const direction = speed() === Math.abs(speed()) ? 1 : -1;
+    const friction = direction === sign ? 0 : numbers.runStopFriction * length * direction;
+    speed(speed() + numbers.runAcceleration * length * sign - friction);
+
     // if (speed() * sign < 0) speed(speed() - numbers.runStopFriction * length); // causing slippery bug?
   };
 
@@ -192,12 +195,10 @@ class Character extends Element {
     const isNeitherDown = !isRunPlus && !isRunMinus;
     if (isNeitherDown || isBothDown) {
       const direction = speed() === Math.abs(speed()) ? 1 : -1;
-      speed(speed() - numbers.runStopFriction * length * direction);
+      if (startingSpeed) speed(speed() - numbers.runStopFriction * length * direction);
       if (Math.abs(speed()) < 0.2) speed(0);
-    } else if (isRunPlus) {
-      this.run(scaleDirection, 1, speed, length);
-    } else if (isRunMinus) {
-      this.run(scaleDirection, -1, speed, length);
+    } else {
+      this.run(scaleDirection, isRunPlus ? 1 : -1, speed, length);
     }
 
     if (Math.abs(speed()) >= numbers.runTerminalVelocity) {

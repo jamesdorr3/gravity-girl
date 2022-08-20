@@ -27,7 +27,7 @@ export const pixelsPerMeter = characterHeight / 10; // why 10?
 export const characterWidth = 15 * characterScale;
 export const doorHeight = 30 * characterScale;
 export const doorWidth = 20 * characterScale;
-export const frameLength = second / 30;
+export const frameLength = second / 30; //////////////////////////////////
 export const frameLengthMenu = second / 10;
 export const gravityAcceleration = 8 / pixelsPerMeter;
 export const gravitySlowAcceleration = gravityAcceleration / 3;
@@ -36,6 +36,6 @@ export const gravityTerminalVelocity = gravityAcceleration / 3;
 export const jumpTime = second / 3;
 export const readyScreenTime = second * 3;
 export const runAcceleration = characterWidth / 8 / pixelsPerMeter;
-export const runStopFriction = runAcceleration * 4;
+export const runStopFriction = runAcceleration * 2 / 3;
 export const runTerminalVelocity = runAcceleration / 3;
 
