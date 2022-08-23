@@ -16,26 +16,34 @@ class GravitySwitch extends Element {
   }
 
   action = (character) => {
-    if (this.gravityDirection === cardinalDirections.north) {
-      character.scaleDirectionY = -1;
+    if (this.gravityDirection !== character.gravityDirection) {
+      if (this.gravityDirection === cardinalDirections.north) {
+        character.scaleDirectionY = -1;
+        character.height = numbers.characterHeight;
+        character.width = numbers.characterWidth;
+        character.spriteColumn = 13;
+      } else if (this.gravityDirection === cardinalDirections.east) {
+        character.scaleDirectionX = 1;
+        character.height = numbers.characterWidth;
+        character.width = numbers.characterHeight;
+        character.spriteColumn = 0;
+      } else if (this.gravityDirection === cardinalDirections.south) {
+        character.scaleDirectionY = 1;
+        character.height = numbers.characterHeight;
+        character.width = numbers.characterWidth;
+        character.spriteColumn = 13;
+      } else if (this.gravityDirection === cardinalDirections.west) {
+        character.scaleDirectionX = -1;
+        character.height = numbers.characterWidth;
+        character.width = numbers.characterHeight;
+        character.spriteColumn = 0;
+      }
+    }
+    // animates a character tornado spin
+    if (['north', 'south'].includes(this.gravityDirection)) {
       character.scaleDirectionX *= -1;
-      character.height = numbers.characterHeight;
-      character.width = numbers.characterWidth;
-    } else if (this.gravityDirection === cardinalDirections.east) {
-      character.scaleDirectionX = 1;
+    } else {
       character.scaleDirectionY *= -1;
-      character.height = numbers.characterWidth;
-      character.width = numbers.characterHeight;
-    } else if (this.gravityDirection === cardinalDirections.south) {
-      character.scaleDirectionY = 1;
-      character.scaleDirectionX *= -1;
-      character.height = numbers.characterHeight;
-      character.width = numbers.characterWidth;
-    } else if (this.gravityDirection === cardinalDirections.west) {
-      character.scaleDirectionX = -1;
-      character.scaleDirectionY *= -1;
-      character.height = numbers.characterWidth;
-      character.width = numbers.characterHeight;
     }
     character.gravityDirection = this.gravityDirection;
   };

@@ -12,9 +12,10 @@
 
       canvas {
         background: #ffff90;
-        background: repeating-conic-gradient(#ffff90 0% 25%, #ffffff 0% 50%) 
+        background: repeating-conic-gradient(rgb(236, 236, 236) 0% 25%, white 0% 50%) 
         50% / calc(100% / 8) calc(100% / 4.5);
         background-position: 0 100%;
+        border: 2px solid black;
         height: 100%;
         left: 0;
         position: absolute;

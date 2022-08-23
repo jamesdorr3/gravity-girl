@@ -47,6 +47,7 @@ class Platform extends Element {
   };
 
   update = (context) => {
+    context.shadowBlur = 0;
     context.fillStyle = 'lightblue'; //'#aebecb';
     context.fillRect(this.x, this.y, this.width, this.height);
   };

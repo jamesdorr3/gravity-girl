@@ -4,19 +4,19 @@ import Level from '../classes/Level';
 import Platform from '../classes/Platform';
 import Spikes from '../classes/Spikes';
 
-import level0 from './0';
+import level5 from './5';
 
 import { cardinalDirections } from '../constants/enums';
 
 import * as numbers from '../constants/numbers';
 
-const swPlatformSpikes = 157 + numbers.spikeHeight; // 158 is max jump? TODO: don't understand math
+const swPlatformSpikes = 155 + numbers.spikeHeight; // 156 is max jump? TODO: don't understand math
 
 const level4 = (game) =>
   new Level({
     elements: [
       new Door({
-        action: () => game.changeLevels(level0),
+        action: () => game.changeLevels(level5),
         centerX: 1500,
         south: 0,
       }),
@@ -27,7 +27,7 @@ const level4 = (game) =>
       }),
       new GravitySwitch({ // ne
         gravityDirection: cardinalDirections.west,
-        east: 150,
+        east: 200,
         north: 25,
       }),
       new GravitySwitch({ // cw
@@ -38,7 +38,7 @@ const level4 = (game) =>
       new GravitySwitch({ // ce
         gravityDirection: cardinalDirections.east,
         centerX: 1100,
-        centerY: 250,
+        centerY: 175,
       }),
       new GravitySwitch({ // sw
         gravityDirection: cardinalDirections.north,
@@ -46,7 +46,7 @@ const level4 = (game) =>
         west: 200,
       }),
       new Platform({ // nw
-        height: 520 + numbers.characterWidth,
+        height: 550 + numbers.characterWidth,
         north: numbers.characterWidth,
         west: 200,
         width: numbers.platformBreadth,
@@ -67,13 +67,25 @@ const level4 = (game) =>
         height: numbers.platformBreadth,
         south: swPlatformSpikes + numbers.spikeHeight + numbers.hallHeightMedium,
         west: 200,
-        width: 400,
+        width: 300,
       }),
       new Platform({ // center ne
         height: numbers.platformBreadth,
-        south: swPlatformSpikes + numbers.spikeHeight + numbers.hallHeightLarge + numbers.platformBreadth,
-        west: 900,
-        width: 700 - numbers.characterWidth,
+        south: swPlatformSpikes + numbers.spikeHeight + numbers.hallHeightMedium,
+        east: numbers.characterWidth,
+        width: 925,
+      }),
+      new Platform({ // ne block large
+        height: numbers.hallHeightMedium,
+        south: swPlatformSpikes + numbers.spikeHeight + numbers.hallHeightMedium,
+        east: 200,
+        width: 600,
+      }),
+      new Platform({ // ne block med
+        height: numbers.hallHeightSmall,
+        south: swPlatformSpikes + numbers.spikeHeight + numbers.hallHeightMedium * 2,
+        east: 300,
+        width: 400,
       }),
       new Platform({ // south with spikes
         height: numbers.platformBreadth,

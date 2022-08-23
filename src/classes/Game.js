@@ -1,10 +1,10 @@
 import Blackout from './Blackout';
-import Button from './Button';
+// import Button from './Button';
 import Character from './Character';
 import Text from './Text';
 
 import deathCommentary from '../constants/deathComments';
-import devLevel from '../levels/0'; // change number for start level
+import devLevel from '../levels/5'; // change number for start level
 import loadingScreen from '../levels/loading';
 import readyScreen from '../levels/readyScreen';
 

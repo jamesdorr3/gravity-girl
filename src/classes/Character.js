@@ -3,6 +3,10 @@ import { cardinalDirections } from '../constants/enums';
 import * as gameUtils from '../utils/gameUtils';
 import * as numbers from '../constants/numbers';
 
+const spriteWhitespaceSide = 25;
+const spriteWhitespaceTop = 16;
+const spriteWhitespace = [spriteWhitespaceSide, spriteWhitespaceTop];
+
 class Character extends Element {
   constructor(info) {
     super(info);
@@ -21,9 +25,10 @@ class Character extends Element {
     this.speedX = 0;
     this.speedY = 0;
     this.sprite = null;
+    this.spriteColumn = 13;
 
     const playerImage = new Image();
-    playerImage.src = '/player.png';
+    playerImage.src = '/gravity-girl-sprite.png';
     playerImage.onload = () => {
       this.sprite = playerImage;
     };
@@ -39,26 +44,43 @@ class Character extends Element {
   draw = (context) => {
     context.save();
     context.scale(this.scaleDirectionX, this.scaleDirectionY);
-    context.fillStyle = this.color; //this.speedY === numbers.gravityTerminalVelocity ? 'green' : 'red';
+    context.fillStyle = this.isHighJump ? 'lime' : 'red';
+    context.fillRect(
+      this.x * this.scaleDirectionX,
+      this.y * this.scaleDirectionY,
+      this.width * this.scaleDirectionX,
+      this.height * this.scaleDirectionY
+    );
+    const isGravityY = gameUtils.isGravityY(this.gravityDirection);
+    const [spriteOffsetX, spriteOffsetY] = isGravityY ? [...spriteWhitespace].reverse() : spriteWhitespace;
+    if (this.sprite) {
+      context.drawImage(
+        this.sprite,
+        // in sprite file
+        numbers.spriteInitialX + numbers.spriteOffset * this.spriteColumn,
+        numbers.spriteInitialY,
+        numbers.spriteWidth,
+        numbers.spriteHeight,
+        // in canvas
+        this.x * this.scaleDirectionX - spriteOffsetX * this.scaleDirectionX,
+        this.y * this.scaleDirectionY - spriteOffsetY * this.scaleDirectionY,
+        this.width * this.scaleDirectionX + spriteOffsetX * 2 * this.scaleDirectionX,
+        this.height * this.scaleDirectionY + spriteOffsetY * 2 * this.scaleDirectionY
+      );
+    }
+    // context.fillStyle = '';
+    // context.fillRect(
+    //   this.x * this.scaleDirectionX + 25,
+    //   this.y * this.scaleDirectionY + 15,
+    //   this.width * this.scaleDirectionX - 50,
+    //   this.height * this.scaleDirectionY - 25,
+    // // );
     // context.fillRect(
     //   this.x * this.scaleDirectionX,
     //   this.y * this.scaleDirectionY,
     //   this.width * this.scaleDirectionX,
     //   this.height * this.scaleDirectionY
     // );
-    if (this.sprite) {
-      context.drawImage(
-        this.sprite,
-        numbers.spriteInitialX + numbers.spriteOffset * 0,
-        numbers.spriteInitialY + numbers.spriteOffset * 0,
-        numbers.spriteWidth,
-        numbers.spriteHeight,
-        this.x * this.scaleDirectionX,
-        this.y * this.scaleDirectionY,
-        this.width * this.scaleDirectionX,
-        this.height * this.scaleDirectionY
-      );
-    }
     context.restore();
   };
 
@@ -125,19 +147,22 @@ class Character extends Element {
     }
   };
 
-  checkJump = (speedKey, jumpKeyName) => {
-    const speed = this.acc(speedKey);
+  checkJump = (jumpSpeedKey, jumpKeyName, runSpeedKey) => {
+    const jumpSpeed = this.acc(jumpSpeedKey);
+    const runSpeed = this.acc(runSpeedKey);
     const isJumpPressed =
       gameUtils[jumpKeyName](this.keysDown) ||
       gameUtils.isJumpKeyDown(this.keysDown);
     if (isJumpPressed) {
       if (this.isGrounded) {
         this.isGrounded = false;
+        this.isHighJump = Math.abs(runSpeed()) === numbers.runTerminalVelocity;
         this.isJumping = new Date();
       }
       if (this.isJumping) {
         if (new Date() - this.isJumping < numbers.jumpTime) {
-          speed(-numbers.jumpSpeed * this.sign());
+          const jumpAcceleration = this.isHighJump ? numbers.jumpSpeed : numbers.jumpSpeedSlow;
+          jumpSpeed(-jumpAcceleration * this.sign());
         } else {
           this.isJumping = false;
         }
@@ -179,7 +204,7 @@ class Character extends Element {
   };
 
   run = (scaleDirection, sign, speed, length) => {
-    this[scaleDirection] = sign;
+    this[scaleDirection] = sign * (gameUtils.isGravityY(this.gravityDirection) ? -1 : 1); // TODO: reverse sideways sprites;
     const direction = speed() === Math.abs(speed()) ? 1 : -1;
     const friction = direction === sign ? 0 : numbers.runStopFriction * length * direction;
     speed(speed() + numbers.runAcceleration * length * sign - friction);
@@ -216,9 +241,9 @@ class Character extends Element {
 
   checkXMovement = () => {
     if (this.gravityDirection === cardinalDirections.east) {
-      this.checkJump('speedX', 'isWestKeyDown');
+      this.checkJump('speedX', 'isWestKeyDown', 'speedY');
     } else if (this.gravityDirection === cardinalDirections.west) {
-      this.checkJump('speedX', 'isEastKeyDown');
+      this.checkJump('speedX', 'isEastKeyDown', 'speedY');
     } else {
       this.checkRun(
         this.acc('speedX'),
@@ -232,10 +257,10 @@ class Character extends Element {
 
   checkYMovement = () => {
     if (this.gravityDirection === cardinalDirections.north) {
-      this.checkJump('speedY', 'isSouthKeyDown');
+      this.checkJump('speedY', 'isSouthKeyDown', 'speedX');
     }
     else if (this.gravityDirection === cardinalDirections.south) {
-      this.checkJump('speedY', 'isNorthKeyDown');
+      this.checkJump('speedY', 'isNorthKeyDown', 'speedX');
     }
     else {
       this.checkRun(
