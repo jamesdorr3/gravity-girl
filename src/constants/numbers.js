@@ -33,10 +33,9 @@ export const frameLengthMenu = second / 10;
 export const gravityAcceleration = 8 / pixelsPerMeter;
 export const gravitySlowAcceleration = gravityAcceleration / 3;
 export const gravitySlowLimit = gravitySlowAcceleration / 4;
-export const gravityTerminalVelocity = gravityAcceleration / 3;
+export const gravityTerminalVelocity = gravityAcceleration / 2.5;
 export const jumpTime = second / 3;
 export const readyScreenTime = second * 3;
-export const runAcceleration = characterWidth / 7 / pixelsPerMeter;
-export const runStopFriction = runAcceleration * 3 / 4;
-export const runTerminalVelocity = runAcceleration / 3;
-
+export const runAcceleration = 0.9;
+export const runStopFriction = 0.6;
+export const runTerminalVelocity = 0.26;

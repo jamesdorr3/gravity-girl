@@ -68,19 +68,6 @@ class Character extends Element {
         this.height * this.scaleDirectionY + spriteOffsetY * 2 * this.scaleDirectionY
       );
     }
-    // context.fillStyle = '';
-    // context.fillRect(
-    //   this.x * this.scaleDirectionX + 25,
-    //   this.y * this.scaleDirectionY + 15,
-    //   this.width * this.scaleDirectionX - 50,
-    //   this.height * this.scaleDirectionY - 25,
-    // // );
-    // context.fillRect(
-    //   this.x * this.scaleDirectionX,
-    //   this.y * this.scaleDirectionY,
-    //   this.width * this.scaleDirectionX,
-    //   this.height * this.scaleDirectionY
-    // );
     context.restore();
   };
 
