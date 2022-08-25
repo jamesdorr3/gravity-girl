@@ -10,3 +10,9 @@ export const cardinalDirections = {
   south: 'south',
   west: 'west',
 };
+
+export const spriteStates = {
+  jump: 'jump',
+  rest: 'rest',
+  run: 'run',
+}

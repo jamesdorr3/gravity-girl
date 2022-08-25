@@ -44,6 +44,6 @@ export const isWestKeyDown = (keysDown) =>
   keysDown.includes(keys.a) || keysDown.includes(keys.left);
 
 export const isGravityY = (gravityDirection) =>
-  ['east', 'west'].includes(gravityDirection);
+  ['north', 'south'].includes(gravityDirection);
 
 export const mouse = (e) => new Element({ ...e, height: 1, width: 1 });

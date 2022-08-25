@@ -1,10 +1,10 @@
 import Blackout from './Blackout';
-// import Button from './Button';
+import Button from './Button';
 import Character from './Character';
 import Text from './Text';
 
 import deathCommentary from '../constants/deathComments';
-import devLevel from '../levels/5'; // change number for start level
+import devLevel from '../levels/4'; // change number for start level
 import loadingScreen from '../levels/loading';
 import readyScreen from '../levels/readyScreen';
 
@@ -34,7 +34,7 @@ class Game {
     this.interval = this.createInterval();
 
     this.overlaidButtons = [
-      // new Button({ action: this.stop, east: 0, north: 0, text: 'STOP' }),
+      new Button({ action: this.stop, east: 0, north: 0, text: 'STOP' }),
     ];
     this.overlaidElements = [];
   }
@@ -58,7 +58,7 @@ class Game {
 
   createInterval = () =>
     setInterval(() => {
-      if (this.character.sprite) {
+      if (this.character.spriteController.sprite) {
         this.level.intervalAction();
         const overlays = [...this.overlaidElements, ...this.overlaidButtons];
         overlays.forEach((it) => it.update(this.context));
@@ -89,7 +89,7 @@ class Game {
     ((new Date() - this.lastRender) / numbers.second) * numbers.gameSpeed;
 
   handleClick = (x, y) => {
-    const buttons = [...this.level.buttons];
+    const buttons = [...this.level.buttons, ...this.overlaidButtons];
     const button = buttons.find((button) =>
       button.collidesWith(gameUtils.mouse({ x, y }))
     );

@@ -1,10 +1,12 @@
 import Element from './Element';
+import SpriteController from './SpriteController';
 import { cardinalDirections } from '../constants/enums';
+import { spriteStates } from '../constants/enums';
 import * as gameUtils from '../utils/gameUtils';
 import * as numbers from '../constants/numbers';
 
 const spriteWhitespaceSide = 25;
-const spriteWhitespaceTop = 16;
+const spriteWhitespaceTop = 17;
 const spriteWhitespace = [spriteWhitespaceSide, spriteWhitespaceTop];
 
 class Character extends Element {
@@ -24,14 +26,9 @@ class Character extends Element {
     this.scaleDirectionY = 1;
     this.speedX = 0;
     this.speedY = 0;
-    this.sprite = null;
+    this.spriteController = new SpriteController(this);
     this.spriteColumn = 13;
 
-    const playerImage = new Image();
-    playerImage.src = '/gravity-girl-sprite.png';
-    playerImage.onload = () => {
-      this.sprite = playerImage;
-    };
     window.addEventListener('keydown', this.handleKeyDown);
     window.addEventListener('keyup', this.handleKeyUp);
   }
@@ -45,23 +42,23 @@ class Character extends Element {
     context.save();
     context.scale(this.scaleDirectionX, this.scaleDirectionY);
     context.fillStyle = this.isHighJump ? 'lime' : 'red';
-    context.fillRect(
-      this.x * this.scaleDirectionX,
-      this.y * this.scaleDirectionY,
-      this.width * this.scaleDirectionX,
-      this.height * this.scaleDirectionY
-    );
+    // context.fillRect(
+    //   this.x * this.scaleDirectionX,
+    //   this.y * this.scaleDirectionY,
+    //   this.width * this.scaleDirectionX,
+    //   this.height * this.scaleDirectionY
+    // );
     const isGravityY = gameUtils.isGravityY(this.gravityDirection);
-    const [spriteOffsetX, spriteOffsetY] = isGravityY ? [...spriteWhitespace].reverse() : spriteWhitespace;
-    if (this.sprite) {
+    const [spriteOffsetX, spriteOffsetY] = isGravityY ? spriteWhitespace : [...spriteWhitespace].reverse();
+    if (this.spriteController.sprite) {
       context.drawImage(
-        this.sprite,
-        // in sprite file
-        numbers.spriteInitialX + numbers.spriteOffset * this.spriteColumn,
-        numbers.spriteInitialY,
+        this.spriteController.sprite,
+        // position in sprite
+        this.spriteController.x,
+        0,
         numbers.spriteWidth,
         numbers.spriteHeight,
-        // in canvas
+        // position in canvas
         this.x * this.scaleDirectionX - spriteOffsetX * this.scaleDirectionX,
         this.y * this.scaleDirectionY - spriteOffsetY * this.scaleDirectionY,
         this.width * this.scaleDirectionX + spriteOffsetX * 2 * this.scaleDirectionX,
@@ -136,19 +133,19 @@ class Character extends Element {
 
   checkJump = (jumpSpeedKey, jumpKeyName, runSpeedKey) => {
     const jumpSpeed = this.acc(jumpSpeedKey);
-    const runSpeed = this.acc(runSpeedKey);
+    // const runSpeed = this.acc(runSpeedKey);
     const isJumpPressed =
       gameUtils[jumpKeyName](this.keysDown) ||
       gameUtils.isJumpKeyDown(this.keysDown);
     if (isJumpPressed) {
       if (this.isGrounded) {
         this.isGrounded = false;
-        this.isHighJump = Math.abs(runSpeed()) === numbers.runTerminalVelocity;
+        // this.isHighJump = Math.abs(runSpeed()) === numbers.runTerminalVelocity;
         this.isJumping = new Date();
       }
       if (this.isJumping) {
         if (new Date() - this.isJumping < numbers.jumpTime) {
-          const jumpAcceleration = this.isHighJump ? numbers.jumpSpeed : numbers.jumpSpeedSlow;
+          const jumpAcceleration = numbers.jumpSpeed;
           jumpSpeed(-jumpAcceleration * this.sign());
         } else {
           this.isJumping = false;
@@ -191,7 +188,8 @@ class Character extends Element {
   };
 
   run = (scaleDirection, sign, speed, length) => {
-    this[scaleDirection] = sign * (gameUtils.isGravityY(this.gravityDirection) ? -1 : 1); // TODO: reverse sideways sprites;
+    this.spriteController.state = spriteStates.run;
+    this[scaleDirection] = sign * (gameUtils.isGravityY(this.gravityDirection) ? 1 : -1); // TODO: reverse sideways sprites;
     const direction = speed() === Math.abs(speed()) ? 1 : -1;
     const friction = direction === sign ? 0 : numbers.runStopFriction * length * direction;
     speed(speed() + numbers.runAcceleration * length * sign - friction);
@@ -209,7 +207,10 @@ class Character extends Element {
     if (isNeitherDown || isBothDown) {
       const direction = speed() === Math.abs(speed()) ? 1 : -1;
       if (startingSpeed) speed(speed() - numbers.runStopFriction * length * direction);
-      if (Math.abs(speed()) < 0.2) speed(0);
+      if (Math.abs(speed()) < 0.2) {
+        this.spriteController.state = spriteStates.rest;
+        speed(0);
+      };
     } else {
       this.run(scaleDirection, isRunPlus ? 1 : -1, speed, length);
     }
@@ -288,6 +289,7 @@ class Character extends Element {
       this.checkGravity();
       this.checkCollisions();
       this.checkWallCollisions();
+      this.spriteController.update();
     }
     this.draw(context);
   };
