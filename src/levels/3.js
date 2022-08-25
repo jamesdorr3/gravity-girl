@@ -23,12 +23,12 @@ const level3 = (game) =>
       new GravitySwitch({
         centerX: 50,
         gravityDirection: enums.cardinalDirections.north,
-        north: 300,
+        north: 450,
       }),
       new GravitySwitch({
-        centerX: 50,
+        centerX: 1000,
+        centerY: 300,
         gravityDirection: enums.cardinalDirections.south,
-        north: 500,
       }),
       new Platform({ // top right
         height: numbers.platformBreadth,

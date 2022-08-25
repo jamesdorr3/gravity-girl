@@ -1,5 +1,6 @@
 import Blackout from './Blackout';
 import Button from './Button';
+import Level from './Level';
 import character from './Character';
 import spriteController from './SpriteController';
 import Text from './Text';
@@ -7,7 +8,6 @@ import Text from './Text';
 import deathCommentary from '../constants/deathComments';
 import devLevel from '../levels/0'; // change number for start level
 import loadingScreen from '../levels/loading';
-import readyScreen from '../levels/readyScreen';
 
 import * as enums from '../constants/enums';
 import * as gameUtils from '../utils/gameUtils';
@@ -27,20 +27,25 @@ class Game {
   }
 
   changeLevels = (newLevel) => {
-    clearInterval(this.interval);
-    this.level = newLevel(this);
-    this.interval = setInterval(
-      readyScreen(this).intervalAction,
-      numbers.second / 10
-    );
-    setTimeout(() => {
-      clearInterval(this.interval);
-      this.interval = this.createInterval();
-      character.reset({
-        x: this.level.characterStartX,
-        y: this.level.characterStartY,
-      });
-    }, numbers.readyScreenTime);
+    const text = new Text({text: ''});
+    this.overlaidElements.push(text);
+    this.overlaidElements.push(
+      new Blackout({
+        direction: 'east',
+        doOnce: () => {
+          this.level = newLevel(this);
+          text.text = this.level.name || `Level ${Level.count / 2}`
+          character.isAnimated = false;
+        },
+        doLast: () => {
+          setTimeout(() => {
+            character.isAnimated = true;
+            character.isControllable = true;
+            this.overlaidElements.pop();
+          }, numbers.readyScreenTime)
+        }
+      })
+    )
   };
 
   createInterval = () =>
@@ -52,22 +57,19 @@ class Game {
       } else {
         loadingScreen(this).intervalAction();
       }
-    }, this.level.frameLength);
+    }, numbers.frameLength);
 
   death = () => {
     character.isAnimated = false;
     character.isControllable = false;
     character.deathCount++;
-    const text = new Text({
-      centerX: 800,
-      centerY: 450,
-      color: '#fffe',
-      text: deathCommentary(character.deathCount),
-    });
+    const text = new Text({text: deathCommentary(character.deathCount)});
     this.overlaidElements.push(text);
     setTimeout(() => {
       this.overlaidElements.pop();
-      this.overlaidElements.push(new Blackout({}));
+      this.overlaidElements.push(new Blackout({
+        doLast: () => character.isControllable = true,
+      }));
     }, 2 * numbers.second);
   };
 

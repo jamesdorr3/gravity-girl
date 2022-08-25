@@ -1,18 +1,25 @@
 import Element from './Element';
-import { buttonPadding } from '../constants/numbers';
+import { buttonPadding, canvasHeight, canvasWidth } from '../constants/numbers';
+import { firstDefined } from '../utils/gameUtils';
 
 export default class Text extends Element {
   constructor(info) {
+    if (!firstDefined(info.centerX, info.east, info.west, info.x)) {
+      info.centerX = canvasWidth / 2;
+    }
+    if (!firstDefined(info.centerY, info.north, info.south, info.y)) {
+      info.centerY = canvasHeight / 2;
+    }
     super(info);
-    this.color = info.color;
+    this.color = info.color || '#fffe';
     this.text = info.text;
   }
 
   update = (context) => {
-    if (this.color) {
+    if (this.color && this.text.length) {
       context.fillStyle = this.color;
       const height = 100 + buttonPadding * 2;
-      const width = this.text.length * 20 + buttonPadding * 2;
+      const width = this.text.length * 25 + buttonPadding * 2;
       const x = this.x - width / 2;
       const y = this.y - 80;
       context.fillRect(x, y, width, height);

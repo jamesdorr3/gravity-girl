@@ -3,7 +3,7 @@ import game from './Game';
 import { canvasHeight, canvasWidth, frameLength } from '../constants/numbers';
 import { isNorthSouth, sign as getSign } from '../utils/gameUtils';
 
-const add = frameLength / 30 * 1
+const add = frameLength / 30;
 
 const isStarting = {
   north: (it) => it.y > 0,
@@ -23,9 +23,11 @@ class Blackout {
   constructor({
     direction = 'west',
     doOnce = () => {},
+    doLast = () => {},
   }) {
 
     this.direction = direction;
+    this.doLast = doLast;
     this.doOnce = doOnce;
     this.hasDoneOnce = false;
     if (isNorthSouth(direction)) {
@@ -60,8 +62,8 @@ class Blackout {
       }
       this.inc -= add / 2;
     } else {
-      character.isControllable = true;
       game.overlaidElements.pop();
+      this.doLast();
     }
     context.fillStyle = 'black';
     context.fillRect(this.x, this.y, canvasWidth * 2, canvasHeight * 2);

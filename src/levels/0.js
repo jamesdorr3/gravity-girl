@@ -23,7 +23,6 @@ const mainMenu = (game) =>
         text: 'Start Game',
       }),
     ],
-    frameLength: numbers.frameLengthMenu,
     game,
     hasCharacter: false,
   });

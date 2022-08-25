@@ -27,7 +27,7 @@ class Door extends Element {
     if (this.customAction) this.customAction();
     setTimeout(() => {
       game.changeLevels(this.nextLevel);
-    }, 2200)
+    }, 2400)
   }
 
   update = (context) => {
