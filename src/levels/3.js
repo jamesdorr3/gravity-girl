@@ -4,7 +4,7 @@ import Level from '../classes/Level';
 import Platform from '../classes/Platform';
 import Spikes from '../classes/Spikes';
 
-import level4 from './4';
+import nextLevel from './4';
 
 import * as enums from '../constants/enums';
 import * as numbers from '../constants/numbers';
@@ -17,7 +17,7 @@ const level3 = (game) =>
     elements: [
       new Door({
         east: 0,
-        nextLevel: level4,
+        nextLevel,
         north: 0,
       }),
       new GravitySwitch({

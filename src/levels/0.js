@@ -2,7 +2,7 @@ import Button from '../classes/Button';
 import Level from '../classes/Level';
 import spriteController from '../classes/SpriteController';
 
-import level1 from './1';
+import nextLevel from './1';
 import loadingScreen from './loading';
 
 import * as numbers from '../constants/numbers';
@@ -15,7 +15,7 @@ const mainMenu = (game) =>
         centerY: numbers.canvasHeight / 2,
         action: () => {
           if (spriteController.sprite) {
-            game.changeLevels(level1);
+            game.changeLevels(nextLevel);
           } else {
             game.changeLevels(loadingScreen);
           }

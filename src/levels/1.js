@@ -3,7 +3,7 @@ import GravitySwitch from '../classes/GravitySwitch';
 import Level from '../classes/Level';
 import Platform from '../classes/Platform';
 
-import level2 from './2';
+import nextLevel from './2';
 
 import * as enums from '../constants/enums';
 import * as numbers from '../constants/numbers';
@@ -13,7 +13,7 @@ const level1 = (game) =>
     elements: [
       new Door({
         centerX: 1550,
-        nextLevel: level2,
+        nextLevel,
         south: 500,
       }),
       new GravitySwitch({ // n

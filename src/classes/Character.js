@@ -263,6 +263,7 @@ class Character extends Element {
   };
 
   reset = (info) => {
+    this.height = info.height || numbers.characterHeight;
     this.gravityDirection = info.gravityDirection || cardinalDirections.south;
     this.isAnimated = gameUtils.firstDefined(info.isAnimated, true);
     this.isControllable = gameUtils.firstDefined(info.isControllable, true);
@@ -270,6 +271,7 @@ class Character extends Element {
     this.scaleDirectionY = info.scaleDirectionY || 1;
     this.speedX = info.speedX || 0;
     this.speedY = info.speedY || 0;
+    this.width = info.width || numbers.characterWidth;
     this.x = info.x || 0;
     this.y = info.y || numbers.canvasHeight - numbers.characterHeight;
   };
@@ -292,8 +294,9 @@ class Character extends Element {
 }
 
 export default new Character({
+  gravityDirection: 'south',
   height: numbers.characterHeight,
-  north: 0,
-  west: 1400,
+  south: 0,
+  west: 0,
   width: numbers.characterWidth,
 });;

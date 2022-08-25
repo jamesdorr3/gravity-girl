@@ -4,7 +4,7 @@ import Level from '../classes/Level';
 import Platform from '../classes/Platform';
 import Spikes from '../classes/Spikes';
 
-import nextLevel from './6';
+import nextLevel from './0';
 
 import { cardinalDirections } from '../constants/enums';
 

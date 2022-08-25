@@ -6,7 +6,7 @@ import spriteController from './SpriteController';
 import Text from './Text';
 
 import deathCommentary from '../constants/deathComments';
-import devLevel from '../levels/0'; // change number for start level
+import devLevel from '../levels/5'; // change number for start level
 import loadingScreen from '../levels/loading';
 
 import * as enums from '../constants/enums';
@@ -21,7 +21,7 @@ class Game {
     this.interval = null;
 
     this.overlaidButtons = [
-      new Button({ action: this.stop, east: 0, north: 0, text: 'STOP' }),
+      // new Button({ action: this.stop, east: 0, north: 0, text: 'STOP' }),
     ];
     this.overlaidElements = [];
   }

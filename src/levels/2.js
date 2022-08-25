@@ -5,7 +5,7 @@ import Platform from '../classes/Platform';
 import Spikes from '../classes/Spikes';
 import character from '../classes/Character';
 
-import level3 from './3';
+import nextLevel from './3';
 
 import * as enums from '../constants/enums';
 import * as numbers from '../constants/numbers';
@@ -20,7 +20,7 @@ const level2 = (game) =>
           character.scaleDirectionY = 1;
         },
         east: 0,
-        nextLevel: level3,
+        nextLevel,
         north: 300,
       }),
       new GravitySwitch({ // bottom center
