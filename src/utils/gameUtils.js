@@ -43,7 +43,18 @@ export const isSouthKeyDown = (keysDown) =>
 export const isWestKeyDown = (keysDown) =>
   keysDown.includes(keys.a) || keysDown.includes(keys.left);
 
-export const isGravityY = (gravityDirection) =>
+export const isNorthSouth = (gravityDirection) =>
   ['north', 'south'].includes(gravityDirection);
 
 export const mouse = (e) => new Element({ ...e, height: 1, width: 1 });
+
+export const sign = (direction) => {
+  switch (direction) {
+    case enums.cardinalDirections.north:
+      return -1;
+    case enums.cardinalDirections.west:
+      return -1;
+    default: // east and south
+      return 1;
+  }
+};

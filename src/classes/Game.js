@@ -64,7 +64,7 @@ class Game {
     this.overlaidElements.push(text);
     setTimeout(() => {
       this.overlaidElements.pop();
-      this.overlaidElements.push(new Blackout(this));
+      this.overlaidElements.push(new Blackout());
     }, 2 * numbers.second);
   };
 

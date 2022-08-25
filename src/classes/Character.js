@@ -48,8 +48,8 @@ class Character extends Element {
     //   this.width * this.scaleDirectionX,
     //   this.height * this.scaleDirectionY
     // );
-    const isGravityY = gameUtils.isGravityY(this.gravityDirection);
-    const [spriteOffsetX, spriteOffsetY] = isGravityY ? spriteWhitespace : [...spriteWhitespace].reverse();
+    const isNorthSouth = gameUtils.isNorthSouth(this.gravityDirection);
+    const [spriteOffsetX, spriteOffsetY] = isNorthSouth ? spriteWhitespace : [...spriteWhitespace].reverse();
     if (spriteController.sprite) {
       context.drawImage(
         spriteController.sprite,
@@ -190,7 +190,7 @@ class Character extends Element {
 
   run = (scaleDirection, sign, speed, length) => {
     if (this.isGrounded) spriteController.state = spriteStates.run;
-    this[scaleDirection] = sign * (gameUtils.isGravityY(this.gravityDirection) ? 1 : -1); // TODO: reverse sideways sprites;
+    this[scaleDirection] = sign * (gameUtils.isNorthSouth(this.gravityDirection) ? 1 : -1); // TODO: reverse sideways sprites;
     const direction = speed() === Math.abs(speed()) ? 1 : -1;
     const friction = direction === sign ? 0 : numbers.runStopFriction * length * direction;
     speed(speed() + numbers.runAcceleration * length * sign - friction);
@@ -274,16 +274,7 @@ class Character extends Element {
     this.y = y;
   };
 
-  sign = (direction = this.gravityDirection) => {
-    switch (direction) {
-      case cardinalDirections.north:
-        return -1;
-      case cardinalDirections.west:
-        return -1;
-      default: // east and south
-        return 1;
-    }
-  };
+  sign = (direction = this.gravityDirection) => gameUtils.sign(direction);
 
   update = (context) => {
     if (this.isControllable) {

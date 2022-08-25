@@ -20,7 +20,7 @@ class SpriteController {
   }
 
   update = () => {
-    const key = gameUtils.isGravityY(character.gravityDirection) ? 'ns' : 'ew';
+    const key = gameUtils.isNorthSouth(character.gravityDirection) ? 'ns' : 'ew';
     const current = spriteStateInfo[key][this.state];
     const { start, finish, onFinish, when, then } = current;
     if (when(this)) {
