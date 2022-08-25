@@ -1,21 +1,27 @@
-// bow  side 09 - 11
-// bow  nor  12 - 23
-// jump side 24 - 53
-// jump norm 54 - 83
-
 import character from '../classes/Character';
 import { spriteStates } from './enums';
-const { jump, rest, run } = spriteStates;
+const { bow, jump, rest, run } = spriteStates;
 
 export default {
   ns: {
+    [bow]: {
+      start: 12,
+      finish: 23,
+      onFinish: () => character.scaleDirectionX *= -1,
+      when: (controller) => {
+        return new Date () - controller.frameStart > 100
+      },
+      then: (controller) => {
+        controller.frameStart = new Date()
+      },
+    },
     [jump]: {
       start: 54,
       finish: 83,
       when: (controller) => {
         return new Date () - controller.frameStart > 66
       },
-      update: (controller) => {
+      then: (controller) => {
         controller.frameStart = new Date()
       },
     },
@@ -25,7 +31,7 @@ export default {
       when: (controller) => {
         return new Date () - controller.frameStart > 66
       },
-      update: (controller) => {
+      then: (controller) => {
         controller.frameStart = new Date()
       },
     },
@@ -35,19 +41,40 @@ export default {
       when: (controller) => {
         return Math.abs(controller.frameStart - character.x) > 10
       },
-      update: (controller) => {
+      then: (controller) => {
         controller.frameStart = character.x
       },
     },
   },
   ew: {
+    [bow]: {
+      start: 0,
+      finish: 11,
+      onFinish: () => character.scaleDirectionX *= -1,
+      when: (controller) => {
+        return new Date () - controller.frameStart > 100
+      },
+      then: (controller) => {
+        controller.frameStart = new Date()
+      },
+    },
+    [jump]: {
+      start: 24,
+      finish: 53,
+      when: (controller) => {
+        return new Date () - controller.frameStart > 66
+      },
+      then: (controller) => {
+        controller.frameStart = new Date()
+      },
+    },
     [rest]: {
       start: 85,
       finish: 98,
       when: (controller) => {
         return new Date () - controller.frameStart > 66
       },
-      update: (controller) => {
+      then: (controller) => {
         controller.frameStart = new Date()
       },
     },
@@ -57,7 +84,7 @@ export default {
       when: (controller) => {
         return Math.abs(controller.frameStart - character.y) > 10
       },
-      update: (controller) => {
+      then: (controller) => {
         controller.frameStart = character.y
       },
     },

@@ -15,9 +15,9 @@ const level3 = (game) =>
   new Level({
     elements: [
       new Door({
-        action: () => game.changeLevels(level4),
-        north: 0,
         east: 0,
+        nextLevel: level4,
+        north: 0,
       }),
       new GravitySwitch({
         centerX: 50,

@@ -5,7 +5,7 @@ import spriteController from './SpriteController';
 import Text from './Text';
 
 import deathCommentary from '../constants/deathComments';
-import devLevel from '../levels/4'; // change number for start level
+import devLevel from '../levels/2'; // change number for start level
 import loadingScreen from '../levels/loading';
 import readyScreen from '../levels/readyScreen';
 
@@ -15,15 +15,9 @@ import * as numbers from '../constants/numbers';
 
 class Game {
   constructor() {
-    // canvas.width = numbers.canvasWidth;
-    // canvas.height = numbers.canvasHeight;
-
     this.context = null;
-
     this.lastRender = new Date();
-    // this.level = devLevel(this); // DEV LEVEL
     this.level = null;
-    // this.interval = this.createInterval();
     this.interval = null;
 
     this.overlaidButtons = [
@@ -58,7 +52,8 @@ class Game {
     }, this.level.frameLength);
 
   death = () => {
-    character.isPaused = true;
+    character.isAnimated = false;
+    character.isControllable = false;
     character.deathCount++;
     const text = new Text({
       centerX: 800,

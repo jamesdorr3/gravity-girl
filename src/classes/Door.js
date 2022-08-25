@@ -1,16 +1,30 @@
 import Element from './Element';
+import character from './Character';
+import spriteController from './SpriteController';
+import game from './Game';
 import * as numbers from '../constants/numbers';
 
 class Door extends Element {
-  constructor(options) {
+  constructor(info) {
     super({
-      ...options,
-      height: options.height || numbers.doorHeight,
-      width: options.width || numbers.doorWidth,
+      ...info,
+      height: info.height || numbers.doorHeight,
+      width: info.width || numbers.doorWidth,
     });
     
-    this.action = options.action || (() => {});
-    this.color = options.color || 'lime';
+    // this.action = info.action || (() => {});
+    this.color = info.color || 'lime';
+    this.customAction = info.customAction;
+    this.nextLevel = info.nextLevel;
+  }
+
+  action = () => {
+    spriteController.state = 'bow';
+    character.isControllable = false;
+    if (this.customAction) this.customAction();
+    setTimeout(() => {
+      game.changeLevels(this.nextLevel);
+    }, 2200)
   }
 
   update = (context) => {

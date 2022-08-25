@@ -8,9 +8,9 @@ const testingScreen = (game) =>
     characterStartY: 150,
     elements: [
       new Door({
-        // action: () => {},
-        west: 0,
+        nextLevel: testingScreen,
         north: 0,
+        west: 0,
       }),
       new Platform({ // bottom;
         height: 25,

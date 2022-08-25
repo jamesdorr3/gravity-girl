@@ -3,6 +3,7 @@ import GravitySwitch from '../classes/GravitySwitch';
 import Level from '../classes/Level';
 import Platform from '../classes/Platform';
 import Spikes from '../classes/Spikes';
+import character from '../classes/Character';
 
 import level3 from './3';
 
@@ -11,11 +12,16 @@ import * as numbers from '../constants/numbers';
 
 const level2 = (game) =>
   new Level({
+    name: 'What Just Happened?',
     elements: [
       new Door({
-        action: () => game.changeLevels(level3),
-        north: 300,
+        customAction: () => {
+          character.gravityDirection = enums.cardinalDirections.south;
+          character.scaleDirectionY = 1;
+        },
         east: 0,
+        nextLevel: level3,
+        north: 300,
       }),
       new GravitySwitch({ // bottom center
         gravityDirection: enums.cardinalDirections.north,
@@ -82,7 +88,6 @@ const level2 = (game) =>
       }),
     ],
     game,
-    name: 'What Just Happened?',
   });
 
 export default level2;

@@ -12,9 +12,9 @@ const level1 = (game) =>
   new Level({
     elements: [
       new Door({
-        action: () => game.changeLevels(level2),
+        centerX: 1550,
+        nextLevel: level2,
         south: 500,
-        centerX: 1550
       }),
       new GravitySwitch({ // n
         gravityDirection: enums.cardinalDirections.south,

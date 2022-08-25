@@ -12,6 +12,7 @@ export const cardinalDirections = {
 };
 
 export const spriteStates = {
+  bow: 'bow',
   jump: 'jump',
   rest: 'rest',
   run: 'run',

@@ -17,7 +17,8 @@ class Blackout {
       if (this.width < canvasWidth) this.inc += add;
     } else if (this.x < canvasWidth) {
       character.reset();
-      character.isPaused = false;
+      character.isAnimated = true;
+      character.isControllable = true;
       this.x += Math.pow(1.15, this.inc);
       this.inc -= add;
     } else {

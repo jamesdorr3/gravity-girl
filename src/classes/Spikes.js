@@ -1,4 +1,5 @@
 import Element from './Element';
+import character from './Character';
 import game from './Game';
 import { cardinalDirections } from '../constants/enums';
 import { isNum } from '../utils/gameUtils';
@@ -35,7 +36,7 @@ class Spikes extends Element {
   }
 
   action = () => {
-    game.death();
+    if (character.isControllable) game.death();
   };
 
   update = (context) => {

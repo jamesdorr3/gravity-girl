@@ -18,16 +18,16 @@ class Character extends Element {
     this.color = 'red';
     this.deathCount = 0;
     this.gravityDirection = info.gravityDirection || cardinalDirections.south;
+    this.isAnimated = true;
+    this.isControllable = true;
     this.isGrounded = false;
     this.isJumping = false;
-    this.isPaused = false;
     this.keysDown = [];
     this.lastLog = new Date();
     this.scaleDirectionX = 1;
     this.scaleDirectionY = 1;
     this.speedX = 0;
     this.speedY = 0;
-    this.spriteColumn = 13;
 
     window.addEventListener('keydown', this.handleKeyDown);
     window.addEventListener('keyup', this.handleKeyUp);
@@ -264,6 +264,8 @@ class Character extends Element {
 
   reset = (x = 0, y = numbers.canvasHeight - numbers.characterHeight) => {
     this.gravityDirection = cardinalDirections.south;
+    this.isAnimated = true;
+    this.isControllable = true;
     this.scaleDirectionX = 1;
     this.scaleDirectionY = 1;
     this.speedX = 0;
@@ -284,12 +286,14 @@ class Character extends Element {
   };
 
   update = (context) => {
-    if (!this.isPaused) {
+    if (this.isControllable) {
       this.checkXMovement();
       this.checkYMovement();
-      this.checkGravity();
-      this.checkCollisions();
-      this.checkWallCollisions();
+    }
+    this.checkGravity();
+    this.checkCollisions();
+    this.checkWallCollisions();
+    if (this.isAnimated) {
       spriteController.update();
     }
     this.draw(context);
@@ -298,7 +302,7 @@ class Character extends Element {
 
 export default new Character({
   height: numbers.characterHeight,
-  south: 0,
-  west: 0,
+  north: 0,
+  west: 1400,
   width: numbers.characterWidth,
 });;
