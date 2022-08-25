@@ -1,6 +1,7 @@
 import Blackout from './Blackout';
 import Button from './Button';
-import Character from './Character';
+import character from './Character';
+import spriteController from './SpriteController';
 import Text from './Text';
 
 import deathCommentary from '../constants/deathComments';
@@ -13,25 +14,17 @@ import * as gameUtils from '../utils/gameUtils';
 import * as numbers from '../constants/numbers';
 
 class Game {
-  constructor(canvas) {
-    canvas.width = numbers.canvasWidth;
-    canvas.height = numbers.canvasHeight;
+  constructor() {
+    // canvas.width = numbers.canvasWidth;
+    // canvas.height = numbers.canvasHeight;
 
-    this.context = canvas.getContext('2d');
-    this.context.textAlign = 'center';
-    this.context.font = '30px Arial';
-
-    this.character = new Character({
-      game: this,
-      height: numbers.characterHeight,
-      south: 0,
-      west: 0,
-      width: numbers.characterWidth,
-    });
+    this.context = null;
 
     this.lastRender = new Date();
-    this.level = devLevel(this); // DEV LEVEL
-    this.interval = this.createInterval();
+    // this.level = devLevel(this); // DEV LEVEL
+    this.level = null;
+    // this.interval = this.createInterval();
+    this.interval = null;
 
     this.overlaidButtons = [
       new Button({ action: this.stop, east: 0, north: 0, text: 'STOP' }),
@@ -49,16 +42,13 @@ class Game {
     setTimeout(() => {
       clearInterval(this.interval);
       this.interval = this.createInterval();
-      this.character.reset(
-        this.level.characterStartX,
-        this.level.characterStartY
-      );
+      character.reset(this.level.characterStartX, this.level.characterStartY);
     }, numbers.readyScreenTime);
   };
 
   createInterval = () =>
     setInterval(() => {
-      if (this.character.spriteController.sprite) {
+      if (spriteController.sprite) {
         this.level.intervalAction();
         const overlays = [...this.overlaidElements, ...this.overlaidButtons];
         overlays.forEach((it) => it.update(this.context));
@@ -68,18 +58,18 @@ class Game {
     }, this.level.frameLength);
 
   death = () => {
-    this.character.isPaused = true;
-    this.character.deathCount++;
+    character.isPaused = true;
+    character.deathCount++;
     const text = new Text({
       centerX: 800,
       centerY: 450,
       color: '#fffe',
-      text: deathCommentary(this.character.deathCount),
+      text: deathCommentary(character.deathCount),
     });
     this.overlaidElements.push(text);
     setTimeout(() => {
       this.overlaidElements.pop();
-      this.overlaidElements.push(new Blackout(this))
+      this.overlaidElements.push(new Blackout(this));
     }, 2 * numbers.second);
   };
 
@@ -111,9 +101,14 @@ class Game {
     if (button) button.state = enums.buttonStates.hovered;
   };
 
+  start = () => {
+    this.level = devLevel(this); // DEV LEVEL
+    this.interval = this.createInterval();
+  };
+
   stop = () => {
     clearInterval(this.interval);
   };
 }
 
-export default Game;
+export default new Game();

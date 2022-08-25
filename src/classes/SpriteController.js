@@ -1,15 +1,13 @@
-import Element from './Element';
+import character from './Character';
 import { spriteStates } from '../constants/enums';
 import * as gameUtils from '../utils/gameUtils';
 import spriteStateInfo from '../constants/spriteStateInfo';
 import * as numbers from '../constants/numbers';
 
 class SpriteController {
-  constructor(character) {
-
-    this.character = character;
+  constructor() {
     this.column = 133;
-    this.frameStart = character.x;
+    this.frameStart = new Date();
     this.sprite = null;
     this.state = spriteStates.jump;
     this.x = this.column * numbers.spriteOffset
@@ -22,7 +20,7 @@ class SpriteController {
   }
 
   update = () => {
-    const key = gameUtils.isGravityY(this.character.gravityDirection) ? 'ns' : 'ew';
+    const key = gameUtils.isGravityY(character.gravityDirection) ? 'ns' : 'ew';
     const current = spriteStateInfo[key][this.state];
     const { start, finish, when, update } = current;
     if (when(this)) {
@@ -36,4 +34,4 @@ class SpriteController {
 
 }
 
-export default SpriteController;
+export default new SpriteController();

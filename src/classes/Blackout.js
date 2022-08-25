@@ -1,10 +1,11 @@
+import character from './Character';
+import game from './Game';
 import { canvasHeight, canvasWidth, frameLength } from '../constants/numbers';
 
 const add = frameLength / 30 * 1
 
-class Element {
-  constructor(game) {
-    this.game = game;
+class Blackout {
+  constructor() {
     this.inc = 30;
     this.width = 0;
     this.x = 0;
@@ -15,16 +16,16 @@ class Element {
       this.width += Math.pow(1.15, this.inc);
       if (this.width < canvasWidth) this.inc += add;
     } else if (this.x < canvasWidth) {
-      this.game.character.reset();
-      this.game.character.isPaused = false;
+      character.reset();
+      character.isPaused = false;
       this.x += Math.pow(1.15, this.inc);
       this.inc -= add;
     } else {
-      this.game.overlaidElements.pop();
+      game.overlaidElements.pop();
     }
     context.fillStyle = 'black';
     context.fillRect(this.x, 0, this.width, canvasHeight);
   };
 }
 
-export default Element;
+export default Blackout;

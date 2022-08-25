@@ -1,15 +1,15 @@
 import Element from './Element';
 import { buttonPadding } from '../constants/numbers';
-import * as enums from '../constants/enums';
+import { buttonStates } from '../constants/enums';
 
-export default class Button extends Element {
+class Button extends Element {
   constructor(info) {
     const width = info.text.length * 20 + buttonPadding * 2;
     const height = 30 * 1.5 + buttonPadding * 2;
     super({ ...info, height, width });
 
     this.action = info.action || (() => {});
-    this.state = enums.buttonStates.default;
+    this.state = buttonStates.default;
     this.text = info.text;
   }
 
@@ -30,3 +30,5 @@ export default class Button extends Element {
     );
   };
 }
+
+export default Button;

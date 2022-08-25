@@ -1,12 +1,12 @@
 import React from 'react';
-import CanvasContainer from './components/CanvasContainer/CanvasContainer'
+import Canvas from './components/Canvas/Canvas'
 
 const App = () => {
 
   return (
     <div className="App">
       <header className="App-header"></header>
-      <CanvasContainer />
+      <Canvas />
     </div>
   );
 }

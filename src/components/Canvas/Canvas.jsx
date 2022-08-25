@@ -1,30 +1,32 @@
-import React, { useEffect, useRef, useState } from 'react';
-import Game from '../../classes/Game';
+import React, { useEffect, useRef } from 'react';
+import game from '../../classes/Game';
 
 import * as gameUtils from '../../utils/gameUtils';
-import './CanvasContainer.scss';
+import { canvasHeight, canvasWidth } from '../../constants/numbers';
+import './Canvas.scss';
 
 const CanvasContainer = () => {
-  const [game, setGame] = useState(null);
   const canvas = useRef(null);
 
   useEffect(() => {
-    const game = new Game(canvas.current);
-    setGame(game);
+    game.context = canvas.current.getContext('2d');
+    canvas.current.width = canvasWidth;
+    canvas.current.height = canvasHeight;
+    game.start();
     return game?.delete;
   }, []);
 
-  const handleHover = e => {
+  const handleHover = (e) => {
     const { mouseX, mouseY } = gameUtils.getMouseCoordsInCanvas(e, canvas);
     game?.handleHover(mouseX, mouseY);
   };
 
-  const handleClick = e => {
+  const handleClick = (e) => {
     const { mouseX, mouseY } = gameUtils.getMouseCoordsInCanvas(e, canvas);
     game?.handleClick(mouseX, mouseY);
   };
 
-  const handleMouseUp = e => {};
+  const handleMouseUp = (e) => {};
 
   return (
     <div className="canvas-container">

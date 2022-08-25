@@ -1,5 +1,6 @@
 import Element from './Element';
-import SpriteController from './SpriteController';
+import spriteController from './SpriteController';
+import game from './Game';
 import { cardinalDirections } from '../constants/enums';
 import { spriteStates } from '../constants/enums';
 import * as gameUtils from '../utils/gameUtils';
@@ -10,12 +11,12 @@ const spriteWhitespaceTop = 17;
 const spriteWhitespace = [spriteWhitespaceSide, spriteWhitespaceTop];
 
 class Character extends Element {
+  
   constructor(info) {
     super(info);
 
     this.color = 'red';
     this.deathCount = 0;
-    this.game = info.game;
     this.gravityDirection = info.gravityDirection || cardinalDirections.south;
     this.isGrounded = false;
     this.isJumping = false;
@@ -26,7 +27,6 @@ class Character extends Element {
     this.scaleDirectionY = 1;
     this.speedX = 0;
     this.speedY = 0;
-    this.spriteController = new SpriteController(this);
     this.spriteColumn = 13;
 
     window.addEventListener('keydown', this.handleKeyDown);
@@ -50,11 +50,11 @@ class Character extends Element {
     // );
     const isGravityY = gameUtils.isGravityY(this.gravityDirection);
     const [spriteOffsetX, spriteOffsetY] = isGravityY ? spriteWhitespace : [...spriteWhitespace].reverse();
-    if (this.spriteController.sprite) {
+    if (spriteController.sprite) {
       context.drawImage(
-        this.spriteController.sprite,
+        spriteController.sprite,
         // position in sprite
-        this.spriteController.x,
+        spriteController.x,
         0,
         numbers.spriteWidth,
         numbers.spriteHeight,
@@ -81,13 +81,13 @@ class Character extends Element {
   };
 
   checkCollisions = () => {
-    this.game.level.elements.forEach((element) => {
+    game.level.elements.forEach((element) => {
       if (element.collidesWith(this)) element.action(this);
     });
   };
 
   doGravity = (position, speed) => {
-    const frameLength = this.game.frameLength();
+    const frameLength = game.frameLength();
     const sign = this.sign();
     let newSpeedY;
     // more time at peak of jump
@@ -139,6 +139,7 @@ class Character extends Element {
       gameUtils.isJumpKeyDown(this.keysDown);
     if (isJumpPressed) {
       if (this.isGrounded) {
+        spriteController.state = 'jump';
         this.isGrounded = false;
         // this.isHighJump = Math.abs(runSpeed()) === numbers.runTerminalVelocity;
         this.isJumping = new Date();
@@ -188,7 +189,7 @@ class Character extends Element {
   };
 
   run = (scaleDirection, sign, speed, length) => {
-    this.spriteController.state = spriteStates.run;
+    if (this.isGrounded) spriteController.state = spriteStates.run;
     this[scaleDirection] = sign * (gameUtils.isGravityY(this.gravityDirection) ? 1 : -1); // TODO: reverse sideways sprites;
     const direction = speed() === Math.abs(speed()) ? 1 : -1;
     const friction = direction === sign ? 0 : numbers.runStopFriction * length * direction;
@@ -198,7 +199,7 @@ class Character extends Element {
   };
 
   checkRun = (speed, runKeyPlus, runKeyMinus, scaleDirection, position) => {
-    const length = this.game.frameLength();
+    const length = game.frameLength();
     const startingSpeed = speed();
     const isRunPlus = gameUtils[runKeyPlus](this.keysDown);
     const isRunMinus = gameUtils[runKeyMinus](this.keysDown);
@@ -208,7 +209,7 @@ class Character extends Element {
       const direction = speed() === Math.abs(speed()) ? 1 : -1;
       if (startingSpeed) speed(speed() - numbers.runStopFriction * length * direction);
       if (Math.abs(speed()) < 0.2) {
-        this.spriteController.state = spriteStates.rest;
+        if (this.isGrounded) spriteController.state = spriteStates.rest;
         speed(0);
       };
     } else {
@@ -222,7 +223,7 @@ class Character extends Element {
     const dist = gameUtils.distance(
       speed(),
       startingSpeed,
-      new Date() - this.game.lastRender
+      new Date() - game.lastRender
     );
     position(position() + dist);
   };
@@ -289,10 +290,15 @@ class Character extends Element {
       this.checkGravity();
       this.checkCollisions();
       this.checkWallCollisions();
-      this.spriteController.update();
+      spriteController.update();
     }
     this.draw(context);
   };
 }
 
-export default Character;
+export default new Character({
+  height: numbers.characterHeight,
+  south: 0,
+  west: 0,
+  width: numbers.characterWidth,
+});;

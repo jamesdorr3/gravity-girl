@@ -3,14 +3,15 @@
 // jump side 24 - 53
 // jump norm 54 - 83
 
+import character from '../classes/Character';
 import { spriteStates } from './enums';
 const { jump, rest, run } = spriteStates;
 
 export default {
   ns: {
     [jump]: {
-      start: 24,
-      finish: 53,
+      start: 54,
+      finish: 83,
       when: (controller) => {
         return new Date () - controller.frameStart > 66
       },
@@ -32,10 +33,10 @@ export default {
       start: 137,
       finish: 143,
       when: (controller) => {
-        return Math.abs(controller.frameStart - controller.character.x) > 10
+        return Math.abs(controller.frameStart - character.x) > 10
       },
       update: (controller) => {
-        controller.frameStart = controller.character.x
+        controller.frameStart = character.x
       },
     },
   },
@@ -54,10 +55,10 @@ export default {
       start: 122,
       finish: 128,
       when: (controller) => {
-        return Math.abs(controller.frameStart - controller.character.y) > 10
+        return Math.abs(controller.frameStart - character.y) > 10
       },
       update: (controller) => {
-        controller.frameStart = controller.character.y
+        controller.frameStart = character.y
       },
     },
   },

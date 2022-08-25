@@ -1,3 +1,4 @@
+import character from './Character';
 import * as numbers from '../constants/numbers';
 
 class Level {
@@ -32,7 +33,7 @@ class Level {
     this.game.context.clearRect(0, 0, numbers.canvasWidth, numbers.canvasHeight);
 
     const toRender = [...this.texts, ...this.elements, ...this.buttons];
-    if (this.hasCharacter) toRender.push(this.game.character);
+    if (this.hasCharacter) toRender.push(character);
     toRender.forEach((it) => it.update(this.game.context));
 
     this.game.lastRender = new Date();
