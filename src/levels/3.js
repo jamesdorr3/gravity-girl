@@ -13,6 +13,7 @@ const height = 14
 
 const level3 = (game) =>
   new Level({
+    name: 'The Y',
     elements: [
       new Door({
         east: 0,
@@ -90,7 +91,6 @@ const level3 = (game) =>
       }),
     ],
     game,
-    name: 'The Y',
   });
 
 export default level3;

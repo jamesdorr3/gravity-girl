@@ -5,7 +5,7 @@ import spriteController from './SpriteController';
 import Text from './Text';
 
 import deathCommentary from '../constants/deathComments';
-import devLevel from '../levels/2'; // change number for start level
+import devLevel from '../levels/0'; // change number for start level
 import loadingScreen from '../levels/loading';
 import readyScreen from '../levels/readyScreen';
 
@@ -36,7 +36,10 @@ class Game {
     setTimeout(() => {
       clearInterval(this.interval);
       this.interval = this.createInterval();
-      character.reset(this.level.characterStartX, this.level.characterStartY);
+      character.reset({
+        x: this.level.characterStartX,
+        y: this.level.characterStartY,
+      });
     }, numbers.readyScreenTime);
   };
 
@@ -64,7 +67,7 @@ class Game {
     this.overlaidElements.push(text);
     setTimeout(() => {
       this.overlaidElements.pop();
-      this.overlaidElements.push(new Blackout());
+      this.overlaidElements.push(new Blackout({}));
     }, 2 * numbers.second);
   };
 

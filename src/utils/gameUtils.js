@@ -18,6 +18,8 @@ export const getMouseCoordsInCanvas = (e, canvas) => {
   return { mouseX, mouseY };
 };
 
+export const firstDefined = (...args) => args.find((arg) => typeof(arg) !== 'undefined');
+
 export const gravitySign = (gravityDirection) =>
   ({
     [enums.cardinalDirections.north]: -1,
@@ -29,22 +31,20 @@ export const gravitySign = (gravityDirection) =>
 export const isEastKeyDown = (keysDown) =>
   keysDown.includes(keys.d) || keysDown.includes(keys.right);
 
-export const firstNumber = (...args) => args.find((arg) => isNum(arg));
-
 export const isJumpKeyDown = (keysDown) =>
   keysDown.includes(keys.space) || keysDown.includes(keys.shift);
 
 export const isNorthKeyDown = (keysDown) =>
   keysDown.includes(keys.w) || keysDown.includes(keys.up);
 
+export const isNorthSouth = (gravityDirection) =>
+  ['north', 'south'].includes(gravityDirection);
+
 export const isSouthKeyDown = (keysDown) =>
   keysDown.includes(keys.s) || keysDown.includes(keys.down);
 
 export const isWestKeyDown = (keysDown) =>
   keysDown.includes(keys.a) || keysDown.includes(keys.left);
-
-export const isNorthSouth = (gravityDirection) =>
-  ['north', 'south'].includes(gravityDirection);
 
 export const mouse = (e) => new Element({ ...e, height: 1, width: 1 });
 

@@ -20,8 +20,14 @@ const isEnding = {
 }
 
 class Blackout {
-  constructor(direction = 'west') {
+  constructor({
+    direction = 'west',
+    doOnce = () => {},
+  }) {
+
     this.direction = direction;
+    this.doOnce = doOnce;
+    this.hasDoneOnce = false;
     if (isNorthSouth(direction)) {
       this.inc = 22;
       this.x = 0;
@@ -47,9 +53,14 @@ class Blackout {
     if (isStarting[this.direction](this)) {
       this.inc += add;
     } else if (isEnding[this.direction](this)) {
-      character.reset();
+      if (!this.hasDoneOnce) {
+        character.reset({ isControllable: false });
+        this.doOnce();
+        this.hasDoneOnce = true;
+      }
       this.inc -= add / 2;
     } else {
+      character.isControllable = true;
       game.overlaidElements.pop();
     }
     context.fillStyle = 'black';

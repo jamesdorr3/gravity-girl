@@ -262,16 +262,16 @@ class Character extends Element {
     }
   };
 
-  reset = (x = 0, y = numbers.canvasHeight - numbers.characterHeight) => {
-    this.gravityDirection = cardinalDirections.south;
-    this.isAnimated = true;
-    this.isControllable = true;
-    this.scaleDirectionX = 1;
-    this.scaleDirectionY = 1;
-    this.speedX = 0;
-    this.speedY = 0;
-    this.x = x;
-    this.y = y;
+  reset = (info) => {
+    this.gravityDirection = info.gravityDirection || cardinalDirections.south;
+    this.isAnimated = gameUtils.firstDefined(info.isAnimated, true);
+    this.isControllable = gameUtils.firstDefined(info.isControllable, true);
+    this.scaleDirectionX = info.scaleDirectionX || 1;
+    this.scaleDirectionY = info.scaleDirectionY || 1;
+    this.speedX = info.speedX || 0;
+    this.speedY = info.speedY || 0;
+    this.x = info.x || 0;
+    this.y = info.y || numbers.canvasHeight - numbers.characterHeight;
   };
 
   sign = (direction = this.gravityDirection) => gameUtils.sign(direction);

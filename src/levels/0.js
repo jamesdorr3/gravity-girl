@@ -1,5 +1,6 @@
 import Button from '../classes/Button';
 import Level from '../classes/Level';
+import spriteController from '../classes/SpriteController';
 
 import level1 from './1';
 import loadingScreen from './loading';
@@ -13,7 +14,7 @@ const mainMenu = (game) =>
         centerX: numbers.canvasWidth / 2,
         centerY: numbers.canvasHeight / 2,
         action: () => {
-          if (game.character.sprite) {
+          if (spriteController.sprite) {
             game.changeLevels(level1);
           } else {
             game.changeLevels(loadingScreen);

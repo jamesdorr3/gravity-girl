@@ -1,5 +1,5 @@
 import { canvasHeight, canvasWidth } from '../constants/numbers';
-import { firstNumber, isNum } from '../utils/gameUtils';
+import { firstDefined, isNum } from '../utils/gameUtils';
 
 class Element {
   constructor({
@@ -19,12 +19,12 @@ class Element {
     if (centerX) {
       this.x = centerX - width / 2;
     } else {
-      this.x = firstNumber(x, west, canvasWidth - east - width);
+      this.x = firstDefined(x, west, canvasWidth - east - width);
     }
     if (centerY) {
       this.y = centerY - height / 2;
     } else {
-      this.y = firstNumber(y, north, canvasHeight - south - height);
+      this.y = firstDefined(y, north, canvasHeight - south - height);
     }
   }
 
