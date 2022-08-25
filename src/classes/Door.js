@@ -15,10 +15,13 @@ class Door extends Element {
     // this.action = info.action || (() => {});
     this.color = info.color || 'lime';
     this.customAction = info.customAction;
+    this.hasEntered = false;
     this.nextLevel = info.nextLevel;
   }
 
   action = () => {
+    if (this.hasEntered) return;
+    else this.hasEntered = true;
     spriteController.state = 'bow';
     character.isControllable = false;
     if (this.customAction) this.customAction();

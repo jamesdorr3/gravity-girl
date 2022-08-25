@@ -26,9 +26,9 @@ class Game {
     this.overlaidElements = [];
   }
 
-  changeLevels = (level) => {
+  changeLevels = (newLevel) => {
     clearInterval(this.interval);
-    this.level = level(this);
+    this.level = newLevel(this);
     this.interval = setInterval(
       readyScreen(this).intervalAction,
       numbers.second / 10
