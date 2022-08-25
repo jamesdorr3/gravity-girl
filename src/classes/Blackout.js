@@ -22,12 +22,13 @@ const isEnding = {
 class Blackout {
   constructor(direction = 'west') {
     this.direction = direction;
-    this.inc = 30;
     if (isNorthSouth(direction)) {
+      this.inc = 22;
       this.x = 0;
       if (direction === 'north') this.y = canvasHeight;
       else if (direction === 'south') this.y = -canvasHeight * 2;
     } else {
+      this.inc = 30;
       this.y = 0;
       if (direction === 'east') this.x = -canvasWidth * 2;
       else if (direction === 'west') this.x = canvasWidth;
@@ -36,18 +37,23 @@ class Blackout {
 
   update = (context) => {
     const sign = getSign(this.direction);
-    if (isStarting[this.direction](this)) {
+    if (isNorthSouth(this.direction)) {
+      console.log(this.y);
+      this.y += Math.pow(1.15, this.inc) * sign;
+    } else {
       this.x += Math.pow(1.15, this.inc) * sign;
+    }
+
+    if (isStarting[this.direction](this)) {
       this.inc += add;
     } else if (isEnding[this.direction](this)) {
       character.reset();
-      this.x += Math.pow(1.15, this.inc) * sign;
       this.inc -= add / 2;
     } else {
       game.overlaidElements.pop();
     }
     context.fillStyle = 'black';
-    context.fillRect(this.x, 0, canvasWidth * 2, canvasHeight * 2);
+    context.fillRect(this.x, this.y, canvasWidth * 2, canvasHeight * 2);
   };
 }
 
