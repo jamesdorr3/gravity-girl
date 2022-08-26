@@ -6,11 +6,10 @@ import * as numbers from '../constants/numbers';
 
 class SpriteController {
   constructor() {
-    this.column = 133;
+    this.column = 100;
     this.frameStart = new Date();
     this.sprite = null;
-    this.state = spriteStates.jump;
-    this.x = this.column * numbers.spriteOffset
+    this.state = spriteStates.rest;
 
     const image = new Image();
     image.src = '/gravity-girl-sprite.png';
@@ -30,7 +29,6 @@ class SpriteController {
         this.column = start;
       }
       else this.column++;
-      this.x = this.column * numbers.spriteOffset;
       then(this);
     }
   }

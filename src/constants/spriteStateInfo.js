@@ -50,7 +50,7 @@ export default {
     [bow]: {
       start: 0,
       finish: 11,
-      onFinish: () => character.scaleDirectionX *= -1,
+      onFinish: () => character.scaleDirectionY *= -1,
       when: (controller) => {
         return new Date () - controller.frameStart > 100
       },

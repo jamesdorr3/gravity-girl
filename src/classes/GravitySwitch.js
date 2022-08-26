@@ -46,6 +46,7 @@ class GravitySwitch extends Element {
       character.scaleDirectionY *= -1;
     }
     character.gravityDirection = this.gravityDirection;
+    character.isJumping = false;
   };
 
   update = (context) => {
