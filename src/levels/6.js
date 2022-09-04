@@ -10,8 +10,9 @@ import { cardinalDirections } from '../constants/enums';
 
 import * as numbers from '../constants/numbers';
 
-const level5 = (game) =>
+const level5 = () =>
   new Level({
+    name: 'NEWS',
     elements: [
       new Door({
         east: 0,
@@ -155,8 +156,6 @@ const level5 = (game) =>
         width: 500,
       }),
     ],
-    game,
-    name: 'NEWS',
   });
 
 export default level5;

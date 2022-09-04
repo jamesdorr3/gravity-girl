@@ -8,8 +8,9 @@ import nextLevel from './2';
 import * as enums from '../constants/enums';
 import * as numbers from '../constants/numbers';
 
-const level1 = (game) =>
+const level1 = () =>
   new Level({
+    name: 'Where Am I?',
     elements: [
       new Door({
         centerX: 1550,
@@ -50,8 +51,6 @@ const level1 = (game) =>
         width: 900,
       }),
     ],
-    game,
-    name: 'Where Am I?',
   });
 
 export default level1;

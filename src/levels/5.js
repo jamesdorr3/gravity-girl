@@ -21,8 +21,9 @@ const middleGravitySwitches = () => {
   return gravitySwitches;
 };
 
-const level5 = (game) =>
+const level5 = () =>
   new Level({
+    name: 'NEWS',
     elements: [
       ...middleGravitySwitches(),
       new GravitySwitch({
@@ -79,8 +80,6 @@ const level5 = (game) =>
         width: 500,
       })
     ],
-    game,
-    name: 'NEWS',
   });
 
 export default level5;

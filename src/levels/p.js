@@ -70,8 +70,6 @@ const playAround1 = (game) =>
       //   direction: 'north',
       // }),
     ],
-    game,
-    name: 'Where Am I?',
   });
 
 export default playAround1;

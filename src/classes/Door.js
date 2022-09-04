@@ -1,7 +1,7 @@
 import Element from './Element';
 import character from './Character';
-import spriteController from './SpriteController';
 import game from './Game';
+import spriteController from './SpriteController';
 import * as numbers from '../constants/numbers';
 
 class Door extends Element {
@@ -12,7 +12,6 @@ class Door extends Element {
       width: info.width || numbers.doorWidth,
     });
     
-    // this.action = info.action || (() => {});
     this.color = info.color || 'lime';
     this.customAction = info.customAction;
     this.hasEntered = false;

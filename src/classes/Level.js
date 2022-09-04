@@ -1,3 +1,4 @@
+import game from './Game';
 import character from './Character';
 import * as numbers from '../constants/numbers';
 
@@ -10,8 +11,6 @@ class Level {
     characterStartX = 0,
     characterStartY = numbers.canvasHeight - numbers.characterHeight,
     elements = [],
-    frameLength = numbers.frameLength,
-    game,
     hasCharacter = true,
     name,
     texts = [],
@@ -20,8 +19,6 @@ class Level {
     this.characterStartX = characterStartX;
     this.characterStartY = characterStartY;
     this.elements = elements;
-    this.frameLength = frameLength;
-    this.game = game;
     this.hasCharacter = hasCharacter;
     this.name = name;
     this.texts = texts;
@@ -30,13 +27,13 @@ class Level {
   }
 
   intervalAction = () => {
-    this.game.context.clearRect(0, 0, numbers.canvasWidth, numbers.canvasHeight);
+    game.context.clearRect(0, 0, numbers.canvasWidth, numbers.canvasHeight);
 
     const toRender = [...this.texts, ...this.elements, ...this.buttons];
     if (this.hasCharacter) toRender.push(character);
-    toRender.forEach((it) => it.update(this.game.context));
+    toRender.forEach((it) => it.update(game.context));
 
-    this.game.lastRender = new Date();
+    game.lastRender = new Date();
   }
 
 }

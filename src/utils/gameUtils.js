@@ -4,6 +4,7 @@ import * as keys from '../constants/keys';
 import * as numbers from '../constants/numbers';
 
 // hoisted
+
 export const isNum = (it) => typeof it === 'number';
 
 // unhoisted
@@ -18,7 +19,8 @@ export const getMouseCoordsInCanvas = (e, canvas) => {
   return { mouseX, mouseY };
 };
 
-export const firstDefined = (...args) => args.find((arg) => typeof(arg) !== 'undefined');
+export const firstDefined = (...args) =>
+  args.find((arg) => typeof arg !== 'undefined');
 
 export const gravitySign = (gravityDirection) =>
   ({

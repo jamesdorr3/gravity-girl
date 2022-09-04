@@ -26,7 +26,7 @@ const CanvasContainer = () => {
     game?.handleClick(mouseX, mouseY);
   };
 
-  const handleMouseUp = (e) => {};
+  const handleMouseUp = () => {};
 
   return (
     <div className="canvas-container">

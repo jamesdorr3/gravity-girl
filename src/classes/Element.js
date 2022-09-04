@@ -2,29 +2,26 @@ import { canvasHeight, canvasWidth } from '../constants/numbers';
 import { firstDefined, isNum } from '../utils/gameUtils';
 
 class Element {
-  constructor({
-    centerX,
-    centerY,
-    east,
-    height = 0,
-    north,
-    south,
-    west,
-    width = 0,
-    x,
-    y,
-  }) {
-    this.height = height;
-    this.width = width;
-    if (centerX) {
-      this.x = centerX - width / 2;
+  constructor(info) {
+    this.height = info.height || 0;
+    this.width = info.width || 0;
+    if (info.centerX) {
+      this.x = info.centerX - this.width / 2;
     } else {
-      this.x = firstDefined(x, west, canvasWidth - east - width);
+      this.x = firstDefined(
+        info.x,
+        info.west,
+        canvasWidth - info.east - info.width
+      );
     }
-    if (centerY) {
-      this.y = centerY - height / 2;
+    if (info.centerY) {
+      this.y = info.centerY - this.height / 2;
     } else {
-      this.y = firstDefined(y, north, canvasHeight - south - height);
+      this.y = firstDefined(
+        info.y,
+        info.north,
+        canvasHeight - info.south - info.height
+      );
     }
   }
 

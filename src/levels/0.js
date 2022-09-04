@@ -1,5 +1,6 @@
 import Button from '../classes/Button';
 import Level from '../classes/Level';
+import game from '../classes/Game';
 import spriteController from '../classes/SpriteController';
 
 import nextLevel from './1';
@@ -7,7 +8,7 @@ import loadingScreen from './loading';
 
 import * as numbers from '../constants/numbers';
 
-const mainMenu = (game) =>
+const mainMenu = () =>
   new Level({
     buttons: [
       new Button({
@@ -23,7 +24,6 @@ const mainMenu = (game) =>
         text: 'Start Game',
       }),
     ],
-    game,
     hasCharacter: false,
   });
 

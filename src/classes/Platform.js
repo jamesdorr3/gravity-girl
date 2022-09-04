@@ -1,5 +1,5 @@
 import Element from './Element';
-import * as enums from '../constants/enums';
+import { cardinalDirections } from '../constants/enums';
 
 class Platform extends Element {
   constructor(info) {
@@ -7,39 +7,44 @@ class Platform extends Element {
   }
 
   action = (character) => {
-    const north = Math.abs(character.north() - this.south());
-    const east = Math.abs(character.east() - this.west());
-    const south = Math.abs(character.south() - this.north());
-    const west = Math.abs(character.west() - this.east());
-    const min = Math.min(north, east, south, west);
-    if (min === north) {
+    const characterNorth = Math.abs(character.north() - this.south());
+    const characterEast = Math.abs(character.east() - this.west());
+    const characterSouth = Math.abs(character.south() - this.north());
+    const characterWest = Math.abs(character.west() - this.east());
+    const min = Math.min(
+      characterNorth,
+      characterEast,
+      characterSouth,
+      characterWest
+    );
+    if (min === characterNorth) {
       character.north(this.south());
       if (character.speedY <= 0) character.speedY = 0;
-      if (character.gravityDirection === enums.cardinalDirections.north) {
+      if (character.gravityDirection === cardinalDirections.north) {
         character.isGrounded = true;
         character.isJumping = false;
       }
-      if (character.gravityDirection === enums.cardinalDirections.south) {
+      if (character.gravityDirection === cardinalDirections.south) {
         character.isJumping = false;
       }
-    } else if (min === east) {
+    } else if (min === characterEast) {
       character.east(this.west());
       if (character.speedX >= 0) character.speedX = 0;
-      if (character.gravityDirection === enums.cardinalDirections.east) {
+      if (character.gravityDirection === cardinalDirections.east) {
         character.isGrounded = true;
         character.isJumping = false;
       }
-    } else if (min === south) {
+    } else if (min === characterSouth) {
       character.south(this.north());
       if (character.speedY >= 0) character.speedY = 0;
-      if (character.gravityDirection === enums.cardinalDirections.south) {
+      if (character.gravityDirection === cardinalDirections.south) {
         character.isGrounded = true;
         character.isJumping = false;
       }
-    } else if (min === west) {
+    } else if (min === characterWest) {
       character.west(this.east());
       if (character.speedX <= 0) character.speedX = 0;
-      if (character.gravityDirection === enums.cardinalDirections.west) {
+      if (character.gravityDirection === cardinalDirections.west) {
         character.isGrounded = true;
         character.isJumping = false;
       }

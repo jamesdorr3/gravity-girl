@@ -6,7 +6,7 @@ import spriteController from './SpriteController';
 import Text from './Text';
 
 import deathCommentary from '../constants/deathComments';
-import devLevel from '../levels/p'; // change number for start level
+import devLevel from '../levels/t'; // change number for start level
 import loadingScreen from '../levels/loading';
 
 import * as enums from '../constants/enums';

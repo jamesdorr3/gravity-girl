@@ -1,8 +1,7 @@
 import character from './Character';
+import spriteStateInfo from '../constants/spriteStateInfo';
 import { spriteStates } from '../constants/enums';
 import * as gameUtils from '../utils/gameUtils';
-import spriteStateInfo from '../constants/spriteStateInfo';
-import * as numbers from '../constants/numbers';
 
 class SpriteController {
   constructor() {

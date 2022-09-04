@@ -11,7 +11,7 @@ import * as numbers from '../constants/numbers';
 
 const height = 14
 
-const level3 = (game) =>
+const level3 = () =>
   new Level({
     name: 'The Y',
     elements: [
@@ -90,7 +90,6 @@ const level3 = (game) =>
         width: 1400,
       }),
     ],
-    game,
   });
 
 export default level3;

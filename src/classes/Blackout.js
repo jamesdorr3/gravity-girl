@@ -46,7 +46,6 @@ class Blackout {
   update = (context) => {
     const sign = getSign(this.direction);
     if (isNorthSouth(this.direction)) {
-      console.log(this.y);
       this.y += Math.pow(1.15, this.inc) * sign;
     } else {
       this.x += Math.pow(1.15, this.inc) * sign;
