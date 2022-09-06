@@ -1,5 +1,6 @@
 import character from './Character';
 import spriteStateInfo from '../constants/spriteStateInfo';
+import { loadImage } from '../utils/imageUtils';
 import { spriteStates } from '../constants/enums';
 import * as gameUtils from '../utils/gameUtils';
 
@@ -10,11 +11,7 @@ class SpriteController {
     this.sprite = null;
     this.state = spriteStates.rest;
 
-    const image = new Image();
-    image.src = '/gravity-girl-sprite.png';
-    image.onload = () => {
-      this.sprite = image;
-    };
+    loadImage('/gravity-girl-sprite.png', this, 'sprite');
   }
 
   update = () => {

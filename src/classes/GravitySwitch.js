@@ -19,6 +19,7 @@ class GravitySwitch extends Element {
   action = (character) => {
     if (this.gravityDirection !== character.gravityDirection) {
       character.gravityDirection = this.gravityDirection;
+      character.isJumping = false;
       if (isNorthSouth(this.gravityDirection)) {
         character.scaleDirectionY = character.sign();
         character.height = numbers.characterHeight;
@@ -35,7 +36,6 @@ class GravitySwitch extends Element {
     } else {
       character.scaleDirectionY *= -1;
     }
-    character.isJumping = false;
   };
 
   update = (context) => {

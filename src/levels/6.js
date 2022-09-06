@@ -20,9 +20,9 @@ const level5 = () =>
         north: 0,
       }),
       new GravitySwitch({
-        // ne to door w 1
+        // ne to door w
         gravityDirection: cardinalDirections.west,
-        east: numbers.doorWidth,
+        east: 100,
         centerY: numbers.doorHeight / 2,
       }),
       new GravitySwitch({
@@ -41,13 +41,19 @@ const level5 = () =>
         // cnw
         gravityDirection: cardinalDirections.east,
         centerX: 500,
-        centerY: 200,
+        centerY: 300,
       }),
       new GravitySwitch({
         // sw
         gravityDirection: cardinalDirections.north,
         centerX: 100,
         south: 200,
+      }),
+      new GravitySwitch({
+        // cw
+        gravityDirection: cardinalDirections.south,
+        centerX: 450,
+        centerY: 450,
       }),
       new GravitySwitch({
         // c
@@ -64,7 +70,7 @@ const level5 = () =>
       new Platform({
         // nw
         height: 200,
-        north: 100,
+        north: 0,
         west: 400,
         width: numbers.platformBreadth,
       }),
@@ -112,9 +118,9 @@ const level5 = () =>
       }),
       new Platform({ // protect door
         east: numbers.doorWidth,
-        height: 10,
+        height: numbers.platformBreadth,
         north: numbers.doorHeight,
-        width: 10,
+        width: 100,
       }),
       new Platform({
         // se w spikes

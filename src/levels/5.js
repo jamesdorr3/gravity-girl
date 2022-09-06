@@ -78,7 +78,19 @@ const level5 = () =>
         south: 100,
         west: 100,
         width: 500,
-      })
+      }),
+      new Spikes({
+        direction: 'east',
+        east: 500,
+        north: 100,
+        height: 200,
+      }),
+      new Spikes({
+        direction: 'south',
+        east: 0, 
+        south: 0,
+        width: 200
+      }),
     ],
   });
 
