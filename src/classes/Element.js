@@ -25,18 +25,28 @@ class Element {
     }
   }
 
+  centerX = (x) => {
+    if (isNum(x)) this.x = x - this.width / 2;
+    return this.x + this.width / 2;
+  }
+
+  centerY = (y) => {
+    if (isNum(y)) this.y = y - this.height / 2;
+    return this.y + this.height / 2;
+  }
+
   north = (y) => {
     if (isNum(y)) this.y = y;
     return this.y;
   };
 
   east = (x) => {
-    if (isNum(x)) this.x = x - this.width;
+    if (isNum(x)) this.x = canvasWidth - x - this.width;
     return this.x + this.width;
   };
 
   south = (y) => {
-    if (isNum(y)) this.y = y - this.height;
+    if (isNum(y)) this.y = canvasHeight - y - this.height;
     return this.y + this.height;
   };
 

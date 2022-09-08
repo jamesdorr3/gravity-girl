@@ -2,52 +2,17 @@ import Door from '../classes/Door';
 import GravitySwitch from '../classes/GravitySwitch';
 import Level from '../classes/Level';
 import Platform from '../classes/Platform';
+import Slope from '../classes/Slope';
 import * as numbers from '../constants/numbers';
 
 const testingScreen = () =>
   new Level({
     characterStartY: 150,
     elements: [
-      new GravitySwitch({
-        gravityDirection: 'north',
-        south: 100,
-        west: 200,
-      }),
-      new GravitySwitch({
-        gravityDirection: 'north',
-        south: 100,
-        east: 200,
-      }),
-      new GravitySwitch({
-        gravityDirection: 'south',
-        north: 100,
-        west: 200,
-      }),
-      new GravitySwitch({
-        gravityDirection: 'south',
-        north: 100,
-        east: 200,
-      }),
-      new GravitySwitch({
-        gravityDirection: 'west',
-        north: 200,
-        east: 100,
-      }),
-      new GravitySwitch({
-        gravityDirection: 'west',
-        south: 200,
-        east: 100,
-      }),
-      new GravitySwitch({
-        gravityDirection: 'east',
-        north: 200,
-        west: 100,
-      }),
-      new GravitySwitch({
-        gravityDirection: 'east',
-        south: 200,
-        west: 100,
-      }),
+      new Slope(0, 450, 800, 0, 0, 0, 'red'),
+      new Slope(0, 450, 800, 900, 0, 900, 'orange'),
+      new Slope(800, 0, 1600, 450, 1600, 0, 'yellow'),
+      new Slope(800, 900, 1600, 450, 1600, 900, 'green'),
     ],
   });
 

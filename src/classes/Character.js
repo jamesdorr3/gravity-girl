@@ -12,19 +12,25 @@ const spriteWhitespace = [spriteWhitespaceSide, spriteWhitespaceTop];
 
 class Character extends Element {
   constructor(info) {
+    const gravityDirection = info.gravityDirection || cardinalDirections.south
+    if (!gameUtils.isNorthSouth(gravityDirection)){
+      const { height, width } = info;
+      info.height = width;
+      info.width = height;
+    }
     super(info);
 
     this.color = 'red';
     this.deathCount = 0;
-    this.gravityDirection = info.gravityDirection || cardinalDirections.south;
+    this.gravityDirection = gravityDirection;
     this.isAnimated = true;
     this.isControllable = true;
     this.isGrounded = false;
     this.isJumping = false;
     this.keysDown = [];
     this.lastLog = new Date();
-    this.scaleDirectionX = 1;
-    this.scaleDirectionY = 1;
+    this.scaleDirectionX = info.scaleDirectionX || (this.gravityDirection === cardinalDirections.west ? -1 : 1);
+    this.scaleDirectionY = info.scaleDirectionY || (this.gravityDirection === cardinalDirections.north ? -1 : 1);
     this.speedX = 0;
     this.speedY = 0;
 
@@ -162,14 +168,14 @@ class Character extends Element {
 
   checkWallCollisions = () => {
     if (this.south() >= numbers.canvasHeight) {
-      this.south(numbers.canvasHeight);
+      this.south(0);
       this.speedY = 0;
       if (this.gravityDirection === cardinalDirections.south) {
         this.isGrounded = true;
       }
     }
     if (this.east() >= numbers.canvasWidth) {
-      this.east(numbers.canvasWidth);
+      this.east(0);
       this.speedX = 0;
       if (this.gravityDirection === cardinalDirections.east) {
         this.isGrounded = true;
@@ -315,9 +321,9 @@ class Character extends Element {
 }
 
 export default new Character({
-  gravityDirection: 'south',
+  gravityDirection: 'west',
   height: numbers.characterHeight,
-  south: 0,
-  west: 0,
+  west: 800,
+  south: 450,
   width: numbers.characterWidth,
 });
