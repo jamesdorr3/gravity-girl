@@ -28,14 +28,14 @@ class Platform extends Element {
         character.isJumping = false;
       }
     } else if (min === characterEast) {
-      character.east(this.west());
+      character.west(this.west() - character.width);
       if (character.speedX >= 0) character.speedX = 0;
       if (character.gravityDirection === cardinalDirections.east) {
         character.isGrounded = true;
         character.isJumping = false;
       }
     } else if (min === characterSouth) {
-      character.south(this.north());
+      character.north(this.north() - character.height);
       if (character.speedY >= 0) character.speedY = 0;
       if (character.gravityDirection === cardinalDirections.south) {
         character.isGrounded = true;

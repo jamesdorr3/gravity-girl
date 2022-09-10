@@ -34,7 +34,7 @@ class Spikes extends Element {
     this.isNorthSouth = isNS;
     this.scaleX = this.direction != cardinalDirections.east ? 1 : -1;
     this.scaleY = this.direction != cardinalDirections.south ? 1 : -1;
-    this.showHitBox = true;
+    this.showHitBox = false;
     loadImage('/spikesN.png', Spikes, 'imageN');
     loadImage('/spikesW.png', Spikes, 'imageW');
   }

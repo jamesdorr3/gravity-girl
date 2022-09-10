@@ -44,6 +44,7 @@ class Character extends Element {
   };
 
   draw = (context) => {
+    context.shadowBlur = 0;
     context.save();
     context.scale(this.scaleDirectionX, this.scaleDirectionY);
     context.fillStyle = this.isHighJump ? 'lime' : 'red';
@@ -321,9 +322,9 @@ class Character extends Element {
 }
 
 export default new Character({
-  gravityDirection: 'west',
+  gravityDirection: 'east',
   height: numbers.characterHeight,
-  west: 800,
-  south: 450,
+  west: 0,
+  north: 0,
   width: numbers.characterWidth,
 });

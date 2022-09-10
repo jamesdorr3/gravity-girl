@@ -20,6 +20,7 @@ class GravitySwitch extends Element {
     if (this.gravityDirection !== character.gravityDirection) {
       character.gravityDirection = this.gravityDirection;
       character.isJumping = false;
+      character.isGrounded = false;
       if (isNorthSouth(this.gravityDirection)) {
         character.scaleDirectionY = character.sign();
         character.height = numbers.characterHeight;
