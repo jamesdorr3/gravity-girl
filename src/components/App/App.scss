@@ -1,0 +1,43 @@
+@import '../../styles/variables.scss';
+
+.App {
+  min-height: 100vh;
+
+  .App-header {
+    padding: 16px 16px;
+    .main-title {
+      @include skew;
+
+      margin: 0;
+    }
+
+    .mobile-instructions {
+      display: none;
+    }
+
+    button {
+      @include skew;
+    }
+  }
+}
+
+// @media (max-width: px-to-rem(1281)) {
+//   .App {
+//     .App-header {
+//       padding: 32px;
+
+//       .main-title {
+//       }
+
+//       .mobile-instructions {
+//         display: block;
+//         margin-top: 16px;
+//       }
+
+//       button {
+//         margin-top: 16px;
+//         width: 100%;
+//       }
+//     }
+//   }
+// }

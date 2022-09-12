@@ -15,10 +15,7 @@ const level2 = () =>
     name: 'What Just Happened?',
     elements: [
       new Door({
-        customAction: () => {
-          character.gravityDirection = enums.cardinalDirections.south;
-          character.scaleDirectionY = 1;
-        },
+        gravityDirection: 'south',
         east: 0,
         nextLevel,
         north: 300,

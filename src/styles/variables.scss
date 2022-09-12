@@ -1,1 +1,9 @@
 $canvas-margin: 17px;
+
+@function px-to-rem ($px) {
+  @return #{$px / 16}rem;
+};
+
+@mixin skew {
+  transform: skew(-10deg);
+};

@@ -1,7 +1,18 @@
+@import './styles/variables.scss';
+
 body {
+  font-family: 'Arial';
   margin: 0;
 }
 
-.App {
-  min-height: 100vh;
+button, div, span {
+  font-size: px-to-rem(24);
+}
+
+button {
+  padding: 16px 24px;
+}
+
+.text-small {
+  font-size: px-to-rem(18);
 }

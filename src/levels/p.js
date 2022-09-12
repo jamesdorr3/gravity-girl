@@ -51,11 +51,6 @@ const makeGravitySwitches = () => {
 const playAround1 = (game) =>
   new Level({
     elements: [
-      // new Door({
-      //   north: 0,
-      //   nextLevel,
-      //   east: 0,
-      // }),
       ...makeGravitySwitches(),
       // new Spikes({
       //   north: 0,

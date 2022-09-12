@@ -171,9 +171,8 @@ const level5 = () =>
       new Door({
         north: 0,
         east: 0,
-        height: numbers.doorWidth,
         nextLevel,
-        width: numbers.doorHeight,
+        isLandscape: true,
       })
 
       // new Spikes({

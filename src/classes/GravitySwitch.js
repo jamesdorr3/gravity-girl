@@ -18,18 +18,7 @@ class GravitySwitch extends Element {
 
   action = (character) => {
     if (this.gravityDirection !== character.gravityDirection) {
-      character.gravityDirection = this.gravityDirection;
-      character.isJumping = false;
-      character.isGrounded = false;
-      if (isNorthSouth(this.gravityDirection)) {
-        character.scaleDirectionY = character.sign();
-        character.height = numbers.characterHeight;
-        character.width = numbers.characterWidth;
-      } else {
-        character.scaleDirectionX = character.sign();
-        character.height = numbers.characterWidth;
-        character.width = numbers.characterHeight;
-      }
+      character.changeGravity(this.gravityDirection);
     }
     // animates a character tornado spin
     if (isNorthSouth(this.gravityDirection)) {

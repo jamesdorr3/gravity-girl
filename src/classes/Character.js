@@ -43,6 +43,21 @@ class Character extends Element {
     return this[key];
   };
 
+  changeGravity = (direction = 'south') => {
+    this.gravityDirection = direction;
+    this.isJumping = false;
+    this.isGrounded = false;
+    if (gameUtils.isNorthSouth(direction)) {
+      this.scaleDirectionY = this.sign();
+      this.height = numbers.characterHeight;
+      this.width = numbers.characterWidth;
+    } else {
+      this.scaleDirectionX = this.sign();
+      this.height = numbers.characterWidth;
+      this.width = numbers.characterHeight;
+    }
+  };
+
   draw = (context) => {
     context.shadowBlur = 0;
     context.save();
@@ -283,11 +298,9 @@ class Character extends Element {
 
   reset = (info) => {
     this.height = info.height || numbers.characterHeight;
-    this.gravityDirection = info.gravityDirection || cardinalDirections.south;
+    this.changeGravity(info.gravityDirection || cardinalDirections.south);
     this.isAnimated = gameUtils.firstDefined(info.isAnimated, true);
     this.isControllable = gameUtils.firstDefined(info.isControllable, true);
-    this.scaleDirectionX = info.scaleDirectionX || 1;
-    this.scaleDirectionY = info.scaleDirectionY || 1;
     this.speedX = info.speedX || 0;
     this.speedY = info.speedY || 0;
     this.width = info.width || numbers.characterWidth;
