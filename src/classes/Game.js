@@ -5,8 +5,8 @@ import character from './Character';
 import spriteController from './SpriteController';
 import Text from './Text';
 
-import deathCommentary from '../constants/deathComments';
-import devLevel from '../levels/4'; // change number for start level
+import devLevel from '../levels/2'; // change number for start level
+import keyboard from './Keyboard';
 import loadingScreen from '../levels/loading';
 
 import * as enums from '../constants/enums';
@@ -27,25 +27,25 @@ class Game {
   }
 
   changeLevels = (newLevel) => {
-    const text = new Text({text: ''});
+    const text = new Text({ text: '' });
     this.overlaidElements.push(text);
     this.overlaidElements.push(
       new Blackout({
         direction: 'east',
         doOnce: () => {
           this.level = newLevel(this);
-          text.text = this.level.name || `Level ${Level.count / 2}`
+          text.text = this.level.name || `Level ${Level.count / 2}`;
           character.isAnimated = false;
         },
         doLast: () => {
           setTimeout(() => {
             character.isAnimated = true;
-            character.isControllable = true;
+            keyboard.setIsControllable(true);
             this.overlaidElements.pop();
-          }, numbers.readyScreenTime)
-        }
+          }, numbers.readyScreenTime);
+        },
       })
-    )
+    );
   };
 
   createInterval = () =>
@@ -61,16 +61,11 @@ class Game {
 
   death = () => {
     character.isAnimated = false;
-    character.isControllable = false;
+    keyboard.setIsControllable(false);
     character.deathCount++;
-    const text = new Text({text: deathCommentary(character.deathCount)});
-    this.overlaidElements.push(text);
-    setTimeout(() => {
-      this.overlaidElements.pop();
-      this.overlaidElements.push(new Blackout({
-        doLast: () => character.isControllable = true,
-      }));
-    }, 2 * numbers.second);
+    this.overlaidElements.push(new Blackout({
+      doLast: () => keyboard.setIsControllable(true),
+    }));
   };
 
   delete = () => delete this;

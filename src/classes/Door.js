@@ -1,6 +1,7 @@
 import Element from './Element';
 import character from './Character';
 import game from './Game';
+import keyboard from './Keyboard';
 import spriteController from './SpriteController';
 import { isNorthSouth } from '../utils/gameUtils';
 import { doorHeight, doorWidth } from '../constants/numbers';
@@ -26,7 +27,7 @@ class Door extends Element {
     if (this.hasEntered) return;
     else this.hasEntered = true;
     spriteController.state = 'bow';
-    character.isControllable = false;
+    keyboard.setIsControllable(false);
     if (this.gravityDirection) character.changeGravity(this.gravityDirection);
     if (this.customAction) this.customAction();
     setTimeout(() => {

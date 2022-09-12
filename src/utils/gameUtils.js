@@ -30,11 +30,11 @@ export const gravitySign = (gravityDirection) =>
     [enums.cardinalDirections.west]: -1,
   }[gravityDirection]);
 
-export const isEastKeyDown = (keysDown) =>
+export const isEastKeyDown = (keysDown) => // TO DO incorporate in keyboard?
   keysDown.includes(keys.d) || keysDown.includes(keys.right);
 
-export const isJumpKeyDown = (keysDown) =>
-  keysDown.includes(keys.space) || keysDown.includes(keys.shift);
+// export const isJumpKeyDown = (keysDown) =>
+//   keysDown.includes(keys.space) || keysDown.includes(keys.shift);
 
 export const isNorthKeyDown = (keysDown) =>
   keysDown.includes(keys.w) || keysDown.includes(keys.up);

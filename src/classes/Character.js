@@ -1,6 +1,7 @@
 import Element from './Element';
 import spriteController from './SpriteController';
 import game from './Game';
+import keyboard from './Keyboard';
 import { cardinalDirections } from '../constants/enums';
 import { spriteStates } from '../constants/enums';
 import * as gameUtils from '../utils/gameUtils';
@@ -12,8 +13,8 @@ const spriteWhitespace = [spriteWhitespaceSide, spriteWhitespaceTop];
 
 class Character extends Element {
   constructor(info) {
-    const gravityDirection = info.gravityDirection || cardinalDirections.south
-    if (!gameUtils.isNorthSouth(gravityDirection)){
+    const gravityDirection = info.gravityDirection || cardinalDirections.south;
+    if (!gameUtils.isNorthSouth(gravityDirection)) {
       const { height, width } = info;
       info.height = width;
       info.width = height;
@@ -24,13 +25,15 @@ class Character extends Element {
     this.deathCount = 0;
     this.gravityDirection = gravityDirection;
     this.isAnimated = true;
-    this.isControllable = true;
     this.isGrounded = false;
     this.isJumping = false;
-    this.keysDown = [];
     this.lastLog = new Date();
-    this.scaleDirectionX = info.scaleDirectionX || (this.gravityDirection === cardinalDirections.west ? -1 : 1);
-    this.scaleDirectionY = info.scaleDirectionY || (this.gravityDirection === cardinalDirections.north ? -1 : 1);
+    this.scaleDirectionX =
+      info.scaleDirectionX ||
+      (this.gravityDirection === cardinalDirections.west ? -1 : 1);
+    this.scaleDirectionY =
+      info.scaleDirectionY ||
+      (this.gravityDirection === cardinalDirections.north ? -1 : 1);
     this.speedX = 0;
     this.speedY = 0;
 
@@ -93,18 +96,6 @@ class Character extends Element {
     context.restore();
   };
 
-  handleKeyDown = (e) => {
-    if (!this.keysDown.includes(e.code)) {
-      this.keysDown.push(e.code);
-    }
-  };
-
-  handleKeyUp = (e) => {
-    if (this.keysDown.includes(e.code)) {
-      this.keysDown = this.keysDown.filter((it) => it !== e.code);
-    }
-  };
-
   checkCollisions = () => {
     game.level.elements.forEach((element) => {
       if (element.collidesWith(this)) element.action(this);
@@ -156,13 +147,10 @@ class Character extends Element {
     }
   };
 
-  checkJump = (jumpSpeedKey, jumpKeyName, runSpeedKey) => {
+  checkJump = (jumpSpeedKey, runSpeedKey) => {
     const jumpSpeed = this.acc(jumpSpeedKey);
     // const runSpeed = this.acc(runSpeedKey);
-    const isJumpPressed =
-      gameUtils[jumpKeyName](this.keysDown) ||
-      gameUtils.isJumpKeyDown(this.keysDown);
-    if (isJumpPressed) {
+    if (keyboard.isJumpKeyDown()) {
       if (this.isGrounded) {
         spriteController.state = 'jump';
         this.isGrounded = false;
@@ -228,8 +216,8 @@ class Character extends Element {
   checkRun = (speed, runKeyPlus, runKeyMinus, scaleDirection, position) => {
     const length = game.frameLength();
     const startingSpeed = speed();
-    const isRunPlus = gameUtils[runKeyPlus](this.keysDown);
-    const isRunMinus = gameUtils[runKeyMinus](this.keysDown);
+    const isRunPlus = gameUtils[runKeyPlus](keyboard.keysDown);
+    const isRunMinus = gameUtils[runKeyMinus](keyboard.keysDown);
     const isBothDown = isRunPlus && isRunMinus;
     const isNeitherDown = !isRunPlus && !isRunMinus;
     if (isNeitherDown || isBothDown) {
@@ -258,9 +246,9 @@ class Character extends Element {
 
   checkXMovement = () => {
     if (this.gravityDirection === cardinalDirections.east) {
-      this.checkJump('speedX', 'isWestKeyDown', 'speedY');
+      this.checkJump('speedX', 'speedY');
     } else if (this.gravityDirection === cardinalDirections.west) {
-      this.checkJump('speedX', 'isEastKeyDown', 'speedY');
+      this.checkJump('speedX', 'speedY');
     } else {
       this.checkRun(
         this.acc('speedX'),
@@ -274,9 +262,9 @@ class Character extends Element {
 
   checkYMovement = () => {
     if (this.gravityDirection === cardinalDirections.north) {
-      this.checkJump('speedY', 'isSouthKeyDown', 'speedX');
+      this.checkJump('speedY', 'speedX');
     } else if (this.gravityDirection === cardinalDirections.south) {
-      this.checkJump('speedY', 'isNorthKeyDown', 'speedX');
+      this.checkJump('speedY', 'speedX');
     } else {
       this.checkRun(
         this.acc('speedY'),
@@ -300,7 +288,7 @@ class Character extends Element {
     this.height = info.height || numbers.characterHeight;
     this.changeGravity(info.gravityDirection || cardinalDirections.south);
     this.isAnimated = gameUtils.firstDefined(info.isAnimated, true);
-    this.isControllable = gameUtils.firstDefined(info.isControllable, true);
+    keyboard.setIsControllable(gameUtils.firstDefined(info.isControllable, true))
     this.speedX = info.speedX || 0;
     this.speedY = info.speedY || 0;
     this.width = info.width || numbers.characterWidth;
@@ -320,10 +308,8 @@ class Character extends Element {
   };
 
   update = (context) => {
-    if (this.isControllable) {
-      this.checkXMovement();
-      this.checkYMovement();
-    }
+    this.checkXMovement();
+    this.checkYMovement();
     this.checkGravity();
     this.checkCollisions();
     this.checkWallCollisions();
@@ -335,7 +321,6 @@ class Character extends Element {
 }
 
 export default new Character({
-  gravityDirection: 'east',
   height: numbers.characterHeight,
   west: 0,
   north: 0,

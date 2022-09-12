@@ -1,5 +1,6 @@
-import game from './Game';
 import character from './Character';
+import game from './Game';
+import keyboard from './Keyboard';
 import * as numbers from '../constants/numbers';
 
 class Level {
@@ -12,6 +13,7 @@ class Level {
     characterStartY = numbers.canvasHeight - numbers.characterHeight,
     elements = [],
     hasCharacter = true,
+    isCharacterControllable = true,
     name,
     texts = [],
   }) {

@@ -1,6 +1,7 @@
 import Element from './Element';
 import character from './Character';
 import game from './Game';
+import keyboard from './Keyboard';
 import { cardinalDirections } from '../constants/enums';
 import { isNorthSouth, isNum } from '../utils/gameUtils';
 import { loadImage } from '../utils/imageUtils';
@@ -40,7 +41,7 @@ class Spikes extends Element {
   }
 
   action = () => {
-    if (character.isControllable) game.death();
+    if (keyboard.isControllable) game.death();
   };
 
   drawEW = (context) => {
