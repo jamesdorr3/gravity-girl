@@ -5,7 +5,7 @@ import character from './Character';
 import spriteController from './SpriteController';
 import Text from './Text';
 
-import devLevel from '../levels/2'; // change number for start level
+import devLevel from '../levels/1'; // change number for start level
 import keyboard from './Keyboard';
 import loadingScreen from '../levels/loading';
 

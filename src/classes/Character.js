@@ -225,7 +225,7 @@ class Character extends Element {
       if (startingSpeed)
         speed(speed() - numbers.runStopFriction * length * direction);
       if (Math.abs(speed()) < 0.2) {
-        if (this.isGrounded) spriteController.state = spriteStates.rest;
+        if (this.isGrounded && keyboard.isControllable) spriteController.state = spriteStates.rest;
         speed(0);
       }
     } else {
@@ -323,6 +323,6 @@ class Character extends Element {
 export default new Character({
   height: numbers.characterHeight,
   west: 0,
-  north: 0,
+  south: 0,
   width: numbers.characterWidth,
 });
