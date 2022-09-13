@@ -1,4 +1,5 @@
 import Element from './Element';
+import sfx from './SFX';
 import spriteController from './SpriteController';
 import game from './Game';
 import keyboard from './Keyboard';
@@ -25,7 +26,7 @@ class Character extends Element {
     this.deathCount = 0;
     this.gravityDirection = gravityDirection;
     this.isAnimated = true;
-    this.isGrounded = false;
+    this.isGrounded = true;
     this.isJumping = false;
     this.lastLog = new Date();
     this.scaleDirectionX =
@@ -128,12 +129,9 @@ class Character extends Element {
     );
     position(position() + dist);
     speed(newSpeedY);
-    if (Math.abs(newSpeedY) > 0) {
-      this.isGrounded = false;
-    }
   };
 
-  checkGravity = () => {
+  gravityController = () => {
     if (
       this.gravityDirection === cardinalDirections.north ||
       this.gravityDirection === cardinalDirections.south
@@ -154,6 +152,7 @@ class Character extends Element {
       if (this.isGrounded) {
         spriteController.state = 'jump';
         this.isGrounded = false;
+        sfx.playJump();
         // this.isHighJump = Math.abs(runSpeed()) === numbers.runTerminalVelocity;
         this.isJumping = new Date();
       }
@@ -174,35 +173,41 @@ class Character extends Element {
     if (this.south() >= numbers.canvasHeight) {
       this.south(0);
       this.speedY = 0;
-      if (this.gravityDirection === cardinalDirections.south) {
+      if (!this.isGrounded && this.gravityDirection === cardinalDirections.south) {
         this.isGrounded = true;
+        sfx.playLand();
       }
     }
     if (this.east() >= numbers.canvasWidth) {
       this.east(0);
       this.speedX = 0;
-      if (this.gravityDirection === cardinalDirections.east) {
+      if (!this.isGrounded && this.gravityDirection === cardinalDirections.east) {
         this.isGrounded = true;
+        sfx.playLand();
       }
     }
     if (this.x <= 0) {
       this.west(0);
       this.speedX = 0;
-      if (this.gravityDirection === cardinalDirections.west) {
+      if (!this.isGrounded && this.gravityDirection === cardinalDirections.west) {
         this.isGrounded = true;
+        sfx.playLand();
       }
     }
     if (this.y <= 0) {
       this.y = 0;
       this.speedY = 0;
-      if (this.gravityDirection === cardinalDirections.north) {
+      if (!this.isGrounded && this.gravityDirection === cardinalDirections.north) {
         this.isGrounded = true;
+        sfx.playLand();
       }
     }
   };
 
   run = (scaleDirection, sign, speed, length) => {
-    if (this.isGrounded) spriteController.state = spriteStates.run;
+    if (this.isGrounded) {
+      spriteController.state = spriteStates.run;
+    }
     this[scaleDirection] =
       sign * (gameUtils.isNorthSouth(this.gravityDirection) ? 1 : -1); // TODO: reverse sideways sprites;
     const direction = speed() === Math.abs(speed()) ? 1 : -1;
@@ -244,7 +249,7 @@ class Character extends Element {
     position(position() + dist);
   };
 
-  checkXMovement = () => {
+  xMovementController = () => {
     if (this.gravityDirection === cardinalDirections.east) {
       this.checkJump('speedX', 'speedY');
     } else if (this.gravityDirection === cardinalDirections.west) {
@@ -260,7 +265,7 @@ class Character extends Element {
     }
   };
 
-  checkYMovement = () => {
+  yMovementController = () => {
     if (this.gravityDirection === cardinalDirections.north) {
       this.checkJump('speedY', 'speedX');
     } else if (this.gravityDirection === cardinalDirections.south) {
@@ -308,11 +313,15 @@ class Character extends Element {
   };
 
   update = (context) => {
-    this.checkXMovement();
-    this.checkYMovement();
-    this.checkGravity();
+    this.xMovementController();
+    this.yMovementController();
+    this.gravityController();
     this.checkCollisions();
     this.checkWallCollisions();
+    if (Math.abs(gameUtils.isNorthSouth(this.gravityDirection) ? this.speedY : this.speedX) > 0) {
+      console.log('here');
+      this.isGrounded = false;
+    }
     if (this.isAnimated) {
       spriteController.update();
     }

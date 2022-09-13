@@ -1,4 +1,5 @@
 import character from '../classes/Character';
+import sfx from '../classes/SFX';
 import { spriteStates } from './enums';
 const { bow, jump, rest, run } = spriteStates;
 
@@ -42,7 +43,8 @@ export default {
         return Math.abs(controller.frameStart - character.x) > 10
       },
       then: (controller) => {
-        controller.frameStart = character.x
+        controller.frameStart = character.x;
+        // sfx.playStep();
       },
     },
   },
@@ -85,7 +87,8 @@ export default {
         return Math.abs(controller.frameStart - character.y) > 10
       },
       then: (controller) => {
-        controller.frameStart = character.y
+        controller.frameStart = character.y;
+        // sfx.playStep();
       },
     },
   },

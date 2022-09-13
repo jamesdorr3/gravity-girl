@@ -1,12 +1,18 @@
 import Element from './Element';
+import character from './Character';
 import { cardinalDirections } from '../constants/enums';
+import sfx from './SFX';
+
+const setZero = (key) => {
+  character[key] = 0;
+}
 
 class Platform extends Element {
   constructor(info) {
     super(info);
   }
 
-  action = (character) => {
+  action = () => {
     const characterNorth = Math.abs(character.north() - this.south());
     const characterEast = Math.abs(character.east() - this.west());
     const characterSouth = Math.abs(character.south() - this.north());
@@ -19,34 +25,38 @@ class Platform extends Element {
     );
     if (min === characterNorth) {
       character.north(this.south());
-      if (character.speedY <= 0) character.speedY = 0;
-      if (character.gravityDirection === cardinalDirections.north) {
+      if (character.speedY <= 0) setZero('speedY');
+      if (!character.isGrounded && character.gravityDirection === cardinalDirections.north) {
         character.isGrounded = true;
         character.isJumping = false;
+        sfx.playLand();
       }
       if (character.gravityDirection === cardinalDirections.south) {
         character.isJumping = false;
       }
     } else if (min === characterEast) {
       character.west(this.west() - character.width);
-      if (character.speedX >= 0) character.speedX = 0;
-      if (character.gravityDirection === cardinalDirections.east) {
+      if (character.speedX >= 0) setZero('speedX');
+      if (!character.isGrounded && character.gravityDirection === cardinalDirections.east) {
         character.isGrounded = true;
         character.isJumping = false;
+        sfx.playLand();
       }
     } else if (min === characterSouth) {
       character.north(this.north() - character.height);
-      if (character.speedY >= 0) character.speedY = 0;
-      if (character.gravityDirection === cardinalDirections.south) {
+      if (character.speedY >= 0) setZero('speedY');
+      if (!character.isGrounded && character.gravityDirection === cardinalDirections.south) {
         character.isGrounded = true;
         character.isJumping = false;
+        sfx.playLand();
       }
     } else if (min === characterWest) {
       character.west(this.east());
-      if (character.speedX <= 0) character.speedX = 0;
-      if (character.gravityDirection === cardinalDirections.west) {
+      if (character.speedX <= 0) setZero('speedX');
+      if (!character.isGrounded && character.gravityDirection === cardinalDirections.west) {
         character.isGrounded = true;
         character.isJumping = false;
+        sfx.playLand();
       }
     }
   };

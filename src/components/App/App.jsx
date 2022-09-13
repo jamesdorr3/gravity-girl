@@ -19,7 +19,7 @@ const App = () => {
   return (
     <div className="App">
       <header className="App-header">
-        <h1 className="main-title">Gravity Girl</h1>
+        {/* <h1 className="main-title">Gravity Girl</h1> */}
         <div className="mobile-instructions">
           <div>Click "Full Screen" to play</div>
           <div className="text-small">Landscape Orientation recommended</div>

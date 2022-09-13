@@ -2,6 +2,7 @@ import Element from './Element';
 import { cardinalDirections } from '../constants/enums';
 import { isNorthSouth } from '../utils/gameUtils';
 import * as numbers from '../constants/numbers';
+import sfx from './SFX';
 
 const p = numbers.gravitySwitchPadding;
 
@@ -19,6 +20,7 @@ class GravitySwitch extends Element {
   action = (character) => {
     if (this.gravityDirection !== character.gravityDirection) {
       character.changeGravity(this.gravityDirection);
+      sfx.playGravitySwitch();
     }
     // animates a character tornado spin
     if (isNorthSouth(this.gravityDirection)) {

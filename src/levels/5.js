@@ -2,7 +2,6 @@ import Door from '../classes/Door';
 import GravitySwitch from '../classes/GravitySwitch';
 import Level from '../classes/Level';
 import Platform from '../classes/Platform';
-import Slope from '../classes/Slope';
 import Spikes from '../classes/Spikes';
 
 import nextLevel from './6';
@@ -27,7 +26,30 @@ const level5 = () =>
     name: 'NEWS',
     elements: [
 
-      new Slope(100, 900, 600, 400, 600, 900),
+      new Platform({ // sw
+        height: 125,
+        south: 0,
+        width: 100,
+        x: 200,
+      }),
+      new Platform({ // sw2 medium
+        height: 125 * 2,
+        south: 0,
+        width: 100,
+        x: 300,
+      }),
+      new Platform({ // sw3 tall
+        height: 125 * 3,
+        south: 0,
+        width: 100,
+        x: 400,
+      }),
+      new Platform({ // sw4 tallest
+        height: 125 * 4,
+        south: 0,
+        width: 100,
+        x: 500,
+      }),
 
       new Platform({
         height: 700,

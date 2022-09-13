@@ -5,6 +5,7 @@ import keyboard from './Keyboard';
 import spriteController from './SpriteController';
 import { isNorthSouth } from '../utils/gameUtils';
 import { doorHeight, doorWidth } from '../constants/numbers';
+import sfx from './SFX';
 
 class Door extends Element {
   constructor(info) {
@@ -30,6 +31,7 @@ class Door extends Element {
     keyboard.setIsControllable(false);
     if (this.gravityDirection) character.changeGravity(this.gravityDirection);
     if (this.customAction) this.customAction();
+    sfx.playWin();
     setTimeout(() => {
       game.changeLevels(this.nextLevel);
     }, 2400)

@@ -26,6 +26,7 @@ class Level {
     this.texts = texts;
 
     Level.count += 1;
+    if (!isCharacterControllable) keyboard.setIsControllable(false);
   }
 
   intervalAction = () => {

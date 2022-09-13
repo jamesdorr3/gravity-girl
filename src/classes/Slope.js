@@ -2,6 +2,8 @@ import Element from './Element';
 import { cardinalDirections } from '../constants/enums';
 import { isNorthSouth } from '../utils/gameUtils';
 
+// TODO Too complex? preventing jump or run down
+
 class Slope extends Element {
   constructor(x1, y1, x2, y2, x90, y90, color = 'lightblue') {
     const x = Math.min(x1, x2, x90);
@@ -81,5 +83,3 @@ class Slope extends Element {
     context.fill();
   };
 }
-
-export default Slope;

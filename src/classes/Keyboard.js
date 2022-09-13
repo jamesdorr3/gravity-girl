@@ -25,10 +25,12 @@ class Keyboard {
 
   handleKeyDown = (e) => {
     if (this.isControllable) this.keysDown.push(e.code);
+    e.preventDefault();
   };
 
   handleKeyUp = (e) => {
     this.keysDown = this.keysDown.filter((it) => it !== e.code);
+    e.preventDefault();
   };
 
   isJumpKeyDown = () => jumpKeys().some((key) => this.keysDown.includes(key));

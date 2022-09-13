@@ -5,13 +5,14 @@ import character from './Character';
 import spriteController from './SpriteController';
 import Text from './Text';
 
-import devLevel from '../levels/1'; // change number for start level
+import devLevel from '../levels/5'; // change number for start level
 import keyboard from './Keyboard';
 import loadingScreen from '../levels/loading';
 
 import * as enums from '../constants/enums';
 import * as gameUtils from '../utils/gameUtils';
 import * as numbers from '../constants/numbers';
+import sfx from './SFX';
 
 class Game {
   constructor() {
@@ -21,7 +22,7 @@ class Game {
     this.interval = null;
 
     this.overlaidButtons = [
-      // new Button({ action: this.stop, east: 0, north: 0, text: 'STOP' }),
+      new Button({ action: this.stop, east: 0, north: 0, text: 'STOP' }),
     ];
     this.overlaidElements = [];
   }
@@ -60,6 +61,7 @@ class Game {
     }, numbers.frameLength);
 
   death = () => {
+    sfx.playDeath();
     character.isAnimated = false;
     keyboard.setIsControllable(false);
     character.deathCount++;
