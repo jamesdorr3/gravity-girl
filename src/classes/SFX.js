@@ -11,7 +11,7 @@ class SFX {
   }
 
   playDeath = () => this.death.play();
-  playGravitySwitch = () => this.gravitySwitch.play();
+  playGravitySwitch = () => {}; //this.gravitySwitch.play();
   playJump = () => {}; //this.jump.play();
   playLand = () => this.land.play();
   playStep = () => {

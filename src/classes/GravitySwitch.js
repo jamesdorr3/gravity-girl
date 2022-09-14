@@ -5,16 +5,35 @@ import * as numbers from '../constants/numbers';
 import sfx from './SFX';
 
 const p = numbers.gravitySwitchPadding;
+const offset = 10;
+
+const distractorFieldsNegative = ['centerX', 'centerY', 'north', 'west'];
+const distractorFieldsPositive = ['east', 'south', 'x', 'y'];
+
+const distractorUpdate = (info) => {
+  distractorFieldsNegative.forEach((key) => {
+    if (info[key]) info[key] -= offset;
+  });
+  distractorFieldsPositive.forEach((key) => {
+    if (info[key]) info[key] += offset;
+  });
+};
 
 class GravitySwitch extends Element {
-  constructor(options) {
+  constructor(info) {
+    let size = numbers.characterHeight;
+    if (info.isDistractor) {
+      size = size - 2 * offset;
+      distractorUpdate(info);
+    }
     super({
-      ...options,
-      height: numbers.characterHeight,
-      width: numbers.characterHeight,
+      ...info,
+      height: size,
+      width: size,
     });
 
-    this.gravityDirection = options.gravityDirection || 'south';
+    this.gravityDirection = info.gravityDirection || 'south';
+    this.isDistractor = info.isDistractor;
   }
 
   action = (character) => {
@@ -31,32 +50,43 @@ class GravitySwitch extends Element {
   };
 
   update = (context) => {
+    let { height, width, x, y } = this;
+    if (this.isDistractor) {
+      height += offset * 2;
+      width += offset * 2;
+      x -= offset;
+      y -= offset;
+    }
+    const north = y;
+    const east = x + width;
+    const south = y + height;
+    const west = x;
     context.shadowColor = 'lightblue';
     context.shadowBlur = 50;
     context.fillStyle = 'lightblue';
-    context.fillRect(this.x, this.y, this.height, this.width);
+    context.fillRect(x, y, height, width);
     context.shadowBlur = 0;
     context.fillStyle = 'blue';
     context.beginPath();
     if (this.gravityDirection === cardinalDirections.north) {
-      context.moveTo(this.west() + p, this.south() - p * 1.25);
-      context.lineTo(this.east() - p, this.south() - p * 1.25);
-      context.lineTo(this.west() + this.width / 2, this.north() + p * 1.25);
+      context.moveTo(west + p, south - p * 1.25);
+      context.lineTo(east - p, south - p * 1.25);
+      context.lineTo(west + width / 2, north + p * 1.25);
     }
     if (this.gravityDirection === cardinalDirections.east) {
-      context.moveTo(this.west() + p * 1.25, this.south() - p);
-      context.lineTo(this.west() + p * 1.25, this.north() + p);
-      context.lineTo(this.east() - p * 1.25, this.north() + this.width / 2);
+      context.moveTo(west + p * 1.25, south - p);
+      context.lineTo(west + p * 1.25, north + p);
+      context.lineTo(east - p * 1.25, north + width / 2);
     }
     if (this.gravityDirection === cardinalDirections.south) {
-      context.moveTo(this.east() - p, this.north() + p * 1.25);
-      context.lineTo(this.west() + p, this.north() + p * 1.25);
-      context.lineTo(this.west() + this.width / 2, this.south() - p * 1.25);
+      context.moveTo(east - p, north + p * 1.25);
+      context.lineTo(west + p, north + p * 1.25);
+      context.lineTo(west + width / 2, south - p * 1.25);
     }
     if (this.gravityDirection === cardinalDirections.west) {
-      context.moveTo(this.east() - p * 1.25, this.south() - p);
-      context.lineTo(this.east() - p * 1.25, this.north() + p);
-      context.lineTo(this.west() + p * 1.25, this.north() + this.width / 2);
+      context.moveTo(east - p * 1.25, south - p);
+      context.lineTo(east - p * 1.25, north + p);
+      context.lineTo(west + p * 1.25, north + width / 2);
     }
     context.fill();
   };

@@ -67,12 +67,6 @@ class Character extends Element {
     context.save();
     context.scale(this.scaleDirectionX, this.scaleDirectionY);
     context.fillStyle = this.isHighJump ? 'lime' : 'red';
-    // context.fillRect(
-    //   this.x * this.scaleDirectionX,
-    //   this.y * this.scaleDirectionY,
-    //   this.width * this.scaleDirectionX,
-    //   this.height * this.scaleDirectionY
-    // );
     const isNorthSouth = gameUtils.isNorthSouth(this.gravityDirection);
     const [spriteOffsetX, spriteOffsetY] = isNorthSouth
       ? spriteWhitespace
@@ -94,6 +88,12 @@ class Character extends Element {
           spriteOffsetY * 2 * this.scaleDirectionY
       );
     }
+    //     context.fillRect(
+    //   this.x * this.scaleDirectionX,
+    //   this.y * this.scaleDirectionY,
+    //   this.width * this.scaleDirectionX,
+    //   this.height * this.scaleDirectionY
+    // );
     context.restore();
   };
 
@@ -319,7 +319,6 @@ class Character extends Element {
     this.checkCollisions();
     this.checkWallCollisions();
     if (Math.abs(gameUtils.isNorthSouth(this.gravityDirection) ? this.speedY : this.speedX) > 0) {
-      console.log('here');
       this.isGrounded = false;
     }
     if (this.isAnimated) {

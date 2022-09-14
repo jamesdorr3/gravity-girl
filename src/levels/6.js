@@ -59,7 +59,22 @@ const level5 = () =>
         // c
         gravityDirection: cardinalDirections.south,
         centerX: 650,
-        centerY: 500,
+        south: 450,
+        isDistractor: true,
+      }),
+      new GravitySwitch({
+        // cse
+        gravityDirection: cardinalDirections.south,
+        centerX: 850,
+        south: 450,
+        isDistractor: true,
+      }),
+      new GravitySwitch({
+        // cse
+        gravityDirection: cardinalDirections.south,
+        centerX: 1050,
+        south: 450,
+        isDistractor: true,
       }),
       new GravitySwitch({
         // se
