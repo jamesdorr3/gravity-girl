@@ -2,7 +2,7 @@
 export const buttonPadding = 20;
 export const canvasHeight = 900;
 export const canvasWidth = 1600;
-export const characterScale = 3;
+export const characterScale = 10;
 export const gameSpeed = 1; // 1 is real time;
 export const gravityAcceleration = 1.33;
 export const gravitySlowAcceleration = 0.4433;
@@ -31,8 +31,8 @@ export const spriteWidth = 144;
 // hoisted dependent variables
 
 // dependent variables
-export const characterHeight = 22 * characterScale; // was 63, now 38 
-export const characterWidth = 11 * characterScale; // was 45, now 13
+export const characterHeight = 66 * characterScale; // was 63, now 38 
+export const characterWidth = 33 * characterScale; // was 45, now 13
 export const doorHeight = 30 * characterScale;
 export const doorWidth = 20 * characterScale;
 export const frameLength = second / 60; //////////////////////////////////

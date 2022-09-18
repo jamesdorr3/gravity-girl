@@ -8,8 +8,8 @@ import { spriteStates } from '../constants/enums';
 import * as gameUtils from '../utils/gameUtils';
 import * as numbers from '../constants/numbers';
 
-const spriteWhitespaceSide = 25;
-const spriteWhitespaceTop = 17;
+const spriteWhitespaceSide = 25 * numbers.characterScale;
+const spriteWhitespaceTop = 17 * numbers.characterScale;
 const spriteWhitespace = [spriteWhitespaceSide, spriteWhitespaceTop];
 
 class Character extends Element {
