@@ -51,6 +51,8 @@ class Character extends Element {
     this.gravityDirection = direction;
     this.isJumping = false;
     this.isGrounded = false;
+    const centerX = this.centerX();
+    const centerY = this.centerY();
     if (gameUtils.isNorthSouth(direction)) {
       this.scaleDirectionY = this.sign();
       this.height = numbers.characterHeight;
@@ -60,6 +62,8 @@ class Character extends Element {
       this.height = numbers.characterWidth;
       this.width = numbers.characterHeight;
     }
+    this.centerX(centerX);
+    this.centerY(centerY);
   };
 
   draw = (context) => {
@@ -204,6 +208,12 @@ class Character extends Element {
     }
   };
 
+  friction = (speed) => {
+    const airFrictionReduction = this.isGrounded ? 1 : 2;
+    const direction = speed() === Math.abs(speed()) ? 1 : -1;
+    return numbers.runStopFriction * game.frameLength() * direction / airFrictionReduction
+  }
+
   run = (scaleDirection, sign, speed, length) => {
     if (this.isGrounded) {
       spriteController.state = spriteStates.run;
@@ -211,14 +221,11 @@ class Character extends Element {
     this[scaleDirection] =
       sign * (gameUtils.isNorthSouth(this.gravityDirection) ? 1 : -1); // TODO: reverse sideways sprites;
     const direction = speed() === Math.abs(speed()) ? 1 : -1;
-    const friction =
-      direction === sign ? 0 : numbers.runStopFriction * length * direction;
+    const friction = direction === sign ? 0 : this.friction(speed);
     speed(speed() + numbers.runAcceleration * length * sign - friction);
-
-    // if (speed() * sign < 0) speed(speed() - numbers.runStopFriction * length); // causing slippery bug?
   };
 
-  checkRun = (speed, runKeyPlus, runKeyMinus, scaleDirection, position) => {
+  runController = (speed, runKeyPlus, runKeyMinus, scaleDirection, position) => {
     const length = game.frameLength();
     const startingSpeed = speed();
     const isRunPlus = gameUtils[runKeyPlus](keyboard.keysDown);
@@ -226,10 +233,9 @@ class Character extends Element {
     const isBothDown = isRunPlus && isRunMinus;
     const isNeitherDown = !isRunPlus && !isRunMinus;
     if (isNeitherDown || isBothDown) {
-      const direction = speed() === Math.abs(speed()) ? 1 : -1;
       if (startingSpeed)
-        speed(speed() - numbers.runStopFriction * length * direction);
-      if (Math.abs(speed()) < 0.2) {
+        speed(speed() - this.friction(speed));
+      if (Math.abs(speed()) < 0.1) {
         if (this.isGrounded && keyboard.isControllable) spriteController.state = spriteStates.rest;
         speed(0);
       }
@@ -255,7 +261,7 @@ class Character extends Element {
     } else if (this.gravityDirection === cardinalDirections.west) {
       this.checkJump('speedX', 'speedY');
     } else {
-      this.checkRun(
+      this.runController(
         this.acc('speedX'),
         'isEastKeyDown',
         'isWestKeyDown',
@@ -271,7 +277,7 @@ class Character extends Element {
     } else if (this.gravityDirection === cardinalDirections.south) {
       this.checkJump('speedY', 'speedX');
     } else {
-      this.checkRun(
+      this.runController(
         this.acc('speedY'),
         'isSouthKeyDown',
         'isNorthKeyDown',

@@ -13,3 +13,5 @@ export const northKeys = [w, up];
 export const eastKeys = [d, right];
 export const southKeys = [s, down];
 export const westKeys = [a, left];
+
+export const scrollKeys = [down, left, right, space, up];

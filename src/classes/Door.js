@@ -34,7 +34,7 @@ class Door extends Element {
     sfx.playWin();
     setTimeout(() => {
       game.changeLevels(this.nextLevel);
-    }, 2400)
+    }, 2400);
   }
 
   update = (context) => {

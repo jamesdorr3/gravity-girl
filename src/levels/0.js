@@ -12,7 +12,7 @@ import GravitySwitch from '../classes/GravitySwitch';
 const mainMenu = () =>
   new Level({
     name: 'Start Screen',
-    characterStartX: 25,
+    characterStartX: 50,
     characterStartY: 200,
     buttons: [
       new Button({
@@ -30,38 +30,38 @@ const mainMenu = () =>
     ],
     elements: [
       new GravitySwitch({ // nnw
-        x: 25,
-        y: 125,
+        x: 50,
+        y: 50,
         gravityDirection: 'south',
       }),
-      new GravitySwitch({ // nnw
-        centerX: 775,
-        y: 25,
+      new GravitySwitch({ // nne
+        west: 800,
+        y: 50,
         gravityDirection: 'east',
       }),
-      new GravitySwitch({ // nne
-        centerX: 825,
-        y: 125,
+      new GravitySwitch({ // nnw
+        east: 800,
+        y: 50,
         gravityDirection: 'west',
       }),
       new GravitySwitch({ // ne
-        east: 25,
-        y: 25,
+        east: 50,
+        y: 50,
         gravityDirection: 'south',
       }),
       new GravitySwitch({ // sw
-        x: 25,
-        south: 25,
+        x: 50,
+        south: 50,
         gravityDirection: 'east',
       }),
       new GravitySwitch({ // s
         centerX: 800,
-        south: 75,
+        south: 50,
         gravityDirection: 'north',
       }),
       new GravitySwitch({ // s
         east: 50,
-        south: 25,
+        south: 50,
         gravityDirection: 'west',
       }),
     ],
