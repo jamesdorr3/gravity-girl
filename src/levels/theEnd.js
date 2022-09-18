@@ -5,11 +5,11 @@ const loadingScreen =
   new Level({
     buttons: [
       new Text({
-        centerY: 500,
+        centerY: 400,
         text: 'The End'
       }),
       new Text({
-        centerY: 700,
+        centerY: 600,
         text: 'Thanks for playing!'
       }),
     ],

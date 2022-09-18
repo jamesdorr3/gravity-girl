@@ -12,7 +12,6 @@ class Button extends Element {
     this.action = info.action || (() => {});
     this.state = buttonStates.default;
     this.text = info.text;
-    console.log(this);
   }
 
   update = (context) => {

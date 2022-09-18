@@ -5,7 +5,7 @@ import character from './Character';
 import spriteController from './SpriteController';
 import Text from './Text';
 
-import devLevel from '../levels/theEnd'; // change number for start level
+import devLevel from '../levels/7'; // change number for start level
 import keyboard from './Keyboard';
 import loadingScreen from '../levels/loading';
 
@@ -46,7 +46,8 @@ class Game {
         doLast: () => {
           setTimeout(() => {
             character.isAnimated = true;
-            keyboard.setIsControllable(true);
+            console.log(newLevel);
+            keyboard.setIsControllable(newLevel.isCharacterControllable);
             this.overlaidElements.pop();
           }, numbers.readyScreenTime);
         },
@@ -113,7 +114,11 @@ class Game {
 
   start = () => {
     this.level = devLevel; // DEV LEVEL
-    character.reset({ x: this.level.characterStartX, y :this.level.characterStartY})
+    character.reset({
+      x: this.level.characterStartX,
+      y :this.level.characterStartY
+    });
+    keyboard.setIsControllable(this.level.isCharacterControllable);
     this.interval = this.createInterval();
   };
 

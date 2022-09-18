@@ -15,6 +15,8 @@ const mainMenu = new Level({
   name: 'Start Screen',
   characterStartX: 50,
   characterStartY: 200,
+  isCharacterControllable: false,
+  
   buttons: [
     new Button({
       // Start
@@ -94,7 +96,6 @@ const mainMenu = new Level({
       gravityDirection: 'west',
     }),
   ],
-  isCharacterControllable: false,
 });
 
 export default mainMenu;

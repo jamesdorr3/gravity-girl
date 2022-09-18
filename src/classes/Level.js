@@ -24,11 +24,11 @@ class Level {
     this.elements = elements;
     this.hasCharacter = hasCharacter;
     this.hastitle = hasTitle;
+    this.isCharacterControllable = isCharacterControllable;
     this.name = name;
     this.texts = texts;
 
     Level.count += 1;
-    if (!isCharacterControllable) keyboard.setIsControllable(false);
   }
 
   intervalAction = () => {

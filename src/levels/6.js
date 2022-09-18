@@ -29,7 +29,7 @@ const level =
         // ne to door s
         gravityDirection: cardinalDirections.south,
         east: 0,
-        north: numbers.doorHeight,
+        north: numbers.doorHeight + numbers.platformBreadth,
       }),
       new GravitySwitch({
         // nw
@@ -132,10 +132,10 @@ const level =
         width: 100,
       }),
       new Platform({ // protect door
-        east: numbers.doorWidth,
+        east: 0,
         height: numbers.platformBreadth,
         north: numbers.doorHeight,
-        width: 100,
+        width: numbers.hallHeightLarge,
       }),
       new Platform({
         // se w spikes

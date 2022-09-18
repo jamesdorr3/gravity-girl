@@ -34,7 +34,7 @@ class Door extends Element {
     sfx.play('win');
     setTimeout(() => {
       game.changeLevels(this.nextLevel);
-    }, 2400);
+    }, 1200);
     localStorage.setItem('gravityGirlLevel', this.nextLevel.name);
   }
 
