@@ -44,7 +44,7 @@ export default {
       },
       then: (controller) => {
         controller.frameStart = character.x;
-        // sfx.playStep();
+        // sfx.play('step');
       },
     },
   },
@@ -88,7 +88,7 @@ export default {
       },
       then: (controller) => {
         controller.frameStart = character.y;
-        // sfx.playStep();
+        // sfx.play('step');
       },
     },
   },

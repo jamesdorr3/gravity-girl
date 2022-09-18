@@ -156,7 +156,7 @@ class Character extends Element {
       if (this.isGrounded) {
         spriteController.state = 'jump';
         this.isGrounded = false;
-        sfx.playJump();
+        sfx.play('jump');
         // this.isHighJump = Math.abs(runSpeed()) === numbers.runTerminalVelocity;
         this.isJumping = new Date();
       }
@@ -179,7 +179,7 @@ class Character extends Element {
       this.speedY = 0;
       if (!this.isGrounded && this.gravityDirection === cardinalDirections.south) {
         this.isGrounded = true;
-        sfx.playLand();
+        sfx.play('land');
       }
     }
     if (this.east() >= numbers.canvasWidth) {
@@ -187,7 +187,7 @@ class Character extends Element {
       this.speedX = 0;
       if (!this.isGrounded && this.gravityDirection === cardinalDirections.east) {
         this.isGrounded = true;
-        sfx.playLand();
+        sfx.play('land');
       }
     }
     if (this.x <= 0) {
@@ -195,7 +195,7 @@ class Character extends Element {
       this.speedX = 0;
       if (!this.isGrounded && this.gravityDirection === cardinalDirections.west) {
         this.isGrounded = true;
-        sfx.playLand();
+        sfx.play('land');
       }
     }
     if (this.y <= 0) {
@@ -203,7 +203,7 @@ class Character extends Element {
       this.speedY = 0;
       if (!this.isGrounded && this.gravityDirection === cardinalDirections.north) {
         this.isGrounded = true;
-        sfx.playLand();
+        sfx.play('land');
       }
     }
   };

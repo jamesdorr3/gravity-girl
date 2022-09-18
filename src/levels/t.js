@@ -4,7 +4,7 @@ import Level from '../classes/Level';
 import Platform from '../classes/Platform';
 import * as numbers from '../constants/numbers';
 
-const testingScreen = () =>
+const testingScreen = 
   new Level({
     characterStartY: 150,
     elements: [

@@ -12,7 +12,7 @@ import * as numbers from '../constants/numbers';
 
 const swPlatformSpikes = 155 + numbers.spikeHeight; // 156 is max jump? TODO: don't understand math
 
-const level4 = () =>
+const level4 = 
   new Level({
     name: 'NEWS',
     elements: [

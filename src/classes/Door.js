@@ -31,10 +31,11 @@ class Door extends Element {
     keyboard.setIsControllable(false);
     if (this.gravityDirection) character.changeGravity(this.gravityDirection);
     if (this.customAction) this.customAction();
-    sfx.playWin();
+    sfx.play('win');
     setTimeout(() => {
       game.changeLevels(this.nextLevel);
     }, 2400);
+    localStorage.setItem('gravityGirlLevel', game.level.name);
   }
 
   update = (context) => {

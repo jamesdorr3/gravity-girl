@@ -48,7 +48,7 @@ const makeGravitySwitches = () => {
   return switches;
 };
 
-const playAround1 = (game) =>
+const playAround1 =
   new Level({
     elements: [
       ...makeGravitySwitches(),

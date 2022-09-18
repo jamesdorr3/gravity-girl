@@ -29,7 +29,7 @@ class Platform extends Element {
       if (!character.isGrounded && character.gravityDirection === cardinalDirections.north) {
         character.isGrounded = true;
         character.isJumping = false;
-        sfx.playLand();
+        sfx.play('land');
       }
       if (character.gravityDirection === cardinalDirections.south) {
         character.isJumping = false;
@@ -40,7 +40,7 @@ class Platform extends Element {
       if (!character.isGrounded && character.gravityDirection === cardinalDirections.east) {
         character.isGrounded = true;
         character.isJumping = false;
-        sfx.playLand();
+        sfx.play('land');
       }
     } else if (min === characterSouth) {
       character.north(this.north() - character.height);
@@ -48,7 +48,7 @@ class Platform extends Element {
       if (!character.isGrounded && character.gravityDirection === cardinalDirections.south) {
         character.isGrounded = true;
         character.isJumping = false;
-        sfx.playLand();
+        sfx.play('land');
       }
     } else if (min === characterWest) {
       character.west(this.east());
@@ -56,7 +56,7 @@ class Platform extends Element {
       if (!character.isGrounded && character.gravityDirection === cardinalDirections.west) {
         character.isGrounded = true;
         character.isJumping = false;
-        sfx.playLand();
+        sfx.play('land');
       }
     }
   };

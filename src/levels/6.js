@@ -4,19 +4,19 @@ import Level from '../classes/Level';
 import Platform from '../classes/Platform';
 import Spikes from '../classes/Spikes';
 
-import nextLevel from './0';
+// import nextLevel from './0';
 
 import { cardinalDirections } from '../constants/enums';
 
 import * as numbers from '../constants/numbers';
 
-const level5 = () =>
+const level = 
   new Level({
     name: 'NEWS',
     elements: [
       new Door({
         east: 0,
-        nextLevel,
+        // nextLevel,
         north: 0,
       }),
       new GravitySwitch({
@@ -179,4 +179,4 @@ const level5 = () =>
     ],
   });
 
-export default level5;
+export default level;

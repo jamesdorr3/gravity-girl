@@ -39,7 +39,7 @@ class GravitySwitch extends Element {
   action = (character) => {
     if (this.gravityDirection !== character.gravityDirection) {
       character.changeGravity(this.gravityDirection);
-      sfx.playGravitySwitch();
+      sfx.play('gravitySwitch');
     }
     // animates a character tornado spin
     if (isNorthSouth(this.gravityDirection)) {

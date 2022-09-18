@@ -23,7 +23,7 @@ class SpriteController {
       if (this.column < start || this.column >= finish) {
         if (this.column === finish && onFinish) onFinish();
         this.column = start;
-        if (this.state === 'run') sfx.playStep();
+        if (this.state === 'run') sfx.play('step');
       }
       else this.column++;
       then(this);

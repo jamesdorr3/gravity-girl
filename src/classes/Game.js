@@ -5,7 +5,7 @@ import character from './Character';
 import spriteController from './SpriteController';
 import Text from './Text';
 
-import devLevel from '../levels/6'; // change number for start level
+import devLevel from '../levels/0'; // change number for start level
 import keyboard from './Keyboard';
 import loadingScreen from '../levels/loading';
 
@@ -34,7 +34,7 @@ class Game {
       new Blackout({
         direction: 'north',
         doOnce: () => {
-          this.level = newLevel();
+          this.level = newLevel;
           character.reset({
             isControllable: false,
             x: this.level.characterStartX,
@@ -61,12 +61,12 @@ class Game {
         const overlays = [...this.overlaidElements, ...this.overlaidButtons];
         overlays.forEach((it) => it.update(this.context));
       } else {
-        loadingScreen(this).intervalAction();
+        loadingScreen.intervalAction();
       }
     }, numbers.frameLength);
 
   death = () => {
-    sfx.playDeath();
+    sfx.play('death');
     character.isAnimated = false;
     keyboard.setIsControllable(false);
     character.deathCount++;
@@ -112,7 +112,7 @@ class Game {
   };
 
   start = () => {
-    this.level = devLevel(); // DEV LEVEL
+    this.level = devLevel; // DEV LEVEL
     character.reset({ x: this.level.characterStartX, y :this.level.characterStartY})
     this.interval = this.createInterval();
   };

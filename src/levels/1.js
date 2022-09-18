@@ -8,7 +8,7 @@ import nextLevel from './2';
 import * as enums from '../constants/enums';
 import * as numbers from '../constants/numbers';
 
-const level1 = () =>
+const level1 = 
   new Level({
     name: 'Where Am I?',
     elements: [

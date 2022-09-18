@@ -11,7 +11,7 @@ import * as numbers from '../constants/numbers';
 
 const height = 14
 
-const level3 = () =>
+const level3 = 
   new Level({
     name: 'The Y',
     elements: [

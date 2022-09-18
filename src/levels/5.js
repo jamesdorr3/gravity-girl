@@ -21,7 +21,7 @@ const middleGravitySwitches = () => {
   return gravitySwitches;
 };
 
-const level5 = () =>
+const level5 = 
   new Level({
     name: 'NEWS',
     elements: [
