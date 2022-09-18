@@ -1,13 +1,15 @@
 class SFX {
   constructor() {
     this.death = new Audio('./death.wav');
+    this.death.volume = 0.1;
     // this.gravitySwitch = new Audio('./gravitySwitch.mov');
     this.jump = new Audio('./jump.wav');
     this.jump.volume = 0.1
     this.land = new Audio('./land.m4a');
     this.step1 = new Audio('./step-1.m4a');
     this.step2 = new Audio('./step-2.m4a');
-    // this.win = new Audio('./win.wav');
+    this.win = new Audio('./win.wav');
+    this.win.volume = 0.1;
     
     this.isStep1 = true;
   }

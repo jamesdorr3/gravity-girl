@@ -23,7 +23,7 @@ const middleGravitySwitches = () => {
 
 const level5 = 
   new Level({
-    name: 'NEWS',
+    name: 'The Rift',
     elements: [
 
       new Platform({ // sw

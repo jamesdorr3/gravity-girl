@@ -4,7 +4,7 @@ import Level from '../classes/Level';
 import Platform from '../classes/Platform';
 import Spikes from '../classes/Spikes';
 
-// import nextLevel from './0';
+import nextLevel from './theEnd';
 
 import { cardinalDirections } from '../constants/enums';
 
@@ -12,11 +12,11 @@ import * as numbers from '../constants/numbers';
 
 const level = 
   new Level({
-    name: 'NEWS',
+    name: 'Blob',
     elements: [
       new Door({
         east: 0,
-        // nextLevel,
+        nextLevel,
         north: 0,
       }),
       new GravitySwitch({
