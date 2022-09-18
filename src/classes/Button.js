@@ -4,6 +4,7 @@ import { buttonStates } from '../constants/enums';
 
 class Button extends Element {
   constructor(info) {
+    info.text = info.text.toString();
     const width = info.text.length * 20 + buttonPadding * 2;
     const height = 30 * 1.5 + buttonPadding * 2;
     super({ ...info, height, width });
@@ -11,6 +12,7 @@ class Button extends Element {
     this.action = info.action || (() => {});
     this.state = buttonStates.default;
     this.text = info.text;
+    console.log(this);
   }
 
   update = (context) => {

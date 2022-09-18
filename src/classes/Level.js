@@ -13,6 +13,7 @@ class Level {
     characterStartY = numbers.canvasHeight - numbers.characterHeight,
     elements = [],
     hasCharacter = true,
+    hasTitle = true,
     isCharacterControllable = true,
     name,
     texts = [],
@@ -22,6 +23,7 @@ class Level {
     this.characterStartY = characterStartY;
     this.elements = elements;
     this.hasCharacter = hasCharacter;
+    this.hastitle = hasTitle;
     this.name = name;
     this.texts = texts;
 

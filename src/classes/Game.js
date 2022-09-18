@@ -40,7 +40,7 @@ class Game {
             x: this.level.characterStartX,
             y: this.level.characterStartY,
           })
-          text.text = this.level.name || `Level ${Level.count / 2}`;
+          if (newLevel.name) text.text = this.level.name || `Level ${Level.count / 2}`;
           character.isAnimated = false;
         },
         doLast: () => {

@@ -35,7 +35,7 @@ class Door extends Element {
     setTimeout(() => {
       game.changeLevels(this.nextLevel);
     }, 2400);
-    localStorage.setItem('gravityGirlLevel', game.level.name);
+    localStorage.setItem('gravityGirlLevel', this.nextLevel.name);
   }
 
   update = (context) => {
