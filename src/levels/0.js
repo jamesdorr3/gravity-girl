@@ -11,6 +11,9 @@ import GravitySwitch from '../classes/GravitySwitch';
 
 const mainMenu = () =>
   new Level({
+    name: 'Start Screen',
+    characterStartX: 25,
+    characterStartY: 200,
     buttons: [
       new Button({
         centerX: numbers.canvasWidth / 2,

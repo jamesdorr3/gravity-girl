@@ -55,7 +55,6 @@ class Blackout {
       this.inc += add;
     } else if (isEnding[this.direction](this)) {
       if (!this.hasDoneOnce) {
-        character.reset({ isControllable: false });
         this.doOnce();
         this.hasDoneOnce = true;
       }

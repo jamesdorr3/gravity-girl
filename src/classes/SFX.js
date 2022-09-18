@@ -18,7 +18,7 @@ class SFX {
     this[this.isStep1 ? 'step1' : 'step2'].play();
     this.isStep1 = !this.isStep1;
   };
-  playWin = () => this.win.play();
+  playWin = () => {}; //this.win.play();
 }
 
 const sfx = new SFX();

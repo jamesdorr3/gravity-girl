@@ -5,7 +5,7 @@ import character from './Character';
 import spriteController from './SpriteController';
 import Text from './Text';
 
-import devLevel from '../levels/6'; // change number for start level
+import devLevel from '../levels/0'; // change number for start level
 import keyboard from './Keyboard';
 import loadingScreen from '../levels/loading';
 
@@ -32,9 +32,14 @@ class Game {
     this.overlaidElements.push(text);
     this.overlaidElements.push(
       new Blackout({
-        direction: 'east',
+        direction: 'north',
         doOnce: () => {
-          this.level = newLevel(this);
+          this.level = newLevel();
+          character.reset({
+            isControllable: false,
+            x: this.level.characterStartX,
+            y: this.level.characterStartY,
+          })
           text.text = this.level.name || `Level ${Level.count / 2}`;
           character.isAnimated = false;
         },
@@ -66,6 +71,13 @@ class Game {
     keyboard.setIsControllable(false);
     character.deathCount++;
     this.overlaidElements.push(new Blackout({
+      doOnce: () => {
+        character.reset({
+          isControllable: false,
+          x: this.level.characterStartX,
+          y: this.level.characterStartY,
+        })
+      },
       doLast: () => keyboard.setIsControllable(true),
     }));
   };
@@ -87,6 +99,7 @@ class Game {
   };
 
   handleHover = (x, y) => {
+    if (!this.level) return;
     const buttons = [...this.level.buttons, ...this.overlaidButtons];
     const button = buttons.find((button) => {
       const hasCollision = button.collidesWith(gameUtils.mouse({ x, y }));
@@ -99,7 +112,8 @@ class Game {
   };
 
   start = () => {
-    this.level = devLevel(this); // DEV LEVEL
+    this.level = devLevel(); // DEV LEVEL
+    character.reset({ x: this.level.characterStartX, y :this.level.characterStartY})
     this.interval = this.createInterval();
   };
 
