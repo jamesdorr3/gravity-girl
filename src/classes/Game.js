@@ -5,7 +5,7 @@ import character from './Character';
 import spriteController from './SpriteController';
 import Text from './Text';
 
-import devLevel from '../levels/t'; // change number for start level
+import devLevel from '../levels/0'; // change number for start level
 import keyboard from './Keyboard';
 import loadingScreen from '../levels/loading';
 
@@ -22,7 +22,7 @@ class Game {
     this.interval = null;
 
     this.overlaidButtons = [
-      new Button({ action: this.stop, east: 0, north: 0, text: 'STOP' }),
+      // new Button({ action: this.stop, east: 0, north: 0, text: 'STOP' }),
     ];
     this.overlaidElements = [];
   }
@@ -46,7 +46,6 @@ class Game {
         doLast: () => {
           setTimeout(() => {
             character.isAnimated = true;
-            console.log(newLevel);
             keyboard.setIsControllable(newLevel.isCharacterControllable);
             this.overlaidElements.pop();
           }, numbers.readyScreenTime);

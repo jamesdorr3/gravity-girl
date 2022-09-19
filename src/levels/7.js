@@ -2,17 +2,15 @@ import Door from '../classes/Door';
 import GravitySwitch from '../classes/GravitySwitch';
 import Level from '../classes/Level';
 import Platform from '../classes/Platform';
-import Spikes from '../classes/Spikes';
 
 import nextLevel from './theEnd';
 
-import { cardinalDirections } from '../constants/enums';
-
 import {
-  widthGap,
+  canvasHeight,
   hallHeightMedium,
-  hallHeightSmall,
+  hallHeightTiny,
   platformBreadth,
+  widthGap,
 } from '../constants/numbers';
 
 const level = new Level({
@@ -69,7 +67,7 @@ const level = new Level({
       // n
       centerX: 800,
       height: platformBreadth,
-      south: 500 + platformBreadth + hallHeightSmall,
+      south: 500 + platformBreadth + hallHeightTiny,
       width: 100 + platformBreadth * 4 + hallHeightMedium * 2,
     }),
     new Platform({
@@ -77,13 +75,13 @@ const level = new Level({
       centerY: 450,
       width: platformBreadth,
       west: 850 + platformBreadth + hallHeightMedium,
-      height: 100 + platformBreadth * 4 + hallHeightSmall * 2,
+      height: 100 + platformBreadth * 4 + hallHeightTiny * 2,
     }),
     new Platform({
       // s
       centerX: 800,
       height: platformBreadth,
-      north: 500 + platformBreadth + hallHeightSmall,
+      north: 500 + platformBreadth + hallHeightTiny,
       width: 100 + platformBreadth * 4 + hallHeightMedium * 2,
     }),
     new Platform({
@@ -91,7 +89,7 @@ const level = new Level({
       centerY: 450,
       east: 850 + platformBreadth + hallHeightMedium,
       width: platformBreadth,
-      height: 100 + platformBreadth * 4 + hallHeightSmall * 2,
+      height: 100 + platformBreadth * 4 + hallHeightTiny * 2,
     }),
 
     // 2nd from outer
@@ -99,7 +97,7 @@ const level = new Level({
       // n
       centerX: 800,
       height: platformBreadth,
-      south: 500 + 2 * (platformBreadth + hallHeightSmall),
+      south: 500 + 2 * (platformBreadth + hallHeightTiny),
       width: 100 + platformBreadth * 6 + hallHeightMedium * 4,
     }),
     new Platform({
@@ -107,13 +105,13 @@ const level = new Level({
       centerY: 450,
       width: platformBreadth,
       west: 850 + 2 * (platformBreadth + hallHeightMedium),
-      height: 100 + platformBreadth * 6 + hallHeightSmall * 4,
+      height: 100 + platformBreadth * 6 + hallHeightTiny * 4,
     }),
     new Platform({
       // s
       centerX: 800,
       height: platformBreadth,
-      north: 500 + 2 * (platformBreadth + hallHeightSmall),
+      north: 500 + 2 * (platformBreadth + hallHeightTiny),
       width: 100 + platformBreadth * 6 + hallHeightMedium * 4,
     }),
     new Platform({
@@ -121,7 +119,12 @@ const level = new Level({
       centerY: 450,
       east: 850 + 2 * (platformBreadth + hallHeightMedium),
       width: platformBreadth,
-      height: 100 + platformBreadth * 6 + hallHeightSmall * 4,
+      height: 100 + platformBreadth * 6 + hallHeightTiny * 4,
+    }),
+    new GravitySwitch({
+      gravityDirection: 'south',
+      x: 700,
+      y: 50,
     }),
 
     // outer
@@ -129,7 +132,7 @@ const level = new Level({
       // n
       centerX: 800,
       height: platformBreadth,
-      north: 0,
+      south: 500 + 3 * (platformBreadth + hallHeightTiny),
       width: 100 + platformBreadth * 8 + hallHeightMedium * 6,
     }),
     new Platform({
@@ -137,34 +140,57 @@ const level = new Level({
       centerY: 450,
       width: platformBreadth,
       west: 850 + 3 * (platformBreadth + hallHeightMedium),
-      height: 100 + platformBreadth * 8 + hallHeightSmall * 6,
+      height: 100 + platformBreadth * 8 + hallHeightTiny * 6,
     }),
     new Platform({
       // s
       centerX: 800,
       height: platformBreadth,
-      south: 0,
+      north: 500 + 3 * (platformBreadth + hallHeightTiny),
       width: 100 + platformBreadth * 8 + hallHeightMedium * 6,
     }),
     new Platform({
-      // wn
-      north: 0,
-      east: 850 + 3 * (platformBreadth + hallHeightMedium),
+      // w
+      centerY: 450,
       width: platformBreadth,
-      height: 150,
+      east: 850 + 3 * (platformBreadth + hallHeightMedium),
+      height: 100 + platformBreadth * 8 + hallHeightTiny * 6,
+    }),
+
+    // edges
+    new Platform({
+      // en
+      y: 0,
+      width: platformBreadth,
+      west: 850 + 4 * (platformBreadth + hallHeightMedium),
+      height: ( canvasHeight - widthGap) / 2,
+    }),
+    new Platform({
+      // es
+      south: 0,
+      width: platformBreadth,
+      west: 850 + 4 * (platformBreadth + hallHeightMedium),
+      height: ( canvasHeight - widthGap) / 2,
+    }),
+    new Platform({
+      // wn
+      y: 0,
+      width: platformBreadth,
+      east: 850 + 4 * (platformBreadth + hallHeightMedium),
+      height: ( canvasHeight - widthGap) / 2,
     }),
     new Platform({
       // ws
-      north: 200,
-      east: 850 + 3 * (platformBreadth + hallHeightMedium),
+      south: 0,
       width: platformBreadth,
-      height: 700,
+      east: 850 + 4 * (platformBreadth + hallHeightMedium),
+      height: ( canvasHeight - widthGap) / 2,
     }),
     new GravitySwitch({
-      centerX: 150,
+      centerX: 50,
       gravityDirection: 'east',
-      south: 25,
-    })
+      south: 125,
+    }),
   ],
 });
 
