@@ -5,17 +5,46 @@ import game from './Game';
 import keyboard from './Keyboard';
 import { cardinalDirections } from '../constants/enums';
 import { spriteStates } from '../constants/enums';
-import * as gameUtils from '../utils/gameUtils';
-import * as numbers from '../constants/numbers';
+import {
+  distance,
+  firstDefined,
+  isEastKeyDown,
+  isNorthKeyDown,
+  isNorthSouth,
+  isNum,
+  isSouthKeyDown,
+  isWestKeyDown,
+  sign,
+} from '../utils/gameUtils';
+import {
+  canvasHeight,
+  canvasWidth,
+  characterHeight,
+  characterScale,
+  characterWidth,
+  gravityAcceleration,
+  gravitySlowAcceleration,
+  gravitySlowLimit,
+  gravityTerminalVelocity,
+  jumpAcceleration,
+  jumpTime,
+  runAcceleration,
+  runStopFriction,
+  runTerminalVelocity,
+  second,
+  spriteHeight,
+  spriteOffset,
+  spriteWidth
+} from '../constants/numbers';
 
-const spriteWhitespaceSide = 25 * numbers.characterScale;
-const spriteWhitespaceTop = 17 * numbers.characterScale;
+const spriteWhitespaceSide = 25 * characterScale;
+const spriteWhitespaceTop = 17 * characterScale;
 const spriteWhitespace = [spriteWhitespaceSide, spriteWhitespaceTop];
 
 class Character extends Element {
   constructor(info) {
     const gravityDirection = info.gravityDirection || cardinalDirections.south;
-    if (!gameUtils.isNorthSouth(gravityDirection)) {
+    if (!isNorthSouth(gravityDirection)) {
       const { height, width } = info;
       info.height = width;
       info.width = height;
@@ -43,7 +72,7 @@ class Character extends Element {
   }
 
   acc = (key) => (value) => {
-    if (gameUtils.isNum(value)) this[key] = value;
+    if (isNum(value)) this[key] = value;
     return this[key];
   };
 
@@ -53,14 +82,14 @@ class Character extends Element {
     this.isGrounded = false;
     const centerX = this.centerX();
     const centerY = this.centerY();
-    if (gameUtils.isNorthSouth(direction)) {
-      this.scaleDirectionY = this.sign();
-      this.height = numbers.characterHeight;
-      this.width = numbers.characterWidth;
+    if (isNorthSouth(direction)) {
+      this.scaleDirectionY = sign();
+      this.height = characterHeight;
+      this.width = characterWidth;
     } else {
-      this.scaleDirectionX = this.sign();
-      this.height = numbers.characterWidth;
-      this.width = numbers.characterHeight;
+      this.scaleDirectionX = sign();
+      this.height = characterWidth;
+      this.width = characterHeight;
     }
     this.centerX(centerX);
     this.centerY(centerY);
@@ -71,18 +100,17 @@ class Character extends Element {
     context.save();
     context.scale(this.scaleDirectionX, this.scaleDirectionY);
     context.fillStyle = this.isHighJump ? 'lime' : 'red';
-    const isNorthSouth = gameUtils.isNorthSouth(this.gravityDirection);
-    const [spriteOffsetX, spriteOffsetY] = isNorthSouth
+    const [spriteOffsetX, spriteOffsetY] = isNorthSouth()
       ? spriteWhitespace
       : [...spriteWhitespace].reverse();
     if (spriteController.sprite) {
       context.drawImage(
         spriteController.sprite,
         // position in sprite
-        spriteController.column * numbers.spriteOffset,
+        spriteController.column * spriteOffset,
         0,
-        numbers.spriteWidth,
-        numbers.spriteHeight,
+        spriteWidth,
+        spriteHeight,
         // position in canvas
         this.x * this.scaleDirectionX - spriteOffsetX * this.scaleDirectionX,
         this.y * this.scaleDirectionY - spriteOffsetY * this.scaleDirectionY,
@@ -109,28 +137,23 @@ class Character extends Element {
 
   doGravity = (position, speed) => {
     const frameLength = game.frameLength();
-    const sign = this.sign();
     let newSpeedY;
     // more time at peak of jump
-    if (Math.abs(speed()) < numbers.gravitySlowLimit) {
+    if (Math.abs(speed()) < gravitySlowLimit) {
       this.color = 'lime';
       newSpeedY =
-        speed() + numbers.gravitySlowAcceleration * frameLength * sign;
+        speed() + gravitySlowAcceleration * frameLength * sign();
     } else {
       // normal gravity
       this.color = 'red';
-      newSpeedY = speed() + numbers.gravityAcceleration * frameLength * sign;
+      newSpeedY = speed() + gravityAcceleration * frameLength * sign();
     }
 
-    if (Math.abs(newSpeedY) >= numbers.gravityTerminalVelocity) {
-      newSpeedY = numbers.gravityTerminalVelocity * sign;
+    if (Math.abs(newSpeedY) >= gravityTerminalVelocity) {
+      newSpeedY = gravityTerminalVelocity * sign();
     }
 
-    const dist = gameUtils.distance(
-      speed(),
-      newSpeedY,
-      frameLength * numbers.second
-    );
+    const dist = distance(speed(), newSpeedY, frameLength * second);
     position(position() + dist);
     speed(newSpeedY);
   };
@@ -157,13 +180,12 @@ class Character extends Element {
         spriteController.state = 'jump';
         this.isGrounded = false;
         sfx.play('jump');
-        // this.isHighJump = Math.abs(runSpeed()) === numbers.runTerminalVelocity;
+        // this.isHighJump = Math.abs(runSpeed()) === runTerminalVelocity;
         this.isJumping = new Date();
       }
       if (this.isJumping) {
-        if (new Date() - this.isJumping < numbers.jumpTime) {
-          const jumpAcceleration = numbers.jumpSpeed;
-          jumpSpeed(-jumpAcceleration * this.sign());
+        if (new Date() - this.isJumping < jumpTime) {
+          jumpSpeed(-jumpAcceleration * sign());
         } else {
           this.isJumping = false;
         }
@@ -174,18 +196,24 @@ class Character extends Element {
   };
 
   checkWallCollisions = () => {
-    if (this.south() >= numbers.canvasHeight) {
+    if (this.south() >= canvasHeight) {
       this.south(0);
       this.speedY = 0;
-      if (!this.isGrounded && this.gravityDirection === cardinalDirections.south) {
+      if (
+        !this.isGrounded &&
+        this.gravityDirection === cardinalDirections.south
+      ) {
         this.isGrounded = true;
         sfx.play('land');
       }
     }
-    if (this.east() >= numbers.canvasWidth) {
+    if (this.east() >= canvasWidth) {
       this.east(0);
       this.speedX = 0;
-      if (!this.isGrounded && this.gravityDirection === cardinalDirections.east) {
+      if (
+        !this.isGrounded &&
+        this.gravityDirection === cardinalDirections.east
+      ) {
         this.isGrounded = true;
         sfx.play('land');
       }
@@ -193,7 +221,10 @@ class Character extends Element {
     if (this.x <= 0) {
       this.west(0);
       this.speedX = 0;
-      if (!this.isGrounded && this.gravityDirection === cardinalDirections.west) {
+      if (
+        !this.isGrounded &&
+        this.gravityDirection === cardinalDirections.west
+      ) {
         this.isGrounded = true;
         sfx.play('land');
       }
@@ -201,7 +232,10 @@ class Character extends Element {
     if (this.y <= 0) {
       this.y = 0;
       this.speedY = 0;
-      if (!this.isGrounded && this.gravityDirection === cardinalDirections.north) {
+      if (
+        !this.isGrounded &&
+        this.gravityDirection === cardinalDirections.north
+      ) {
         this.isGrounded = true;
         sfx.play('land');
       }
@@ -211,47 +245,51 @@ class Character extends Element {
   friction = (speed) => {
     const airFrictionReduction = this.isGrounded ? 1 : 2;
     const direction = speed() === Math.abs(speed()) ? 1 : -1;
-    return numbers.runStopFriction * game.frameLength() * direction / airFrictionReduction
-  }
+    return (
+      runStopFriction * game.frameLength() * direction / airFrictionReduction
+    )
+  };
 
   run = (scaleDirection, sign, speed, length) => {
     if (this.isGrounded) {
       spriteController.state = spriteStates.run;
     }
     this[scaleDirection] =
-      sign * (gameUtils.isNorthSouth(this.gravityDirection) ? 1 : -1); // TODO: reverse sideways sprites;
+      sign * (isNorthSouth(this.gravityDirection) ? 1 : -1); // TODO: reverse sideways sprites;
     const direction = speed() === Math.abs(speed()) ? 1 : -1;
     const friction = direction === sign ? 0 : this.friction(speed);
-    speed(speed() + numbers.runAcceleration * length * sign - friction);
+    speed(speed() + runAcceleration * length * sign - friction);
   };
 
-  runController = (speed, runKeyPlus, runKeyMinus, scaleDirection, position) => {
+  runController = (
+    speed,
+    runKeyPlus,
+    runKeyMinus,
+    scaleDirection,
+    position
+  ) => {
     const length = game.frameLength();
     const startingSpeed = speed();
-    const isRunPlus = gameUtils[runKeyPlus](keyboard.keysDown);
-    const isRunMinus = gameUtils[runKeyMinus](keyboard.keysDown);
+    const isRunPlus = runKeyPlus(keyboard.keysDown);
+    const isRunMinus = runKeyMinus(keyboard.keysDown);
     const isBothDown = isRunPlus && isRunMinus;
     const isNeitherDown = !isRunPlus && !isRunMinus;
     if (isNeitherDown || isBothDown) {
-      if (startingSpeed)
-        speed(speed() - this.friction(speed));
+      if (startingSpeed) speed(speed() - this.friction(speed));
       if (Math.abs(speed()) < 0.1) {
-        if (this.isGrounded && keyboard.isControllable) spriteController.state = spriteStates.rest;
+        if (this.isGrounded && keyboard.isControllable)
+          spriteController.state = spriteStates.rest;
         speed(0);
       }
     } else {
       this.run(scaleDirection, isRunPlus ? 1 : -1, speed, length);
     }
 
-    if (Math.abs(speed()) >= numbers.runTerminalVelocity) {
+    if (Math.abs(speed()) >= runTerminalVelocity) {
       const direction = speed() === Math.abs(speed()) ? 1 : -1;
-      speed(numbers.runTerminalVelocity * direction);
+      speed(runTerminalVelocity * direction);
     }
-    const dist = gameUtils.distance(
-      speed(),
-      startingSpeed,
-      new Date() - game.lastRender
-    );
+    const dist = distance(speed(), startingSpeed, new Date() - game.lastRender);
     position(position() + dist);
   };
 
@@ -263,8 +301,8 @@ class Character extends Element {
     } else {
       this.runController(
         this.acc('speedX'),
-        'isEastKeyDown',
-        'isWestKeyDown',
+        isEastKeyDown,
+        isWestKeyDown,
         'scaleDirectionX',
         this.west
       );
@@ -279,8 +317,8 @@ class Character extends Element {
     } else {
       this.runController(
         this.acc('speedY'),
-        'isSouthKeyDown',
-        'isNorthKeyDown',
+        isSouthKeyDown,
+        isNorthKeyDown,
         'scaleDirectionY',
         this.north
       );
@@ -288,7 +326,7 @@ class Character extends Element {
   };
 
   leftRight = (value) => {
-    if (gameUtils.isNorthSouth(this.gravityDirection)) {
+    if (isNorthSouth(this.gravityDirection)) {
       return this.acc('scaleDirectionX')(value);
     } else {
       return this.acc('scaleDirectionY')(value);
@@ -296,22 +334,20 @@ class Character extends Element {
   };
 
   reset = (info) => {
-    this.height = info.height || numbers.characterHeight;
+    this.height = info.height || characterHeight;
     this.changeGravity(info.gravityDirection || cardinalDirections.south);
-    this.isAnimated = gameUtils.firstDefined(info.isAnimated, true);
-    keyboard.setIsControllable(gameUtils.firstDefined(info.isControllable, true))
+    this.isAnimated = firstDefined(info.isAnimated, true);
+    keyboard.setIsControllable(firstDefined(info.isControllable, true));
     this.speedX = info.speedX || 0;
     this.speedY = info.speedY || 0;
-    this.width = info.width || numbers.characterWidth;
+    this.width = info.width || characterWidth;
     this.x = info.x || 0;
-    this.y = info.y || numbers.canvasHeight - numbers.characterHeight;
+    this.y = info.y || canvasHeight - characterHeight;
     spriteController.column = 100;
   };
 
-  sign = (direction = this.gravityDirection) => gameUtils.sign(direction);
-
   topBottom = (value) => {
-    if (gameUtils.isNorthSouth(this.gravityDirection)) {
+    if (isNorthSouth(this.gravityDirection)) {
       return this.acc('scaleDirectionY')(value);
     } else {
       return this.acc('scaleDirectionX')(value);
@@ -324,7 +360,11 @@ class Character extends Element {
     this.gravityController();
     this.checkCollisions();
     this.checkWallCollisions();
-    if (Math.abs(gameUtils.isNorthSouth(this.gravityDirection) ? this.speedY : this.speedX) > 0) {
+    if (
+      Math.abs(
+        isNorthSouth(this.gravityDirection) ? this.speedY : this.speedX
+      ) > 0
+    ) {
       this.isGrounded = false;
     }
     if (this.isAnimated) {
@@ -335,8 +375,8 @@ class Character extends Element {
 }
 
 export default new Character({
-  height: numbers.characterHeight,
+  height: characterHeight,
   west: 0,
   south: 0,
-  width: numbers.characterWidth,
+  width: characterWidth,
 });

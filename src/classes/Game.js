@@ -8,11 +8,11 @@ import Text from './Text';
 import devLevel from '../levels/0'; // change number for start level
 import keyboard from './Keyboard';
 import loadingScreen from '../levels/loading';
-
-import * as enums from '../constants/enums';
-import * as gameUtils from '../utils/gameUtils';
-import * as numbers from '../constants/numbers';
 import sfx from './SFX';
+
+import { buttonStates } from '../constants/enums';
+import { frameLength, gameSpeed, readyScreenTime, second } from '../constants/numbers';
+import { mouse } from '../utils/gameUtils';
 
 class Game {
   constructor() {
@@ -48,7 +48,7 @@ class Game {
             character.isAnimated = true;
             keyboard.setIsControllable(newLevel.isCharacterControllable);
             this.overlaidElements.pop();
-          }, numbers.readyScreenTime);
+          }, readyScreenTime);
         },
       })
     );
@@ -63,7 +63,7 @@ class Game {
       } else {
         loadingScreen.intervalAction();
       }
-    }, numbers.frameLength);
+    }, frameLength);
 
   death = () => {
     sfx.play('death');
@@ -85,15 +85,15 @@ class Game {
   delete = () => delete this;
 
   frameLength = () =>
-    ((new Date() - this.lastRender) / numbers.second) * numbers.gameSpeed;
+    ((new Date() - this.lastRender) / second) * gameSpeed;
 
   handleClick = (x, y) => {
     const buttons = [...this.level.buttons, ...this.overlaidButtons];
     const button = buttons.find((button) =>
-      button.collidesWith(gameUtils.mouse({ x, y }))
+      button.collidesWith(mouse({ x, y }))
     );
-    if (button) {
-      button.state = enums.buttonStates.clicked;
+    if (button && !button.isDisabled) {
+      button.state = buttonStates.clicked;
       button.action();
     }
   };
@@ -102,13 +102,13 @@ class Game {
     if (!this.level) return;
     const buttons = [...this.level.buttons, ...this.overlaidButtons];
     const button = buttons.find((button) => {
-      const hasCollision = button.collidesWith(gameUtils.mouse({ x, y }));
-      if (!hasCollision && button.state === enums.buttonStates.hovered) {
-        button.state = enums.buttonStates.default;
+      const hasCollision = button.collidesWith(mouse({ x, y }));
+      if (!hasCollision && button.state === buttonStates.hovered) {
+        button.state = buttonStates.default;
       }
       return hasCollision;
     });
-    if (button) button.state = enums.buttonStates.hovered;
+    if (button && !button.isDisabled) button.state = buttonStates.hovered;
   };
 
   start = () => {

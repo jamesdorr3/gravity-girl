@@ -11,6 +11,7 @@ import loadingScreen from './loading';
 import * as numbers from '../constants/numbers';
 import GravitySwitch from '../classes/GravitySwitch';
 import { gravityGirlMaxLevel } from '../constants/strings';
+import { parseLocalStorage } from '../utils/gameUtils';
 
 const mainMenu = new Level({
   characterStartX: 50,
@@ -36,9 +37,7 @@ const mainMenu = new Level({
       centerX: 800,
       centerY: numbers.canvasHeight / 2,
       action: () => {
-        const orderKey = localStorage.getItem(gravityGirlMaxLevel);
-        const order = orderKey ? parseInt(orderKey) : 1
-        const level = allLevels.find((it) => it.order === order);
+        const level = allLevels.find((it) => it.order === parseLocalStorage());
         game.changeLevels(level);
       },
       text: 'Continue',

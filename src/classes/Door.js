@@ -3,16 +3,13 @@ import character from './Character';
 import game from './Game';
 import keyboard from './Keyboard';
 import spriteController from './SpriteController';
-import { isNorthSouth } from '../utils/gameUtils';
+import { isNorthSouth, parseLocalStorage } from '../utils/gameUtils';
 import { doorHeight, doorWidth } from '../constants/numbers';
 import { gravityGirlMaxLevel } from '../constants/strings';
 import sfx from './SFX';
 
 const save = (order) => {
-  const prevMaxKey = localStorage.getItem('gravityGirlMaxLevel');
-  const prevMax = prevMaxKey ? parseInt(prevMaxKey) : 0;
-  console.log({ order, prevMax });
-  if (order && order > prevMax) {
+  if (order && order > parseLocalStorage()) {
     localStorage.setItem('gravityGirlMaxLevel', order);
   }
 }

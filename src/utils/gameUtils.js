@@ -1,7 +1,9 @@
 import Element from '../classes/Element';
+import character from '../classes/Character';
 import * as enums from '../constants/enums';
 import * as keys from '../constants/keys';
 import * as numbers from '../constants/numbers';
+import { gravityGirlMaxLevel } from '../constants/strings';
 
 // hoisted
 
@@ -39,7 +41,7 @@ export const isEastKeyDown = (keysDown) => // TO DO incorporate in keyboard?
 export const isNorthKeyDown = (keysDown) =>
   keysDown.includes(keys.w) || keysDown.includes(keys.up);
 
-export const isNorthSouth = (gravityDirection) =>
+export const isNorthSouth = (gravityDirection = character.gravityDirection) =>
   ['north', 'south'].includes(gravityDirection);
 
 export const isSouthKeyDown = (keysDown) =>
@@ -50,7 +52,12 @@ export const isWestKeyDown = (keysDown) =>
 
 export const mouse = (e) => new Element({ ...e, height: 1, width: 1 });
 
-export const sign = (direction) => {
+export const parseLocalStorage = (key = gravityGirlMaxLevel) => {
+  const string = localStorage.getItem(key);
+  return string ? parseInt(string) : 1
+};
+
+export const sign = (direction = character.gravityDirection) => {
   switch (direction) {
     case enums.cardinalDirections.north:
       return -1;

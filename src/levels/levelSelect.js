@@ -4,9 +4,11 @@ import Level from '../classes/Level';
 import level0 from './0';
 import allLevels from './allLevels';
 import game from '../classes/Game';
+import { parseLocalStorage } from '../utils/gameUtils';
 
-const allLevelButtons = () => (
-  allLevels.map((level, i) => {
+const allLevelButtons = () => {
+  const maxAchieved = parseLocalStorage();
+  return allLevels.map((level, i) => {
     const itemsPerRow = 6;
     const gap = 200;
     const padding = 250;
@@ -14,17 +16,16 @@ const allLevelButtons = () => (
     const xIndex = i % itemsPerRow;
     const yIndex = Math.floor( i / itemsPerRow );
 
-    const index = `${i + 1}`;
-    const text = index.length <= 1 ? `0${index}` : index;
-
     return new Button({
       centerX: xIndex * gap + padding,
       centerY: yIndex * gap + padding,
       action: () => game.changeLevels(level),
-      text
+      text: level.order,
+      isDisabled: level.order > maxAchieved,
+      
     });
   })
-)
+};
 
 const levelSelect = new Level({
   hasCharacter: false,

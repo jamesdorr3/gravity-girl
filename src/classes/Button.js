@@ -10,7 +10,8 @@ class Button extends Element {
     super({ ...info, height, width });
 
     this.action = info.action || (() => {});
-    this.state = buttonStates.default;
+    this.isDisabled = info.isDisabled;
+    this.state = info.isDisabled ? buttonStates.disabled : buttonStates.default;
     this.text = info.text;
   }
 
