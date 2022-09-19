@@ -10,6 +10,7 @@ import * as numbers from '../constants/numbers';
 
 const level1 = 
   new Level({
+    order: 1,
     name: 'Where Am I?',
     elements: [
       new Door({

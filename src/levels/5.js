@@ -23,6 +23,7 @@ const middleGravitySwitches = () => {
 
 const level5 = 
   new Level({
+    order: 5,
     name: 'The Rift',
     elements: [
 

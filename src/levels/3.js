@@ -13,6 +13,7 @@ const height = 14
 
 const level3 = 
   new Level({
+    order: 3,
     name: 'The Y',
     elements: [
       new Door({

@@ -16,6 +16,7 @@ class Level {
     hasTitle = true,
     isCharacterControllable = true,
     name,
+    order,
     texts = [],
   }) {
     this.buttons = buttons;
@@ -26,6 +27,7 @@ class Level {
     this.hastitle = hasTitle;
     this.isCharacterControllable = isCharacterControllable;
     this.name = name;
+    this.order = order;
     this.texts = texts;
 
     Level.count += 1;

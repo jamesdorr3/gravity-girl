@@ -8,8 +8,8 @@ class SFX {
     this.land = new Audio('./land.m4a');
     this.step1 = new Audio('./step-1.m4a');
     this.step2 = new Audio('./step-2.m4a');
-    this.win = new Audio('./win.wav');
-    this.win.volume = 0.1;
+    // this.win = new Audio('./win.wav');
+    // this.win.volume = 0.1;
     
     this.isStep1 = true;
   }

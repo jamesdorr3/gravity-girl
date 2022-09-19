@@ -14,6 +14,7 @@ const swPlatformSpikes = 155 + numbers.spikeHeight; // 156 is max jump? TODO: do
 
 const level4 = 
   new Level({
+    order: 4,
     name: 'NEWS',
     elements: [
       new Door({

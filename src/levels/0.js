@@ -10,9 +10,9 @@ import loadingScreen from './loading';
 
 import * as numbers from '../constants/numbers';
 import GravitySwitch from '../classes/GravitySwitch';
+import { gravityGirlMaxLevel } from '../constants/strings';
 
 const mainMenu = new Level({
-  name: 'Start Screen',
   characterStartX: 50,
   characterStartY: 200,
   isCharacterControllable: false,
@@ -36,9 +36,10 @@ const mainMenu = new Level({
       centerX: 800,
       centerY: numbers.canvasHeight / 2,
       action: () => {
-        const levelName = localStorage.getItem('gravityGirlLevel');
-        const level = allLevels.find((it) => it.name === levelName);
-        if (level) game.changeLevels(level);
+        const orderKey = localStorage.getItem(gravityGirlMaxLevel);
+        const order = orderKey ? parseInt(orderKey) : 1
+        const level = allLevels.find((it) => it.order === order);
+        game.changeLevels(level);
       },
       text: 'Continue',
     }),

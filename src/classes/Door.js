@@ -5,7 +5,17 @@ import keyboard from './Keyboard';
 import spriteController from './SpriteController';
 import { isNorthSouth } from '../utils/gameUtils';
 import { doorHeight, doorWidth } from '../constants/numbers';
+import { gravityGirlMaxLevel } from '../constants/strings';
 import sfx from './SFX';
+
+const save = (order) => {
+  const prevMaxKey = localStorage.getItem('gravityGirlMaxLevel');
+  const prevMax = prevMaxKey ? parseInt(prevMaxKey) : 0;
+  console.log({ order, prevMax });
+  if (order && order > prevMax) {
+    localStorage.setItem('gravityGirlMaxLevel', order);
+  }
+}
 
 class Door extends Element {
   constructor(info) {
@@ -35,7 +45,7 @@ class Door extends Element {
     setTimeout(() => {
       game.changeLevels(this.nextLevel);
     }, 1200);
-    localStorage.setItem('gravityGirlLevel', this.nextLevel.name);
+    save(this.nextLevel.order);
   }
 
   update = (context) => {

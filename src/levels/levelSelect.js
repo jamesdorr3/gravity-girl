@@ -1,8 +1,9 @@
 import Button from '../classes/Button';
 import Level from '../classes/Level';
-import game from '../classes/Game';
 
+import level0 from './0';
 import allLevels from './allLevels';
+import game from '../classes/Game';
 
 const allLevelButtons = () => (
   allLevels.map((level, i) => {
@@ -28,7 +29,15 @@ const allLevelButtons = () => (
 const levelSelect = new Level({
   hasCharacter: false,
   hasTitle: false,
-  buttons: allLevelButtons(),
+  buttons: [
+    new Button({
+      x: 25,
+      y: 25,
+      action: () => game.changeLevels(level0),
+      text: ' < ',
+    }),
+    ...allLevelButtons(),
+  ],
   elements: [],
 });
 
