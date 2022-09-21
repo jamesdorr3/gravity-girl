@@ -1,5 +1,5 @@
 import Door from '../classes/Door';
-import GravitySwitch from '../classes/GravitySwitch';
+import GravitySwitchStatic from '../classes/GravitySwitchStatic';
 import Level from '../classes/Level';
 import Platform from '../classes/Platform';
 import Spikes from '../classes/Spikes';
@@ -28,27 +28,27 @@ const level4 =
         nextLevel,
         south: 0,
       }),
-      new GravitySwitch({ // nw
+      new GravitySwitchStatic({ // nw
         gravityDirection: cardinalDirections.south,
         north: 25,
         centerX: 50,
       }),
-      new GravitySwitch({ // ne
+      new GravitySwitchStatic({ // ne
         gravityDirection: cardinalDirections.west,
         east: 200,
         north: 25,
       }),
-      new GravitySwitch({ // cw
+      new GravitySwitchStatic({ // cw
         gravityDirection: cardinalDirections.south,
         centerY: 550,
         west: 250,
       }),
-      new GravitySwitch({ // ce
+      new GravitySwitchStatic({ // ce
         gravityDirection: cardinalDirections.east,
         centerX: 1100,
         centerY: 175,
       }),
-      new GravitySwitch({ // sw
+      new GravitySwitchStatic({ // sw
         gravityDirection: cardinalDirections.north,
         south: 25,
         west: 200,

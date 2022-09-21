@@ -131,7 +131,9 @@ class Character extends Element {
 
   checkCollisions = () => {
     game.level.elements.forEach((element) => {
-      if (element.collidesWith(this)) element.action(this);
+      if (element.collidesWith(this)) {
+        element.action(this);
+      };
     });
   };
 

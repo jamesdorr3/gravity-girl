@@ -1,5 +1,5 @@
 import Door from '../classes/Door';
-import GravitySwitch from '../classes/GravitySwitch';
+import GravitySwitchStatic from '../classes/GravitySwitchStatic';
 import Level from '../classes/Level';
 import Platform from '../classes/Platform';
 import Spikes from '../classes/Spikes';
@@ -21,12 +21,12 @@ const level2 =
         nextLevel,
         north: 300,
       }),
-      new GravitySwitch({ // bottom center
+      new GravitySwitchStatic({ // bottom center
         gravityDirection: enums.cardinalDirections.north,
         south: 100,
         west: 900,
       }),
-      new GravitySwitch({ // top left
+      new GravitySwitchStatic({ // top left
         gravityDirection: enums.cardinalDirections.south,
         north: 25,
         west: 25,

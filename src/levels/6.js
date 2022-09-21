@@ -1,5 +1,5 @@
 import Door from '../classes/Door';
-import GravitySwitch from '../classes/GravitySwitch';
+import GravitySwitchStatic from '../classes/GravitySwitchStatic';
 import Level from '../classes/Level';
 import Platform from '../classes/Platform';
 import Spikes from '../classes/Spikes';
@@ -20,64 +20,64 @@ const level =
         nextLevel,
         north: 0,
       }),
-      new GravitySwitch({
+      new GravitySwitchStatic({
         // ne to door w
         gravityDirection: cardinalDirections.west,
         east: 100,
         centerY: numbers.doorHeight / 2,
       }),
-      new GravitySwitch({
+      new GravitySwitchStatic({
         // ne to door s
         gravityDirection: cardinalDirections.south,
         east: 0,
         north: numbers.doorHeight + numbers.platformBreadth,
       }),
-      new GravitySwitch({
+      new GravitySwitchStatic({
         // nw
         gravityDirection: cardinalDirections.south,
         centerX: 150,
         north: 25,
       }),
-      new GravitySwitch({
+      new GravitySwitchStatic({
         // cnw
         gravityDirection: cardinalDirections.east,
         centerX: 500,
         centerY: 300,
       }),
-      new GravitySwitch({
+      new GravitySwitchStatic({
         // sw
         gravityDirection: cardinalDirections.north,
         centerX: 100,
         south: 200,
       }),
-      new GravitySwitch({
+      new GravitySwitchStatic({
         // cw
         gravityDirection: cardinalDirections.south,
         centerX: 450,
         centerY: 450,
       }),
-      new GravitySwitch({
+      new GravitySwitchStatic({
         // c
         gravityDirection: cardinalDirections.south,
         centerX: 650,
         south: 450,
         isDistractor: true,
       }),
-      new GravitySwitch({
+      new GravitySwitchStatic({
         // cse
         gravityDirection: cardinalDirections.south,
         centerX: 850,
         south: 450,
         isDistractor: true,
       }),
-      new GravitySwitch({
+      new GravitySwitchStatic({
         // cse
         gravityDirection: cardinalDirections.south,
         centerX: 1060,
         south: 450,
         isDistractor: true,
       }),
-      new GravitySwitch({
+      new GravitySwitchStatic({
         // se
         gravityDirection: cardinalDirections.east,
         centerX: 1250,

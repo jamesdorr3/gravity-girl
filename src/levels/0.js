@@ -9,7 +9,7 @@ import levelSelect from './levelSelect';
 import loadingScreen from './loading';
 
 import * as numbers from '../constants/numbers';
-import GravitySwitch from '../classes/GravitySwitch';
+import GravitySwitchStatic from '../classes/GravitySwitchStatic';
 import { gravityGirlMaxLevel } from '../constants/strings';
 import { parseLocalStorage } from '../utils/gameUtils';
 
@@ -53,43 +53,43 @@ const mainMenu = new Level({
     }),
   ],
   elements: [
-    new GravitySwitch({
+    new GravitySwitchStatic({
       // nnw
       x: 50,
       y: 50,
       gravityDirection: 'south',
     }),
-    new GravitySwitch({
+    new GravitySwitchStatic({
       // nne
       west: 800,
       y: 50,
       gravityDirection: 'east',
     }),
-    new GravitySwitch({
+    new GravitySwitchStatic({
       // nnw
       east: 800,
       y: 50,
       gravityDirection: 'west',
     }),
-    new GravitySwitch({
+    new GravitySwitchStatic({
       // ne
       east: 50,
       y: 50,
       gravityDirection: 'south',
     }),
-    new GravitySwitch({
+    new GravitySwitchStatic({
       // sw
       x: 50,
       south: 50,
       gravityDirection: 'east',
     }),
-    new GravitySwitch({
+    new GravitySwitchStatic({
       // s
       centerX: 800,
       south: 50,
       gravityDirection: 'north',
     }),
-    new GravitySwitch({
+    new GravitySwitchStatic({
       // s
       east: 50,
       south: 50,
