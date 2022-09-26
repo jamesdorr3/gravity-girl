@@ -1,5 +1,5 @@
-import character from './Character';
-import * as keys from '../constants/keys';
+import character from '../Character';
+import * as keys from '../../constants/keys';
 
 const jumpKeysByGravity = {
   north: keys.southKeys,

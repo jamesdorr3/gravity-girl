@@ -1,4 +1,4 @@
-import Level from '../classes/Level';
+import Level from '../classes/controllers/Level';
 import Text from '../classes/Text';
 
 const loadingScreen = 

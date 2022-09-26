@@ -1,8 +1,8 @@
 import Element from './Element';
-import sfx from './SFX';
-import spriteController from './SpriteController';
-import game from './Game';
-import keyboard from './Keyboard';
+import sfx from './controllers/SFX';
+import spriteController from './controllers/SpriteController';
+import game from './controllers/Game';
+import keyboard from './controllers/Keyboard';
 import { cardinalDirections } from '../constants/enums';
 import { spriteStates } from '../constants/enums';
 import {

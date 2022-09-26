@@ -1,12 +1,10 @@
 import { isNorthSouth } from '../utils/gameUtils';
-import sfx from './SFX';
+import sfx from './controllers/SFX';
 import GravitySwitch from './GravitySwitch';
+import { rotateGravityDirection } from '../utils/gravityUtils';
+import { distractorOffset } from '../constants/numbers';
 
-const offset = 10;
-
-const directionOrder = ['north', 'east', 'south', 'west'];
-
-class GravitySwitchStatic extends GravitySwitch {
+class GravitySwitchAbsolute extends GravitySwitch {
   constructor(info) {
     super(info);
     this.isClockwise = info.isClockwise;
@@ -23,26 +21,20 @@ class GravitySwitchStatic extends GravitySwitch {
 
     if (this.isRegenerating) return;
     this.isRegenerating = true;
-    setTimeout(() => (this.isRegenerating = false), 3000);
+    setTimeout(() => (this.isRegenerating = false), 2000);
 
-    const direction = this.isClockwise ? 1 : -1;
-    const oldIndex = directionOrder.indexOf(character.gravityDirection);
-    let newIndex = oldIndex + direction;
-    if (newIndex < 0) newIndex = directionOrder.length - 1;
-    if (newIndex >= directionOrder.length) newIndex = 0;
-    const newGravityDirection = directionOrder[newIndex];
-
-    character.changeGravity(newGravityDirection);
+    const spinDirection = this.isClockwise ? 1 : -1;
+    character.changeGravity(rotateGravityDirection(character.gravityDirection, spinDirection));
     sfx.play('gravitySwitch');
   };
 
   update = (context) => {
     let { height, width, x, y } = this;
     if (this.isDistractor) {
-      height += offset * 2;
-      width += offset * 2;
-      x -= offset;
-      y -= offset;
+      height += distractorOffset * 2;
+      width += distractorOffset * 2;
+      x -= distractorOffset;
+      y -= distractorOffset;
     }
     const north = y;
     const east = x + width;
@@ -53,8 +45,8 @@ class GravitySwitchStatic extends GravitySwitch {
     context.fillStyle = 'lightblue';
     context.fillRect(x, y, height, width);
     context.shadowBlur = 0;
-    context.fillStyle = 'blue';
-    context.strokeStyle = 'blue';
+    context.fillStyle = this.isRegenerating ? 'gray' : 'blue';
+    context.strokeStyle = this.isRegenerating ? 'gray' : 'blue';
     context.beginPath();
     context.arc(
       this.centerX(),
@@ -67,28 +59,25 @@ class GravitySwitchStatic extends GravitySwitch {
     context.stroke();
 
     context.lineWidth = 10;
+    context.strokeStyle = 'lightblue';
     if (this.isClockwise) {
       context.beginPath();
-      context.strokeStyle = 'lightblue';
       context.moveTo(east - 5, north + height * 0.5);
       context.lineTo(east - 15, north + height * 0.7);
       context.lineTo(east - 28, north + height * 0.4);
       context.stroke();
       context.beginPath();
-      context.fillStyle = 'blue';
       context.moveTo(east - 2, north + height * 0.4);
       context.lineTo(east - 15, north + height * 0.7);
       context.lineTo(east - 28, north + height * 0.4);
       context.fill();
     } else {
       context.beginPath();
-      context.strokeStyle = 'lightblue';
       context.moveTo(west + 5, north + height * 0.5);
       context.lineTo(west + 15, north + height * 0.7);
       context.lineTo(west + 28, north + height * 0.4);
       context.stroke();
       context.beginPath();
-      context.fillStyle = 'blue';
       context.moveTo(west + 2, north + height * 0.4);
       context.lineTo(west + 15, north + height * 0.7);
       context.lineTo(west + 28, north + height * 0.4);
@@ -97,4 +86,4 @@ class GravitySwitchStatic extends GravitySwitch {
   };
 }
 
-export default GravitySwitchStatic;
+export default GravitySwitchAbsolute;

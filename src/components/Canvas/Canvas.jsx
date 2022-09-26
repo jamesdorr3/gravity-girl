@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import game from '../../classes/Game';
+import game from '../../classes/controllers/Game';
 
 import * as gameUtils from '../../utils/gameUtils';
 import { canvasHeight, canvasWidth } from '../../constants/numbers';

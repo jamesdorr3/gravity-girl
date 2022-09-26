@@ -1,5 +1,5 @@
 import Door from '../classes/Door';
-import GravitySwitchStatic from '../classes/GravitySwitchStatic';
+import GravitySwitchAbsolute from '../classes/GravitySwitchAbsolute';
 import Level from '../classes/Level';
 import Platform from '../classes/Platform';
 
@@ -19,7 +19,7 @@ const level = new Level({
   characterStartY: 800,
   elements: [
     // inner loop
-    new GravitySwitchStatic({
+    new GravitySwitchAbsolute({
       gravityDirection: 'east',
       centerX: 800,
       centerY: 450,
@@ -128,7 +128,7 @@ const level = new Level({
     }),
 
     // outer
-    new GravitySwitchStatic({
+    new GravitySwitchAbsolute({
       gravityDirection: 'north',
       centerX: 800,
       centerY: hallHeightSmall / 2 + platformBreadth,
@@ -154,7 +154,7 @@ const level = new Level({
       north: 500 + 3 * (platformBreadth + hallHeightSmall),
       width: 100 + platformBreadth * 8 + characterHeight * 2 * 6,
     }),
-    new GravitySwitchStatic({
+    new GravitySwitchAbsolute({
       gravityDirection: 'north',
       centerX: 800,
       centerY: canvasHeight - hallHeightSmall / 2 - platformBreadth,
@@ -196,7 +196,7 @@ const level = new Level({
       east: 850 + 4 * (platformBreadth + characterHeight * 2),
       height: ( canvasHeight - widthGap) / 2,
     }),
-    new GravitySwitchStatic({
+    new GravitySwitchAbsolute({
       centerX: 50,
       gravityDirection: 'east',
       south: 125,

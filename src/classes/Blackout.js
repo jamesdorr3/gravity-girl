@@ -1,5 +1,5 @@
 import character from './Character';
-import game from './Game';
+import game from './controllers/Game';
 import { canvasHeight, canvasWidth, frameLength } from '../constants/numbers';
 import { isNorthSouth, sign as getSign } from '../utils/gameUtils';
 

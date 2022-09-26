@@ -1,15 +1,18 @@
 import { cardinalDirections } from '../constants/enums';
 import { isNorthSouth } from '../utils/gameUtils';
-import sfx from './SFX';
+import sfx from './controllers/SFX';
 import GravitySwitch from './GravitySwitchRelative';
+import { distractorOffset } from '../constants/numbers';
+import { rotateGravityDirection } from '../utils/gravityUtils';
 
 const p = 10;
-const offset = 10;
 
-class GravitySwitchStatic extends GravitySwitch {
+class GravitySwitchAbsolute extends GravitySwitch {
   constructor(info) {
     super(info);
     this.direction = info.gravityDirection || 'south';
+    this.lastUpdate = new Date();
+    this.transitionSpeed = info.transitionSpeed;
   }
 
   action = (character) => {
@@ -26,12 +29,16 @@ class GravitySwitchStatic extends GravitySwitch {
   };
 
   update = (context) => {
+    if (new Date() - this.lastUpdate > this.transitionSpeed) {
+      this.direction = rotateGravityDirection(this.direction);
+      this.lastUpdate = new Date();
+    }
     let { height, width, x, y } = this;
     if (this.isDistractor) {
-      height += offset * 2;
-      width += offset * 2;
-      x -= offset;
-      y -= offset;
+      height += distractorOffset * 2;
+      width += distractorOffset * 2;
+      x -= distractorOffset;
+      y -= distractorOffset;
     }
     const north = y;
     const east = x + width;
@@ -68,4 +75,4 @@ class GravitySwitchStatic extends GravitySwitch {
   };
 }
 
-export default GravitySwitchStatic;
+export default GravitySwitchAbsolute;

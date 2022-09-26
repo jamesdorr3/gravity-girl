@@ -1,7 +1,7 @@
-import character from './Character';
+import character from '../Character';
 import game from './Game';
 import keyboard from './Keyboard';
-import * as numbers from '../constants/numbers';
+import * as numbers from '../../constants/numbers';
 
 class Level {
 

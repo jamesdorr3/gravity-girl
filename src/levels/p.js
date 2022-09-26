@@ -1,5 +1,5 @@
 import Door from '../classes/Door';
-import GravitySwitchStatic from '../classes/GravitySwitchStatic';
+import GravitySwitchAbsolute from '../classes/GravitySwitchAbsolute';
 import Level from '../classes/Level';
 import Platform from '../classes/Platform';
 import Spikes from '../classes/Spikes';
@@ -13,32 +13,32 @@ const makeGravitySwitches = () => {
   const switches = [];
   for (let i = 0; i < 7; i++) {
     switches.push(
-      new GravitySwitchStatic({
+      new GravitySwitchAbsolute({
         north: 100,
         west: i * 100 + 400,
         gravityDirection: i < 4 ? 'east' : 'south',
       }),
-      new GravitySwitchStatic({
+      new GravitySwitchAbsolute({
         north: 200,
         west: i * 100 + 400,
         gravityDirection: i < 4 ? 'east' : 'south',
       }),
-      new GravitySwitchStatic({
+      new GravitySwitchAbsolute({
         north: 300,
         west: i * 100 + 400,
         gravityDirection: i < 4 ? 'east' : 'south',
       }),
-      new GravitySwitchStatic({
+      new GravitySwitchAbsolute({
         south: 300,
         west: i * 100 + 400,
         gravityDirection: i < 4 ? 'north' : 'west',
       }),
-      new GravitySwitchStatic({
+      new GravitySwitchAbsolute({
         south: 200,
         west: i * 100 + 400,
         gravityDirection: i < 4 ? 'north' : 'west',
       }),
-      new GravitySwitchStatic({
+      new GravitySwitchAbsolute({
         south: 400,
         west: i * 100 + 400,
         gravityDirection: i < 4 ? 'north' : 'west',

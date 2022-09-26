@@ -1,12 +1,12 @@
 import Element from './Element';
 import character from './Character';
-import game from './Game';
-import keyboard from './Keyboard';
-import spriteController from './SpriteController';
+import game from './controllers/Game';
+import keyboard from './controllers/Keyboard';
+import spriteController from './controllers/SpriteController';
 import { isNorthSouth, parseLocalStorage } from '../utils/gameUtils';
 import { doorHeight, doorWidth } from '../constants/numbers';
 import { gravityGirlMaxLevel } from '../constants/strings';
-import sfx from './SFX';
+import sfx from './controllers/SFX';
 
 const save = (order) => {
   if (order && order > parseLocalStorage()) {

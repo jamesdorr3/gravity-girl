@@ -1,5 +1,5 @@
 import character from '../classes/Character';
-import sfx from '../classes/SFX';
+import sfx from '../classes/controllers/SFX';
 import { spriteStates } from './enums';
 const { bow, jump, rest, run } = spriteStates;
 

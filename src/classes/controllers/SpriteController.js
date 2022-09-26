@@ -1,8 +1,8 @@
-import character from './Character';
-import spriteStateInfo from '../constants/spriteStateInfo';
-import { loadImage } from '../utils/imageUtils';
-import { spriteStates } from '../constants/enums';
-import * as gameUtils from '../utils/gameUtils';
+import character from '../Character';
+import spriteStateInfo from '../../constants/spriteStateInfo';
+import { loadImage } from '../../utils/imageUtils';
+import { spriteStates } from '../../constants/enums';
+import * as gameUtils from '../../utils/gameUtils';
 import sfx from './SFX';
 
 class SpriteController {

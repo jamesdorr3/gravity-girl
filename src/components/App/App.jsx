@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Canvas from '../Canvas/Canvas';
-import game from '../../classes/Game';
+import game from '../../classes/controllers/Game';
 import './App.scss';
 
 const App = () => {

@@ -1,7 +1,7 @@
 import Element from './Element';
 import character from './Character';
 import { cardinalDirections } from '../constants/enums';
-import sfx from './SFX';
+import sfx from './controllers/SFX';
 
 const setZero = (key) => {
   character[key] = 0;

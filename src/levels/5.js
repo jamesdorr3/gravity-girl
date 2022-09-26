@@ -1,5 +1,5 @@
 import Door from '../classes/Door';
-import GravitySwitchStatic from '../classes/GravitySwitchStatic';
+import GravitySwitchAbsolute from '../classes/GravitySwitchAbsolute';
 import Level from '../classes/Level';
 import Platform from '../classes/Platform';
 import Spikes from '../classes/Spikes';
@@ -14,8 +14,8 @@ const middleGravitySwitches = () => {
   const gravitySwitches = [];
   for (let y = 0; y < numbers.canvasHeight; y += numbers.characterHeight + 4) {
     gravitySwitches.push(
-      new GravitySwitchStatic({ gravityDirection: 'west', east: 805, y }),
-      new GravitySwitchStatic({ gravityDirection: 'east', west: 805, y }),
+      new GravitySwitchAbsolute({ gravityDirection: 'west', east: 805, y }),
+      new GravitySwitchAbsolute({ gravityDirection: 'east', west: 805, y }),
     )
   }
   return gravitySwitches;
@@ -61,7 +61,7 @@ const level5 =
 
       ...middleGravitySwitches(),
 
-      new GravitySwitchStatic({
+      new GravitySwitchAbsolute({
         gravityDirection: 'east',
         centerX: 50,
         south: 500,
@@ -95,7 +95,7 @@ const level5 =
         x: 1000,
       }),
 
-      new GravitySwitchStatic({
+      new GravitySwitchAbsolute({
         gravityDirection: 'west',
         centerX: 1100,
         centerY: 200,
@@ -122,7 +122,7 @@ const level5 =
         x: 1000,
       }),
 
-      new GravitySwitchStatic({
+      new GravitySwitchAbsolute({
         gravityDirection: 'west',
         centerX: 1100,
         centerY: 200,
@@ -149,43 +149,43 @@ const level5 =
         height: 800,
       }),
 
-      new GravitySwitchStatic({
+      new GravitySwitchAbsolute({
         gravityDirection: 'east',
         centerX: 1200,
         centerY: 850,
       }),
 
-      new GravitySwitchStatic({
+      new GravitySwitchAbsolute({
         gravityDirection: 'west',
         south: 100,
         east: 25,
       }),
 
-      new GravitySwitchStatic({
+      new GravitySwitchAbsolute({
         gravityDirection: 'east',
         south: 200,
         east: 75,
       }),
 
-      new GravitySwitchStatic({
+      new GravitySwitchAbsolute({
         gravityDirection: 'west',
         south: 300,
         east: 25,
       }),
 
-      new GravitySwitchStatic({
+      new GravitySwitchAbsolute({
         gravityDirection: 'east',
         south: 400,
         east: 75,
       }),
 
-      new GravitySwitchStatic({
+      new GravitySwitchAbsolute({
         gravityDirection: 'west',
         south: 500,
         east: 25,
       }),
 
-      new GravitySwitchStatic({
+      new GravitySwitchAbsolute({
         gravityDirection: 'east',
         south: 600,
         east: 75,

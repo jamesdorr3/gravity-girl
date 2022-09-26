@@ -1,6 +1,7 @@
 import Door from '../classes/Door';
 import GravitySwitchRelative from '../classes/GravitySwitchRelative';
-import Level from '../classes/Level';
+import GravitySwitchAbsolute from '../classes/GravitySwitchAbsolute';
+import Level from '../classes/controllers/Level';
 import Platform from '../classes/Platform';
 import * as numbers from '../constants/numbers';
 
@@ -9,9 +10,10 @@ const testingScreen =
     characterStartX: 0,
     characterStartY: 800,
     elements: [
-      new GravitySwitchRelative({
+      new GravitySwitchAbsolute({
         south: 25,
         west: 200,
+        transitionSpeed: 1000,
       }),
       new GravitySwitchRelative({
         west: 25,

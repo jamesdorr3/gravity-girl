@@ -1,18 +1,18 @@
-import Blackout from './Blackout';
-import Button from './Button';
+import Blackout from '../Blackout';
+import Button from '../Button';
 import Level from './Level';
-import character from './Character';
+import character from '../Character';
 import spriteController from './SpriteController';
-import Text from './Text';
+import Text from '../Text';
 
-import devLevel from '../levels/t'; // change number for start level
+import devLevel from '../../levels/t'; // change number for start level
 import keyboard from './Keyboard';
-import loadingScreen from '../levels/loading';
+import loadingScreen from '../../levels/loading';
 import sfx from './SFX';
 
-import { buttonStates } from '../constants/enums';
-import { frameLength, gameSpeed, readyScreenTime, second } from '../constants/numbers';
-import { mouse } from '../utils/gameUtils';
+import { buttonStates } from '../../constants/enums';
+import { frameLength, gameSpeed, readyScreenTime, second } from '../../constants/numbers';
+import { mouse } from '../../utils/gameUtils';
 
 class Game {
   constructor() {

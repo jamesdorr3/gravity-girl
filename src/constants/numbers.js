@@ -3,6 +3,7 @@ export const buttonPadding = 20;
 export const canvasHeight = 900;
 export const canvasWidth = 1600;
 export const characterScale = 1;
+export const distractorOffset = 10;
 export const gameSpeed = 1; // 1 is real time;
 export const gravityAcceleration = 1.33;
 export const gravitySlowAcceleration = 0.4433;
