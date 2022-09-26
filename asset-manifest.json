@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/gravity-girl/static/css/main.8a869c90.css",
-    "main.js": "/gravity-girl/static/js/main.49b880b7.js",
-    "static/js/787.55279b07.chunk.js": "/gravity-girl/static/js/787.55279b07.chunk.js",
-    "index.html": "/gravity-girl/index.html",
-    "main.8a869c90.css.map": "/gravity-girl/static/css/main.8a869c90.css.map",
-    "main.49b880b7.js.map": "/gravity-girl/static/js/main.49b880b7.js.map",
-    "787.55279b07.chunk.js.map": "/gravity-girl/static/js/787.55279b07.chunk.js.map"
+    "main.css": "./static/css/main.8a869c90.css",
+    "main.js": "./static/js/main.eb07490f.js",
+    "static/js/787.55279b07.chunk.js": "./static/js/787.55279b07.chunk.js",
+    "index.html": "./index.html",
+    "main.8a869c90.css.map": "./static/css/main.8a869c90.css.map",
+    "main.eb07490f.js.map": "./static/js/main.eb07490f.js.map",
+    "787.55279b07.chunk.js.map": "./static/js/787.55279b07.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.8a869c90.css",
-    "static/js/main.49b880b7.js"
+    "static/js/main.eb07490f.js"
   ]
 }
