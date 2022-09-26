@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/gravity-girl/static/css/main.8a869c90.css",
-    "main.js": "/gravity-girl/static/js/main.275a8c3f.js",
+    "main.js": "/gravity-girl/static/js/main.071f0fab.js",
     "static/js/787.55279b07.chunk.js": "/gravity-girl/static/js/787.55279b07.chunk.js",
     "index.html": "/gravity-girl/index.html",
     "main.8a869c90.css.map": "/gravity-girl/static/css/main.8a869c90.css.map",
-    "main.275a8c3f.js.map": "/gravity-girl/static/js/main.275a8c3f.js.map",
+    "main.071f0fab.js.map": "/gravity-girl/static/js/main.071f0fab.js.map",
     "787.55279b07.chunk.js.map": "/gravity-girl/static/js/787.55279b07.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.8a869c90.css",
-    "static/js/main.275a8c3f.js"
+    "static/js/main.071f0fab.js"
   ]
 }
