@@ -1,6 +1,6 @@
 import Door from '../classes/Door';
 import GravitySwitchAbsolute from '../classes/GravitySwitchAbsolute';
-import Level from '../classes/Level';
+import Level from '../classes/controllers/Level';
 import Platform from '../classes/Platform';
 import Spikes from '../classes/Spikes';
 import character from '../classes/Character';

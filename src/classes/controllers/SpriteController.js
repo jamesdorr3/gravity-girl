@@ -12,7 +12,7 @@ class SpriteController {
     this.sprite = null;
     this.state = spriteStates.rest;
 
-    loadImage('/gravity-girl-sprite.png', this, 'sprite');
+    loadImage('https://github.com/jamesdorr3/gravity-girl/raw/gh-pages/docs/assets/gravity-girl-sprite.png', this, 'sprite');
   }
 
   update = () => {

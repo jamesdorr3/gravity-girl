@@ -1,9 +1,9 @@
 import Button from '../classes/Button';
-import Level from '../classes/Level';
+import Level from '../classes/controllers/Level';
 
 import level0 from './0';
 import allLevels from './allLevels';
-import game from '../classes/Game';
+import game from '../classes/controllers/Game';
 import { parseLocalStorage } from '../utils/gameUtils';
 
 const allLevelButtons = () => {

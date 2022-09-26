@@ -13,7 +13,6 @@ const CanvasContainer = () => {
     canvas.current.width = canvasWidth;
     canvas.current.height = canvasHeight;
     game.start();
-    return game?.delete;
   }, []);
 
   const handleHover = (e) => {

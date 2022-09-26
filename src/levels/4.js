@@ -1,6 +1,6 @@
 import Door from '../classes/Door';
 import GravitySwitchAbsolute from '../classes/GravitySwitchAbsolute';
-import Level from '../classes/Level';
+import Level from '../classes/controllers/Level';
 import Platform from '../classes/Platform';
 import Spikes from '../classes/Spikes';
 
@@ -46,7 +46,7 @@ const level4 =
       new GravitySwitchAbsolute({ // ce
         gravityDirection: cardinalDirections.east,
         centerX: 1100,
-        centerY: 175,
+        centerY: 225,
       }),
       new GravitySwitchAbsolute({ // sw
         gravityDirection: cardinalDirections.north,

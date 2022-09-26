@@ -1,7 +1,7 @@
 import Element from './Element';
 import character from './Character';
-import game from './Game';
-import keyboard from './Keyboard';
+import game from './controllers/Game';
+import keyboard from './controllers/Keyboard';
 import { cardinalDirections } from '../constants/enums';
 import { isNorthSouth, isNum } from '../utils/gameUtils';
 import { loadImage } from '../utils/imageUtils';
@@ -36,8 +36,8 @@ class Spikes extends Element {
     this.scaleX = this.direction != cardinalDirections.east ? 1 : -1;
     this.scaleY = this.direction != cardinalDirections.south ? 1 : -1;
     this.showHitBox = false;
-    loadImage('/spikesN.png', Spikes, 'imageN');
-    loadImage('/spikesW.png', Spikes, 'imageW');
+    loadImage('https://github.com/jamesdorr3/gravity-girl/raw/gh-pages/docs/assets/spikesN.png', Spikes, 'imageN');
+    loadImage('https://github.com/jamesdorr3/gravity-girl/raw/gh-pages/docs/assets/spikesW.png', Spikes, 'imageW');
   }
 
   action = () => {

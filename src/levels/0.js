@@ -1,7 +1,7 @@
 import Button from '../classes/Button';
-import Level from '../classes/Level';
-import game from '../classes/Game';
-import spriteController from '../classes/SpriteController';
+import Level from '../classes/controllers/Level';
+import game from '../classes/controllers/Game';
+import spriteController from '../classes/controllers/SpriteController';
 
 import level1 from './1';
 import allLevels from './allLevels';
